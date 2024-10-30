@@ -1,26 +1,82 @@
 import React, { useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
+import cardBG from "../../img/blank_bg.png";
+import '../../styles/home.css'
+
 
 const ComponentToPrint = React.forwardRef((props, ref) => (
 	<div ref={ref} className='position-relative' style={{
         height: '500px',
-        width: '500px',
+        width: '354.5px',
         overflow: 'hidden',
         boxSizing: 'border-box',
-        position: 'relative',
         clipPath: 'inset(0 0 0 0)'
       }}>
-	  <img className='position-absolute' style={{zIndex:1,height:'100%',width:'500px'}} src='https://www.pbs.org/wnet/nature/files/2024/01/GoldenHeadedLionTamarin.jpg'></img>
-	  <img className='position-absolute top-0 start-0 rounded-circle' style={{zIndex:2,height:'25%',width:'25%'}} src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg/220px-Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg'></img>
-	  <img className="position-absolute top-0 end-0 rounded-circle" style={{zIndex:2,height:'25%',width:'25%'}} src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg/220px-Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg'></img>
-	  <img className="position-absolute top-50 start-50 rounded-circle" style={{zIndex:2,height:'25%',width:'25%'}} src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg/220px-Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg'></img>
-	  <img className="position-absolute bottom-50 end-50 rounded-circle" style={{zIndex:3,height:'25%',width:'25%'}} src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg/220px-Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg'></img>
-	  <img className="position-absolute bottom-0 start-0 rounded-circle" style={{zIndex:4,height:'25%',width:'25%'}} src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg/220px-Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg'></img>
-	  <img className="position-absolute bottom-0 end-0 rounded-circle" style={{zIndex:4,height:'25%',width:'25%'}} src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg/220px-Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg'></img>
-	</div>
-));
+    <img className='cardFrameBackground'src={cardBG}></img>
+    <img className='cardImage'  src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg/220px-Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg'></img>
+    <h2 id='cardTitle'> Monkey</h2>
+	  <div className='mainBody'>
+			<div className='statContainer container'>
+				<div className='row mb-3'>
+					<div className='col leftStats'>	
+						<h4 id='stat1' >10</h4>
+					</div>
+					<div className='col-3 middleEmptyStats'></div>	
+					<div className='col rightStats' >
+						<h4 id='stat2'>10</h4>
+					</div>
+				</div>
+				<div className='row mb-3'>
+					<div className='col leftStats'>	
+						<h4 id='stat3' >10</h4>
+					</div>
+					<div className='col-5 middleEmptyStats'></div>	
+					<div className='col rightStats'>
+						<h4 id='stat4'>10</h4>
+					</div>
+				</div>
+				<div className='row mb-3'>
+					<div className='col leftStats'>	
+						<h4 id='stat5' >10</h4>
+					</div>
+					<div className='col-5 middleEmptyStats'></div>	
+					<div className='col rightStats'>
+						<h4 id='stat6'>10</h4>
+					</div>
+				</div>
+				<div className='row'>
+					<div className='col leftStats'>	
+						<h4 id='stat7' >10</h4>
+					</div>
+					<div className='col-3 middleEmptyStats'></div>	
+					<div className='col rightStats'>
+						<h4 id='stat8'>10</h4>
+					</div>
+				</div>
+			</div>	
 
-  
+
+			<div className='rightStatInfo bg-primary'>
+				<p id='className'>Class</p>
+				<p id='alignmentName'>Alignment</p>
+				<p id='raceName'>Race</p>
+
+				<p className='text-decoration-underline'>Stats</p>
+				<p id='stat1'>stat1</p>
+				<p id='stat2'>stat2</p>
+
+				<p className='text-decoration-underline'>Spells</p>
+				<p id='spell1'>spell1</p>
+				<p id='spell2'>spell2</p>
+
+				<p className='text-decoration-underline'>Skills</p>
+				<p id='skill1'>skill1</p>
+				<p id='skill2'>skill2</p>
+
+			</div>
+		</div>
+  </div>
+));
 
 export const MyComponent = () => {
   const componentRef = useRef();
@@ -73,7 +129,7 @@ export const MyComponent = () => {
   }
   return (
     <div>
-      <div className='d-flex'>
+      <div className='d-flex mx-5'>
           <div ref={componentRef}>
               <ComponentToPrint/>
           </div>
