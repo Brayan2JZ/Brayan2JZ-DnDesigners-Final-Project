@@ -51,7 +51,6 @@ export const MyComponent = () => {
           scrollY: -window.scrollY,
           useCORS: true,
           backgroundColor: 'transparent',
-          width: 500,
       });
       const uri = canvas.toDataURL("image/jpeg");
       console.log(canvas.width)
@@ -62,14 +61,23 @@ export const MyComponent = () => {
       console.error("Error generating URI:", error);
     }
   };
-
+  const insertImage=()=>{
+    fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/addCard',{
+      method:'POST',
+      body:{
+        'filename':'Monkeyz',
+        'uri':imageUri
+      },
+      headers:''
+    })
+  }
   return (
     <div>
       <div className='d-flex'>
           <div ref={componentRef}>
               <ComponentToPrint/>
           </div>
-          {imageUri && <img src={imageUri} alt="Generated Image" />}
+          <img src={imageUri} alt="Generated Image" />
       </div>
       <button onClick={handleExportAsURI}>Export as URI</button>
       <button onClick={()=>{saveAs(imageUri,"test")}}>Save to device</button>

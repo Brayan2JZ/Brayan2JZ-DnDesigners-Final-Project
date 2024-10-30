@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User
+from api.models import db, User,CardBank
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 
@@ -20,3 +20,11 @@ def handle_hello():
     }
 
     return jsonify(response_body), 200
+
+@api.route('/addcard',methods=['POST'])
+def addCard():
+    newCard= CardBank(filename=request.json['filename'],uri= request.json['uri'])
+    db.session.add(newCard)
+    db.session.commit()
+    cardId=CardBank.query.filter_by(filename=request.json['filename']).first().serialize()['id']
+    return cardId
