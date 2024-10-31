@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
 import cardBG from "../../img/blank_bg.png";
-import '../../styles/home.css'
+import '../../styles/makeImage.css'
 
 
 const ComponentToPrint = React.forwardRef((props, ref) => (
