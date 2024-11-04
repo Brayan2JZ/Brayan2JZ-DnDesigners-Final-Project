@@ -3,17 +3,42 @@ import { Link } from "react-router-dom";
 
 export const Navbar = () => {
 	return (
-		<nav className="navbar navbar-light bg-light">
-			<div className="container">
-				<Link to="/">
-					<span className="navbar-brand mb-0 h1">React Boilerplate</span>
-				</Link>
-				<div className="ml-auto">
-					<Link to="/demo">
-						<button className="btn btn-primary">Check the Context in action</button>
+		<nav class="navbar navbar-expand-lg bg-body-tertiary">
+		  <div class="container-fluid">
+			<a class="navbar-brand" href="#">DnDecorations</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+			  <span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="d-flex" id="navbarNavDropdown">
+			  <ul class="navbar-nav">
+				<li class="nav-item mx-2">
+					<Link to={'/home'}>
+						<a class="nav-link active" aria-current="page" href="#">Home</a>
 					</Link>
-				</div>
+				</li>
+				<li class="nav-item mx-2">
+				  <a class="nav-link" href="#">Tags</a>
+				</li>
+				<li class="nav-item mx-2">
+				  <a class="nav-link" href="#">Cards</a>
+				</li>
+				<li>
+					<button class="nav-item mx-2 btn btn-success">Create Now</button>
+				</li>
+				<li class="nav-item dropdown">
+				  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					User pic
+				  </a>
+				  <ul class="dropdown-menu">
+					  <li><a class="dropdown-item" href="#">Profile</a></li>
+					<li><a class="dropdown-item" href="#">Upload</a></li>
+					<li><a class="dropdown-item" href="#">Favorites</a></li>
+					<li><a class="dropdown-item" href="#">Settings</a></li>
+				  </ul>
+				</li>
+			  </ul>
 			</div>
+		  </div>
 		</nav>
-	);
-};
+			);
+		};		
