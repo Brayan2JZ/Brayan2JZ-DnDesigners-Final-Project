@@ -12,7 +12,9 @@ export const Navbar = () => {
 			<div class="d-flex" id="navbarNavDropdown">
 			  <ul class="navbar-nav">
 				<li class="nav-item mx-2">
-				  <a class="nav-link active" aria-current="page" href="#">Home</a>
+					<Link to={'/home'}>
+						<a class="nav-link active" aria-current="page" href="#">Home</a>
+					</Link>
 				</li>
 				<li class="nav-item mx-2">
 				  <a class="nav-link" href="#">Tags</a>
