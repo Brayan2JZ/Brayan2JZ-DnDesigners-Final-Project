@@ -1,11 +1,9 @@
 import React from 'react';
 import { MyComponent } from './makeImage';
-import LichKing from "../../img/LichKing.png"
-import '../../styles/misc.css';
 
-export const Misc = () => (
+export const Gallery = () => (
     <div>
-        <h1>This is the Misc Page</h1>
+        <h1 className='title align-items-center'>Gallery</h1>
 
         <div className="container">
             {/* Pills Tab !!! */}

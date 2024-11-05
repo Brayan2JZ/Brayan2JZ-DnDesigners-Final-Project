@@ -1,11 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import logo from "../../img/logowide.png"
+
+// Hey Bradley, Brayan here!!, Edited the navbar a little to add logo =D dont beat me up!!!!
 
 export const Navbar = () => {
 	return (
 		<nav class="navbar navbar-expand-lg bg-body-tertiary">
 		  <div class="container-fluid">
-			<a class="navbar-brand" href="#">DnDecorations</a>
+			<Link className="navbar-brand" to="/">
+				<img 
+					src={logo} 
+					alt="Logo" 
+					className="navbar-logo" 
+					style={{ width: '150px', height: 'auto' }} 
+				/>
+			</Link>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 			  <span class="navbar-toggler-icon"></span>
 			</button>
