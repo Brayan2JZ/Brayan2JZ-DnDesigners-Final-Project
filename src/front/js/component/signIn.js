@@ -21,6 +21,24 @@ export const SignIn = () => {
         return;
       }
     };
+
+    const signIn=()=>{
+      fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/token',{
+        method:'POST',
+        body: JSON.stringify({
+          username:email,
+          password:password
+        }),
+        headers: {'Content-Type': 'application/json'}
+      }).then((response)=>{
+        return response.json()
+      }).then((jsonRes)=>{
+        localStorage.setItem('token',jsonRes.token)
+        console.log("token retrieved")
+      }).catch((e)=>{
+        console.log(e)
+      })
+    }
   
     return (
       <form onSubmit={handleSubmit} className="container p-4">
@@ -61,7 +79,7 @@ export const SignIn = () => {
   
         <div className="row mb-3">
           <div className="col-sm-10 offset-sm-2">
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn btn-primary" onClick={signIn}>
               Sign In
             </button>
           </div>

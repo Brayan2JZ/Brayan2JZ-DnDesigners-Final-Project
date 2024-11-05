@@ -6,14 +6,17 @@ import { BackendURL } from "./component/backendURL";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import { Home } from "./pages/home";
-import { MyComponent2 } from "./pages/makeImage";
+import { MyComponent } from "./pages/makeImage";
 
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
-import { Misc } from "./pages/misc";
-import { Footer } from "./component/footer";
 import { HomePage } from "./pages/homepage";
+import { Gallery } from "./pages/gallery";
+import { Tags } from "./pages/tags"
+import { Footer } from "./component/footer";
+
+
 
 //create your first component
 const Layout = () => {
@@ -32,8 +35,10 @@ const Layout = () => {
                         <Route element={<Home />} path="/" />
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<Single />} path="/single/:theid" />
-                        <Route element={<Misc />} path="/misc" />
+                        <Route element={<Gallery />} path="/gallery" />
+                        <Route element={<Tags />} path="/tags" />
                         <Route element={<HomePage />} path="/home" />
+                        <Route element={<MyComponent />} path="/imageCreator" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />

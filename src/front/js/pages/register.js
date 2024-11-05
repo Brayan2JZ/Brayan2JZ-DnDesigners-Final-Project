@@ -30,7 +30,34 @@ export const Register = () => {
     }
 
   };
+  const getAll=async ()=>{
+    const response= await fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/users',{
+      method:'GET',
+      headers:{'Content-Type': 'application/json'}
+    }).then((resp)=>{
+      return resp.json()
+    }).catch((e)=>{console.log(e)})
 
+    console.log(response)
+  }
+
+  const createUser=()=>{
+    fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/register',{
+      method:'POST',
+      body: JSON.stringify({
+        username:email,
+        password:password
+      }),
+      headers: {'Content-Type': 'application/json'}
+    }).then((response)=>{
+      return response.json()
+    }).then((jsonRes)=>{
+      console.log(jsonRes)
+      return jsonRes
+    }).catch((e)=>{
+      console.log(e)
+    })
+  }
   return (
     <form onSubmit={handleSubmit} className="container p-4">
       <h2>Register</h2>
@@ -87,8 +114,11 @@ export const Register = () => {
 
       <div className="row mb-3">
         <div className="col-sm-10 offset-sm-2">
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary" onClick={createUser}>
             Register
+          </button>
+          <button onClick={getAll}>
+            Get all Users
           </button>
         </div>
       </div>
