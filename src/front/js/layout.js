@@ -11,7 +11,7 @@ import { MyComponent } from "./pages/makeImage";
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
-import { Misc } from "./pages/misc";
+import { Gallery } from "./pages/gallery";
 import { Footer } from "./component/footer";
 import { HomePage } from "./pages/homepage";
 
@@ -32,7 +32,7 @@ const Layout = () => {
                         <Route element={<Home />} path="/" />
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<Single />} path="/single/:theid" />
-                        <Route element={<Misc />} path="/misc" />
+                        <Route element={<Gallery />} path="/gallery" />
                         <Route element={<HomePage />} path="/home" />
                         <Route element={<MyComponent />} path="/home" />
                         <Route element={<h1>Not found!</h1>} />
