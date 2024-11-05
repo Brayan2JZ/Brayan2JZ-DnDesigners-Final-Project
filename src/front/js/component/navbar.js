@@ -29,7 +29,7 @@ export const Navbar = () => {
 				  <a className="nav-link" href="#">Cards</a>
 				</li>
 				<li>
-					<Link to='/'>
+					<Link to='/imageCreator'>
 						<button className="nav-item mx-2 btn btn-success">Create Now</button>
 					</Link>
 				</li>

@@ -6,13 +6,18 @@ from api.models import db, User,CardBank
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
-
+from imagekitio import ImageKit
 
 api = Blueprint('api', __name__)
 
 # Allow CORS requests to this API
 CORS(api)
 
+imagekit = ImageKit(
+    private_key='private_MF5Uvl5skn9/uiH60hysYAy/bZ4=',
+    public_key='public_MOLUGMGh1B5n6dSKNx84+WdQIKc=',
+    url_endpoint = 'https://ik.imagekit.io/fv8g33qor/'
+)
 
 @api.route('/hello', methods=['POST', 'GET'])
 def handle_hello():
@@ -23,15 +28,34 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
+
+### CARD STUFF
 @api.route('/addcard',methods=['POST'])
 @jwt_required()
 def addCard():
-    newCard= CardBank(filename=request.json['filename'],uri= request.json['uri'])
+    upload = imagekit.upload_file(
+        file=request.json['uri'],
+        file_name=request.json['filename'],
+    )
+    newCard= CardBank(filename=request.json['filename'],uri= upload.response_metadata.raw['url'])
+    print(newCard)
     db.session.add(newCard)
     db.session.commit()
     cardId=CardBank.query.filter_by(filename=request.json['filename']).first().id
-    return jsonify(cardId)
+    print(cardId)
+    return jsonify({'id':cardId,'url': upload.response_metadata.raw['url']})
 
+@api.route('/getcards',methods=['GET'])
+def getCards():
+    cards=CardBank.query.all()
+    print(cards)
+
+    cardsList=list(map(lambda x: x.serialize(),cards))
+    print(cardsList)
+    return cardsList
+
+
+#### USER STUFF
 @api.route('/token',methods=['POST'])
 def login():
     username=request.json['username']

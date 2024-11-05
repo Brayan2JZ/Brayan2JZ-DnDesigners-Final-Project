@@ -127,18 +127,33 @@ export const MyComponent = () => {
   const insertImage=()=>{
     fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/addcard',{
       method:'POST',
-      body:{
-        'filename':'Monkeyz',
+      body:JSON.stringify({
+        'filename':'Monkeyz2',
         'uri':imageUri
-      },
+      }),
       headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+ localStorage.getItem('token')}
     }).then((response)=>{
+      console.log(response)
       return response.json()
     }).then((jsonRes)=>{
       console.log(jsonRes)
       return jsonRes
     })
   }
+
+  const getImageURLs=()=>{
+    fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/getcards',{
+      method:'GET',
+      headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+ localStorage.getItem('token')}
+    }).then((response)=>{
+      console.log(response)
+      return response.json()
+    }).then((jsonRes)=>{
+      console.log(jsonRes)
+      return jsonRes
+    })
+  }
+
   return (
     <div>
       <div className='d-flex mx-5'>
@@ -149,6 +164,7 @@ export const MyComponent = () => {
       </div>
       <button onClick={handleExportAsURI}>Export as URI</button>
       <button onClick={()=>{saveAs(imageUri,"test")}}>Save to device</button>
+      <button onClick={getImageURLs}>Get all Cards</button>
     </div>
   );
 };

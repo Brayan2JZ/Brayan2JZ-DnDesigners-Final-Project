@@ -34,7 +34,7 @@ const Layout = () => {
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<Gallery />} path="/gallery" />
                         <Route element={<HomePage />} path="/home" />
-                        <Route element={<MyComponent />} path="/home" />
+                        <Route element={<MyComponent />} path="/imageCreator" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
