@@ -5,6 +5,8 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User,CardBank
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
+from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
+
 
 api = Blueprint('api', __name__)
 
@@ -29,15 +31,16 @@ def addCard():
     cardId=CardBank.query.filter_by(filename=request.json['filename']).first().serialize()['id']
     return cardId
 
-@api.route('/login',methods=['GET'])
+@api.route('/token',methods=['POST'])
 def login():
     username=request.json['username']
     password=request.json['password']
     
-    user=User.query.filter_by(username=username,password=password)
-
-    if(user):
-        ...
+    user=User.query.filter_by(username=username,password=password).first()
+    print(user)
+    if(user is not None):
+        token=create_access_token(identity=user.id)
+        return jsonify({'token':token,'id':user.id})
     else:
         return "Wrong username or password"
     
@@ -48,18 +51,20 @@ def register():
 
     isUser=User.query.filter_by(username=inputuser)
 
-    if(isUser):
-        return "User already exists"
-    else:
-        newUser=User(username=inputuser,password=inputpass)
-        db.session.add(newUser)
-        db.session.commit()
-        return "User created successfuly. Hello %s",inputuser
+    # if(isUser is not None):
+    #     return jsonify("User already exists")
+    # else:
+    newUser=User(username=inputuser,password=inputpass)
+    db.session.add(newUser)
+    db.session.commit()
+    print("Success")
+    return jsonify("User created successfuly. Hello %s",inputuser)
 
 @api.route('/users',methods=['GET'])
 def getUsers():
     users=User.query.all()
+    print(users)
 
-    users=list(map(lambda x: x.serialize(),users))
-
-    return print(users)
+    userList=list(map(lambda x: x.serialize(),users))
+    print(userList)
+    return userList
