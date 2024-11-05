@@ -1,9 +1,8 @@
 import React from 'react';
-import { MyComponent } from './makeImage';
 
 export const Gallery = () => (
     <div>
-        <h1 className='title align-items-center'>Gallery</h1>
+        <h1 className="text-center">Gallery</h1>
 
         <div className="container">
             {/* Pills Tab !!! */}
