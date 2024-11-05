@@ -24,12 +24,13 @@ def handle_hello():
     return jsonify(response_body), 200
 
 @api.route('/addcard',methods=['POST'])
+@jwt_required()
 def addCard():
     newCard= CardBank(filename=request.json['filename'],uri= request.json['uri'])
     db.session.add(newCard)
     db.session.commit()
-    cardId=CardBank.query.filter_by(filename=request.json['filename']).first().serialize()['id']
-    return cardId
+    cardId=CardBank.query.filter_by(filename=request.json['filename']).first().id
+    return jsonify(cardId)
 
 @api.route('/token',methods=['POST'])
 def login():

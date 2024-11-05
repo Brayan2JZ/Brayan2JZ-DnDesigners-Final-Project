@@ -12,7 +12,7 @@ export const Navbar = () => {
 			<div className="d-flex" id="navbarNavDropdown">
 			  <ul className="navbar-nav">
 				<li className="nav-item mx-2">
-					<a to='/home' className="nav-link active" aria-current="page" href="#">Home</a>
+					<a href='/home' className="nav-link active" aria-current="page">Home</a>
 				</li>
 				<li className="nav-item mx-2">
 				  <a className="nav-link" href="#">Tags</a>
@@ -21,7 +21,9 @@ export const Navbar = () => {
 				  <a className="nav-link" href="#">Cards</a>
 				</li>
 				<li>
-					<button className="nav-item mx-2 btn btn-success">Create Now</button>
+					<Link to='/'>
+						<button className="nav-item mx-2 btn btn-success">Create Now</button>
+					</Link>
 				</li>
 				<li className="nav-item dropdown">
 				  <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

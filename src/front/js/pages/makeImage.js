@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import html2canvas from 'html2canvas';
 import cardBG from "../../img/blank_bg.png";
 import '../../styles/makeImage.css'
@@ -111,20 +111,32 @@ export const MyComponent = () => {
       const uri = canvas.toDataURL("image/jpeg");
       console.log(canvas.width)
       console.log(canvas.height)
-      console.log(uri)
+      console.log(uri);
       setImageUri(uri);
     } catch (error) {
       console.error("Error generating URI:", error);
     }
   };
+
+  useEffect(()=>{
+    if(imageUri != ""){
+      insertImage();
+    }
+  },[imageUri])
+
   const insertImage=()=>{
-    fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/addCard',{
+    fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/addcard',{
       method:'POST',
       body:{
         'filename':'Monkeyz',
         'uri':imageUri
       },
-      headers:''
+      headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+ localStorage.getItem('token')}
+    }).then((response)=>{
+      return response.json()
+    }).then((jsonRes)=>{
+      console.log(jsonRes)
+      return jsonRes
     })
   }
   return (
