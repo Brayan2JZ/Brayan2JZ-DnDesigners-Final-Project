@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../img/logowide.png"
 
-// Hey Bradley, Brayan here!!, Edited the navbar a little to add logo =D dont beat me up!!!!
+// Hey Bradley, Brayan here!!, Edited the navbar a little to add logo, rearranged buttons and added a gallery button. Also made tags and gallery button route to proper pages =D dont beat me up!!!!
 
 export const Navbar = () => {
 	return (
@@ -22,11 +22,14 @@ export const Navbar = () => {
 			</button>
 			<div className="d-flex" id="navbarNavDropdown">
 			  <ul className="navbar-nav">
-				<li className="nav-item mx-2">
-				  <a className="nav-link" href="#">Tags</a>
+			  <li className="nav-item mx-2">
+				  <a className="nav-link" href="#">Cards</a>
+				</li>
+			  <li className="nav-item mx-2">
+				  <a className="nav-link" href="/gallery">Gallery</a>
 				</li>
 				<li className="nav-item mx-2">
-				  <a className="nav-link" href="#">Cards</a>
+				  <a className="nav-link" href="/tags">Tags</a>
 				</li>
 				<li>
 					<Link to='/'>
