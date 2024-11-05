@@ -1,10 +1,98 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import html2canvas from 'html2canvas';
 import cardBG from "../../img/blank_bg.png";
 import '../../styles/makeImage.css'
+import { Link, useParams } from "react-router-dom";
+import { Context } from "../store/appContext";
 
 
-const ComponentToPrint = React.forwardRef((props, ref) => (
+
+
+const StatForm = () =>{
+   const { store, actions } = useContext(Context);
+  let {formInput} = store;
+
+const statAdd = () => {
+  if(store.choice=="weapon" )
+    { console.log("catr")}
+    else if(store.choice=="spell")
+      {actions.setFormInput({...formInput, spell: [...spell, store.statToAdd]})}
+    else if(store.choice=="skill")  
+      {actions.setFormInput({...formInput, skill: [...skill, store.statToAdd]})}
+    else if(store.choice=="stat") 
+      {actions.setFormInput({...formInput, stat: [...stat, store.statToAdd]})}
+    else {}
+  
+}
+
+  return(
+  <div className='form'>
+
+    <div className="input-group">
+      <span className="input-group-text">Class</span>
+      <input type="text" aria-label="classInput" class="form-control" onChange={(e)=>actions.setFormInput(  {...formInput, class:e.target.value})}/>
+    </div>
+
+    <div className="input-group">
+      <span className="input-group-text">Race</span>
+      <input type="text" aria-label="raceInput" className="form-control" onChange={(e)=>actions.setFormInput(  {...formInput, race:e.target.value})}/>
+    </div>
+
+    <div className="input-group mb-3">
+      <label className="input-group-text" for="inputGroupSelect01">Alignment</label>
+      <select className="form-select" id="inputGroupSelect01" onChange={(e)=>actions.setFormInput(  {...formInput, alignment: [e.target.value, formInput.alignment[1]]})}>
+        <option value=" ">Pick Alignment</option>
+        <option value="chaotic ">Chaotic</option>
+        <option value="neutral ">Neutral</option>
+        <option value="lawful ">Lawful</option>
+      </select>
+
+      <select className="form-select" id="inputGroupSelect01" onChange={(e)=>actions.setFormInput(  {...formInput, alignment: [formInput.alignment[0], e.target.value ]})}>
+        <option value=" ">Pick Alignment</option>
+        <option value="good">Good</option>
+        <option value="neutral">Neutral</option>
+        <option value="evil">Evil</option>
+      </select>
+    </div>
+
+    <div className="input-group mb-3">
+      <label className="input-group-text" for="inputGroupFile01">Upload</label>
+      <input type="file" className="form-control" id="inputGroupFile01"/>
+    </div>
+
+    <div className= "input-group statToAdd d-flex">
+      <div class="mb-3">
+        <label class="input-group-text" for="inputGroupSelect01">Pick Category to Add</label>
+            <select class="form-select" id="inputGroupSelect01" onChange={(e)=>actions.setFormInput(  {...formInput, choice: [e.target.value ]})}>
+              <option value=" "></option>
+              <option value="spell">Spell</option>
+              <option value="skill">Skill</option>
+              <option value="stat">Stat</option>
+              <option value="weapon">Weapon</option>
+          </select>
+        <div class="mb-3">
+          <label for="itemNameInput" class="form-label"></label>
+          <input type="text" class="form-control" id="itemNameInput" placeholder="Item Name" 
+            onChange={(e)=>actions.setFormInput({...formInput, statToAdd: [e.target.value, formInput.statToAdd[1], formInput.statToAdd[2]]})}></input>
+          
+          <input type="text" class="form-control" id="itemDamageInput" placeholder="Damage" 
+            onChange={(e)=>actions.setFormInput({...formInput, statToAdd: [formInput.statToAdd[0], e.target.value, formInput.statToAdd[2]]})}></input>
+          
+          <textarea  type="text" class="form-control" id="itemDescriptionInput" placeholder="Description" 
+            onChange={(e)=>actions.setFormInput({...formInput, statToAdd: [formInput.statToAdd[0], formInput.statToAdd[1], e.target.value]})}></textarea>
+          
+          <button type="submit" class="btn btn-primary mb-3" onClick={statAdd()}>Add Stat</button>
+
+        </div>
+    </div>
+  </div>
+  </div>
+)};
+
+
+const ComponentToPrint = React.forwardRef((props, ref) => {
+  const { store, actions } = useContext(Context);
+  return(
 	<div ref={ref} className='position-relative' style={{
         height: '500px',
         width: '354.5px',
@@ -56,27 +144,57 @@ const ComponentToPrint = React.forwardRef((props, ref) => (
 			</div>	
 
 
-			<div className='rightStatInfo bg-primary'>
-				<p id='className'>Class</p>
-				<p id='alignmentName'>Alignment</p>
-				<p id='raceName'>Race</p>
+			<div className='rightStatInfo'>
+				<p id='className' className='titled'>{store.formInput.class}</p>
+				<p id='raceName' className='titled'>{store.formInput.race}</p>
+        <p id='alignmentName' className='titled'>{store.formInput.alignment}</p>
+				
 
-				<p className='text-decoration-underline'>Stats</p>
-				<p id='stat1'>stat1</p>
-				<p id='stat2'>stat2</p>
+				<p className='text-decoration-underline titled'>Stats</p>
+				
+        {store.formInput.stat.map((aStat,index) =>
+            <p id='stat1' className='statDetails'>{aStat[index]}</p>
+        )}
 
-				<p className='text-decoration-underline'>Spells</p>
-				<p id='spell1'>spell1</p>
-				<p id='spell2'>spell2</p>
+				<p className='text-decoration-underline titled'>Spells</p>
+				<p id='spell1' className='statDetails'>spell1</p>
+				<p id='spell2' className='statDetails'>spell2</p>
 
-				<p className='text-decoration-underline'>Skills</p>
-				<p id='skill1'>skill1</p>
-				<p id='skill2'>skill2</p>
+				<p className='text-decoration-underline titled'>Skills</p>
+				<p id='skill1' className='statDetails'>skill1</p>
+				<p id='skill2' className='statDetails'>skill2</p>
 
 			</div>
 		</div>
+
+    <div className='footer'>
+      <div className='originStory'>
+        <p className='titled text-center'>Backstory/Origin</p>
+        <p className='statDetails text-center px-3'> {store.formInput.backstory}</p>
+          
+      </div>
+
+      {/* <span>   ///for details page not card D:
+        <div className='d-flex justify-content-between mx-3'>
+          <i className="fas fa-times mx-1"></i>
+          {<i class="fas fa-heart"></i> }
+          <div>
+            <i className="fas fa-bookmark mx-1"></i>
+            <i className="fas fa-share mx-1"></i>
+          </div> 
+        </div>
+      </span> */}
+
+
+    </div>
   </div>
-));
+)});
+
+
+
+
+
+
 
 export const MyComponent = () => {
   const componentRef = useRef();
@@ -128,12 +246,17 @@ export const MyComponent = () => {
     })
   }
   return (
-    <div>
+    <div> 
       <div className='d-flex mx-5'>
-          <div ref={componentRef}>
-              <ComponentToPrint/>
-          </div>
-          <img src={imageUri} alt="Generated Image" />
+        <div className='d-flex mx-5'>
+            <div ref={componentRef}>
+                <ComponentToPrint/>
+            </div>
+            <img src={imageUri} alt="Generated Image" />
+        </div>
+        <div>
+          <StatForm/>
+        </div>
       </div>
       <button onClick={handleExportAsURI}>Export as URI</button>
       <button onClick={()=>{saveAs(imageUri,"test")}}>Save to device</button>

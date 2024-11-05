@@ -13,10 +13,27 @@ const getState = ({ getStore, getActions, setStore }) => {
 					background: "white",
 					initial: "white"
 				}
-			]
+			],
+
+			formInput: {class:"", race:"", alignment:['',''], spell:[], skill:[], stat:[], weapon:[], backstory:"", statToAdd:['','',''],choice:''}
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
+
+			setFormInput: (newObj) => {
+				setStore({ formInput: newObj });
+			},
+
+			statAdd: () => {
+				const actions = getStore();
+				const store = getStore();
+				store.choice=="weapon" ? actions.setFormInput({...formInput, weapon: [...weapon, store.statToAdd]})
+				: store.choice=="spell" ? actions.setFormInput({...formInput, spell: [...spell, store.statToAdd]})
+				: store.choice=="skill" ? actions.setFormInput({...formInput, skill: [...skill, store.statToAdd]})
+				: store.choice=="stat" ? actions.setFormInput({...formInput, stat: [...stat, store.statToAdd]})
+				: null;
+			},
+
+
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
@@ -47,6 +64,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//reset the global store
 				setStore({ demo: demo });
 			}
+
+
 		}
 	};
 };
