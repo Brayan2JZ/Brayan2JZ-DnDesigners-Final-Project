@@ -33,7 +33,7 @@ export const Navbar = () => {
 				</li>
 				<li>
 					<Link to='/imageCreator'>
-						<button className="nav-item mx-2 btn btn-success">Create Now</button>
+						<button className="nav-item mx-2 btn btn-success">Create A Card</button>
 					</Link>
 				</li>
 				<li className="nav-item dropdown">

@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect} from 'react';
 
 export const Gallery = () => (
+
+
     <div>
         <h1 className="text-center">Gallery</h1>
 
@@ -20,7 +22,7 @@ export const Gallery = () => (
                         type="button" role="tab" aria-controls="pills-models" aria-selected="false">3D Models</button>
                 </li>
             </ul>
-            {/* <--Pills Tab Content--> */}
+            {/* <--Card Tab--> */}
             <div className="tab-content" id="pills-tabContent">
                 <div className="tab-pane fade" id="pills-cards" role="tabpanel" aria-labelledby="pills-home-tab" tabIndex="0">
                     <div className="container mb-0 pb-0">
@@ -37,7 +39,7 @@ export const Gallery = () => (
                         </div>
                     </div>
                 </div>
-                {/* <!-- Pill Tab 2 --> */}
+                {/* <!-- Art Tab --> */}
                 <div className="tab-pane fade" id="pills-art" role="tabpanel" aria-labelledby="pills-art-tab" tabIndex="0">
                     <div className="container d-flex flex-column align-items-center">
                         <div className="card mt-3" style={{ width: '635px' }}>
