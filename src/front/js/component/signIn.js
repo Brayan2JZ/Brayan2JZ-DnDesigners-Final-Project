@@ -34,7 +34,8 @@ export const SignIn = () => {
         return response.json()
       }).then((jsonRes)=>{
         localStorage.setItem('token',jsonRes.token)
-        console.log("token retrieved")
+        localStorage.setItem('userId',jsonRes.id)
+        console.log("token retrieved for user ID: ",jsonRes.id)
       }).catch((e)=>{
         console.log(e)
       })
