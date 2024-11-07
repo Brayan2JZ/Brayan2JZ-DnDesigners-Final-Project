@@ -254,7 +254,7 @@ export const MyComponent = () => {
       alert("Please enter a name for the card")
       return
     }
-    fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/addcard',{
+    fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/card',{
       method:'POST',
       body:JSON.stringify({
         'filename':fileName,
@@ -272,15 +272,14 @@ export const MyComponent = () => {
   }
 
   const getImageURLs=()=>{
-    fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/getcards',{
-      method:'GET',
-      headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+ localStorage.getItem('token')}
+    fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/cards',{
+    method:'GET',
+    headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+ localStorage.getItem('token')}
     }).then((response)=>{
-      console.log(response)
-      return response.json()
+    console.log(response)
+    return response.json()
     }).then((jsonRes)=>{
-      console.log(jsonRes)
-      return jsonRes
+    console.log(jsonRes)
     })
   }
 
