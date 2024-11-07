@@ -7,7 +7,7 @@ export const Gallery = () => (
         <h1 className="text-center">Gallery</h1>
 
         <div className="container">
-            {/* Pills Tab !!! */}
+                                                                                        {/* Pills Tab !!! */}
             <ul className="nav nav-pills mb-3 d-flex justify-content-center align-items-center" id="pills-tab" role="tablist">
                 <li className="nav-item" role="presentation">
                     <button className="nav-link" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-cards"
@@ -22,7 +22,7 @@ export const Gallery = () => (
                         type="button" role="tab" aria-controls="pills-models" aria-selected="false">3D Models</button>
                 </li>
             </ul>
-            {/* <--Card Tab--> */}
+                                                                                        {/* <--Card Tab--> */}
             <div className="tab-content" id="pills-tabContent">
                 <div className="tab-pane fade" id="pills-cards" role="tabpanel" aria-labelledby="pills-home-tab" tabIndex="0">
                     <div className="container mb-0 pb-0">
@@ -39,22 +39,56 @@ export const Gallery = () => (
                         </div>
                     </div>
                 </div>
-                {/* <!-- Art Tab --> */}
+                                                                                        {/* <!-- Art Tab --> */}
                 <div className="tab-pane fade" id="pills-art" role="tabpanel" aria-labelledby="pills-art-tab" tabIndex="0">
                     <div className="container d-flex flex-column align-items-center">
+                                                                                        {/* Upload Button and Modal */}
+                        <button type="button" class="btn btn-success me-2" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
+                            Upload Art Here
+                        </button>
+                                                                                        {/* Modal */}
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel"><strong>Upload New Art</strong></h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label for="Title"
+                                                class="form-label"><strong>Title:</strong></label>
+                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"
+                                                placeholder="Add a Title for your Artwork here"></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="Description"
+                                                class="form-label"><strong>Caption:</strong></label>
+                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                                                placeholder="Add a caption for your Artwork here"></textarea>
+                                        </div>
+                                        <button type="button" class="btn btn-light">Select File From Computer</button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-success">Upload</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                                                                                        {/* Art */}
                         <div className="card mt-3" style={{ width: '635px' }}>
                             <div className="card-body d-flex justify-content-between">
                                 <h5 className="card-title">Art 1</h5>
                             </div>
                         </div>
-                        <div className="card mt-3" style={{ width: '635px' }}>
-                            <div className="card-body d-flex justify-content-between">
-                                <h5 className="card-title">Art 2</h5>
-                            </div>
-                        </div>
                     </div>
                 </div>
-                {/* 3D Models */}
+                                                                                        {/* 3D Models */}
                 <div className="tab-pane fade" id="pills-models" role="tabpanel" aria-labelledby="pills-3d-models-tab" tabIndex="0">
                     <div className="container mb-0 pb-0">
                         <div className="row row-cols-3">
