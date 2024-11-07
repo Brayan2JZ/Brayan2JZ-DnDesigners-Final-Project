@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User,CardBank
+from api.models import db, User,CardBank,TagList
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
@@ -37,10 +37,25 @@ def addCard():
         file=request.json['uri'],
         file_name=request.json['filename'],
     )
-    newCard= CardBank(filename=request.json['filename'],uri= upload.response_metadata.raw['url'])
+    newCard= CardBank(
+        filename=request.json['filename'],
+        url= upload.response_metadata.raw['url'],
+        tags=",".join(request.json['tags'])
+        )
     print(newCard)
     db.session.add(newCard)
     db.session.commit()
+
+    for tag in request.json['tags']:
+        tagMatch=TagList.query.filter_by(tagDescription=tag).first()
+        if tagMatch:
+            tagMatch.tagCount=tagMatch.tagCount+1
+            db.session.commit()
+        else:
+            newTag=TagList(tagDescription=tag,tagCount=1)
+            db.session.add(newTag)
+            db.session.commit()
+
     cardId=CardBank.query.filter_by(filename=request.json['filename']).first().id
     print(cardId)
     return jsonify({'id':cardId,'url': upload.response_metadata.raw['url']})
@@ -53,7 +68,6 @@ def getCards():
     cardsList=list(map(lambda x: x.serialize(),cards))
     print(cardsList)
     return cardsList
-
 
 #### USER STUFF
 @api.route('/token',methods=['POST'])
