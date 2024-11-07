@@ -70,7 +70,9 @@ export const Gallery = () => (
                                             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
                                                 placeholder="Add a caption for your Artwork here"></textarea>
                                         </div>
-                                        <button type="button" class="btn btn-light">Select File From Computer</button>
+                                        <div className="input-group mb-3">
+                                            <input type="file" className="form-control" id="inputGroupFile01"/>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
