@@ -37,7 +37,11 @@ def addCard():
         file=request.json['uri'],
         file_name=request.json['filename'],
     )
-    newCard= CardBank(filename=request.json['filename'],uri= upload.response_metadata.raw['url'])
+    newCard= CardBank(
+        filename=request.json['filename'],
+        url= upload.response_metadata.raw['url'],
+        tags=",".join(request.json['tags'])
+        )
     print(newCard)
     db.session.add(newCard)
     db.session.commit()

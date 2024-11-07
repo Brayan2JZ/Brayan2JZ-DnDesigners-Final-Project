@@ -9,7 +9,7 @@ export const Navbar = () => {
 		<nav className="navbar navbar-expand-lg bg-body-tertiary">
 		  <div className="container-fluid">
 													{/* Adjust "to=/home" to proper home page when home page is finalized in layout */}
-		  <Link className="navbar-brand" to="/home">
+		  <Link className="navbar-brand" to="/">
 			<img 
 				src={logo} 
 				alt="Logo" 

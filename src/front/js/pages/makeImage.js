@@ -30,7 +30,7 @@ const statAdd = () => {
 
     <div className="input-group">
       <span className="input-group-text">Class</span>
-      <input type="text" aria-label="classInput" class="form-control" onChange={(e)=>actions.setFormInput(  {...formInput, class:e.target.value})}/>
+      <input type="text" aria-label="classInput" className="form-control" onChange={(e)=>actions.setFormInput(  {...formInput, class:e.target.value})}/>
     </div>
 
     <div className="input-group">
@@ -61,27 +61,27 @@ const statAdd = () => {
     </div>
 
     <div className= "input-group statToAdd d-flex">
-      <div class="mb-3">
-        <label class="input-group-text" for="inputGroupSelect01">Pick Category to Add</label>
-            <select class="form-select" id="inputGroupSelect01" onChange={(e)=>actions.setFormInput(  {...formInput, choice: [e.target.value ]})}>
+      <div className="mb-3">
+        <label className="input-group-text" for="inputGroupSelect01">Pick Category to Add</label>
+            <select className="form-select" id="inputGroupSelect01" onChange={(e)=>actions.setFormInput(  {...formInput, choice: [e.target.value ]})}>
               <option value=" "></option>
               <option value="spell">Spell</option>
               <option value="skill">Skill</option>
               <option value="stat">Stat</option>
               <option value="weapon">Weapon</option>
           </select>
-        <div class="mb-3">
-          <label for="itemNameInput" class="form-label"></label>
-          <input type="text" class="form-control" id="itemNameInput" placeholder="Item Name" 
+        <div className="mb-3">
+          <label for="itemNameInput" className="form-label"></label>
+          <input type="text" className="form-control" id="itemNameInput" placeholder="Item Name" 
             onChange={(e)=>actions.setFormInput({...formInput, statToAdd: [e.target.value, formInput.statToAdd[1], formInput.statToAdd[2]]})}></input>
           
-          <input type="text" class="form-control" id="itemDamageInput" placeholder="Damage" 
+          <input type="text" className="form-control" id="itemDamageInput" placeholder="Damage" 
             onChange={(e)=>actions.setFormInput({...formInput, statToAdd: [formInput.statToAdd[0], e.target.value, formInput.statToAdd[2]]})}></input>
           
-          <textarea  type="text" class="form-control" id="itemDescriptionInput" placeholder="Description" 
+          <textarea  type="text" className="form-control" id="itemDescriptionInput" placeholder="Description" 
             onChange={(e)=>actions.setFormInput({...formInput, statToAdd: [formInput.statToAdd[0], formInput.statToAdd[1], e.target.value]})}></textarea>
           
-          <button type="submit" class="btn btn-primary mb-3" onClick={statAdd()}>Add Stat</button>
+          <button type="submit" className="btn btn-primary mb-3" onClick={statAdd()}>Add Stat</button>
 
         </div>
     </div>
@@ -199,6 +199,8 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
 export const MyComponent = () => {
   const componentRef = useRef();
   const [imageUri, setImageUri] = useState("");
+  const [fileName,setFileName]=useState('')
+  const [tagList,setTagList]=useState(['Space Monkey','Cowboy Monkey','Zebronkey','Monkey Kong','Simian','Party Monkey'])
 
   const saveAs = (uri, filename) => {
     const link = document.createElement('a');
@@ -243,11 +245,16 @@ export const MyComponent = () => {
   },[imageUri])
 
   const insertImage=()=>{
+    if(fileName==''){
+      alert("Please enter a name for the card")
+      return
+    }
     fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/addcard',{
       method:'POST',
       body:JSON.stringify({
-        'filename':'Monkeyz2',
-        'uri':imageUri
+        'filename':fileName,
+        'uri':imageUri,
+        'tags':tagList
       }),
       headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+ localStorage.getItem('token')}
     }).then((response)=>{
@@ -255,7 +262,7 @@ export const MyComponent = () => {
       return response.json()
     }).then((jsonRes)=>{
       console.log(jsonRes)
-      return jsonRes
+      return
     })
   }
 
@@ -285,6 +292,8 @@ export const MyComponent = () => {
           <StatForm/>
         </div>
       </div>
+      <label>filename</label>
+      <input value={fileName} onChange={(e)=>{setFileName(e.target.value)}}></input>
       <button onClick={handleExportAsURI}>Export as URI</button>
       <button onClick={()=>{saveAs(imageUri,"test")}}>Save to device</button>
       <button onClick={getImageURLs}>Get all Cards</button>
