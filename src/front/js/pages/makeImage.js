@@ -202,17 +202,22 @@ export const MyComponent = () => {
   const [fileName,setFileName]=useState('')
   const [tagList,setTagList]=useState(['Space Monkey','Cowboy Monkey','Zebronkey','Monkey Kong','Simian','Party Monkey'])
 
-  const saveAs = (uri, filename) => {
-    const link = document.createElement('a');
-
-    if (typeof link.download === 'string') {
-        link.href = imageUri;
-        link.download = filename+'.jpeg';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    } else {
-        window.open(uri);
+  const saveAs = (uri) => {
+    if(fileName!=''){
+      const link = document.createElement('a');
+      if (typeof link.download === 'string') {
+          link.href = imageUri;
+          link.download = fileName +'.jpeg';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+      } else {
+          window.open(uri);
+      }
+    }
+    else{
+      alert("Please enter a name for the card")
+      return
     }
 };
 
@@ -295,7 +300,7 @@ export const MyComponent = () => {
       <label>filename</label>
       <input value={fileName} onChange={(e)=>{setFileName(e.target.value)}}></input>
       <button onClick={handleExportAsURI}>Export as URI</button>
-      <button onClick={()=>{saveAs(imageUri,"test")}}>Save to device</button>
+      <button onClick={()=>{saveAs(imageUri)}}>Save to device</button>
       <button onClick={getImageURLs}>Get all Cards</button>
     </div>
   );
