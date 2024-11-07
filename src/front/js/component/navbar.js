@@ -6,8 +6,8 @@ import logo from "../../img/logowide.png"
 
 export const Navbar = () => {
 	return (
-		<nav class="navbar navbar-expand-lg bg-body-tertiary">
-		  <div class="container-fluid">
+		<nav className="navbar navbar-expand-lg bg-body-tertiary">
+		  <div className="container-fluid">
 													{/* Adjust "to=/home" to proper home page when home page is finalized in layout */}
 		  <Link className="navbar-brand" to="/home">
 			<img 
@@ -17,8 +17,8 @@ export const Navbar = () => {
 				style={{ width: '150px', height: 'auto' }} 
 			/>
 			</Link>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-			  <span class="navbar-toggler-icon"></span>
+			<button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+			  <span className="navbar-toggler-icon"></span>
 			</button>
 			<div className="d-flex" id="navbarNavDropdown">
 			  <ul className="navbar-nav">
