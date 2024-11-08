@@ -32,9 +32,16 @@ export const Navbar = () => {
 				  <a className="nav-link" href="/tags">Tags</a>
 				</li>
 				<li>
-					<Link to='/imageCreator'>
-						<button className="nav-item mx-2 btn btn-success">Create A Card</button>
-					</Link>
+					<div className="dropdown">
+						<button className="btn dropdown-toggle nav-item mx-2 btn btn-success" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Create A Card
+						</button>
+						<ul className="dropdown-menu">
+							<li><Link to='/charimageCreator' className="dropdown-item">Character</Link></li>
+							<li><Link to='/itemimageCreator' className="dropdown-item">Item</Link></li>
+							<li><Link to='/spellimageCreator' className="dropdown-item">Spell</Link></li>
+						</ul>
+					</div>
 				</li>
 				<li className="nav-item dropdown">
 				  <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

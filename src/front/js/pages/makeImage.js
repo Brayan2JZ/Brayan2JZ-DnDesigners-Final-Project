@@ -170,7 +170,7 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
 
 
 
-export const MyComponent = () => {
+export const CharacterImageCreator = () => {
   const componentRef = useRef();
   const [imageUri, setImageUri] = useState("");
   const [fileName,setFileName]=useState('')

@@ -17,7 +17,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			formInput: {name:"", class:"", race:"", alignment:['',''], spell:[], description:[], damage:[], backstory:"", statToAdd:""},
 
-			formInputItem: {name:"",uses:"", ac:"", attune:false, atribute1:"",atribute2:"",atribute3:"", rarity:"", description:[], damage:[],  backstory:"", statToAdd:""}
+			formInputItem: {name:"",uses:"", ac:"", attune:false, atribute1:"",atribute2:"",atribute3:"", rarity:"", description:[], damage:[],  backstory:"", statToAdd:""},
+
+			formInputSpell: {name:"",uses:"", ac:"", attune:false, atribute1:"",atribute2:"",atribute3:"", rarity:"", description:[], damage:[],  backstory:"", statToAdd:""}
 
 		},
 		actions: {
@@ -28,6 +30,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			setFormInputItem: (newObj) => {
 				setStore({ formInputItem: newObj });
+			},
+
+			setFormInputSpell: (newObj) => {
+				setStore({ formInputSpell: newObj });
 			},
 
 		

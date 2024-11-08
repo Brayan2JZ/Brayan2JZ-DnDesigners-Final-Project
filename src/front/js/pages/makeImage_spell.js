@@ -10,7 +10,7 @@ import { Context } from "../store/appContext";
 
 const StatForm = () =>{
    const { store, actions } = useContext(Context);
-  let {formInput} = store;
+  let {formInputSpell} = store;
 
 
   return(
@@ -18,29 +18,29 @@ const StatForm = () =>{
 
     <div className="input-group">
       <span className="input-group-text">Name</span>
-      <input type="text" aria-label="classInput" class="form-control" onChange={(e)=>actions.setFormInput(  {...formInput, name:e.target.value})}/>
+      <input type="text" aria-label="classInput" class="form-control" onChange={(e)=>actions.setFormInputSpell(  {...formInputSpell, name:e.target.value})}/>
     </div>
 
     <div className="input-group">
       <span className="input-group-text">Class</span>
-      <input type="text" aria-label="classInput" class="form-control" onChange={(e)=>actions.setFormInput(  {...formInput, class:e.target.value})}/>
+      <input type="text" aria-label="classInput" class="form-control" onChange={(e)=>actions.setFormInputSpell(  {...formInputSpell, class:e.target.value})}/>
     </div>
 
     <div className="input-group">
       <span className="input-group-text">Race</span>
-      <input type="text" aria-label="raceInput" className="form-control" onChange={(e)=>actions.setFormInput(  {...formInput, race:e.target.value})}/>
+      <input type="text" aria-label="raceInput" className="form-control" onChange={(e)=>actions.setFormInputSpell(  {...formInputSpell, race:e.target.value})}/>
     </div>
 
     <div className="input-group mb-3">
       <label className="input-group-text" for="inputGroupSelect01">Alignment</label>
-      <select className="form-select" id="inputGroupSelect01" onChange={(e)=>actions.setFormInput(  {...formInput, alignment: [e.target.value, formInput.alignment[1]]})}>
+      <select className="form-select" id="inputGroupSelect01" onChange={(e)=>actions.setFormInputSpell(  {...formInputSpell, alignment: [e.target.value, formInputSpell.alignment[1]]})}>
         <option value=" ">Pick Alignment</option>
         <option value="chaotic ">Chaotic</option>
         <option value="neutral ">Neutral</option>
         <option value="lawful ">Lawful</option>
       </select>
 
-      <select className="form-select" id="inputGroupSelect01" onChange={(e)=>actions.setFormInput(  {...formInput, alignment: [formInput.alignment[0], e.target.value ]})}>
+      <select className="form-select" id="inputGroupSelect01" onChange={(e)=>actions.setFormInputSpell(  {...formInputSpell, alignment: [formInputSpell.alignment[0], e.target.value ]})}>
         <option value=" ">Pick Alignment</option>
         <option value="good">Good</option>
         <option value="neutral">Neutral</option>
@@ -58,12 +58,12 @@ const StatForm = () =>{
         <div class="mb-3">
           <label for="itemNameInput" class="form-label"></label>
           <div class="btn-group" role="group" aria-label="Basic example" >
-            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInput(  {...formInput, damage: formInput.statToAdd})}>Damage</button>
-            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInput(  {...formInput, spell: formInput.statToAdd})}>Spell/Effect</button>
-            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInput(  {...formInput, description: formInput.statToAdd})}>Description</button>
+            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInputSpell(  {...formInputSpell, damage: formInputSpell.statToAdd})}>Damage</button>
+            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInputSpell(  {...formInputSpell, spell: formInputSpell.statToAdd})}>Spell/Effect</button>
+            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInputSpell(  {...formInputSpell, description: formInputSpell.statToAdd})}>Description</button>
           </div>
           <textarea  type="text" class="form-control" id="itemDescriptionInput" placeholder="Description" 
-            onChange={(e)=>actions.setFormInput({...formInput, statToAdd: [e.target.value]})}>
+            onChange={(e)=>actions.setFormInputSpell({...formInputSpell, statToAdd: [e.target.value]})}>
           </textarea>
         </div>
 
@@ -71,7 +71,7 @@ const StatForm = () =>{
 
     </div>
     <textarea  type="text" class="form-control" id="itemDescriptionInput" placeholder="Backstory" 
-            onChange={(e)=>actions.setFormInput({...formInput, backstory: [e.target.value]})}>
+            onChange={(e)=>actions.setFormInputSpell({...formInputSpell, backstory: [e.target.value]})}>
     </textarea>
 
   </div>
@@ -81,7 +81,7 @@ const StatForm = () =>{
 
 const ComponentToPrint = React.forwardRef((props, ref) => {
   const { store, actions } = useContext(Context);
-  let {formInput} = store;
+  let {formInputSpell} = store;
   return(
 	<div ref={ref} className='position-relative' style={{
         height: '500px',
@@ -92,7 +92,7 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
       }}>
     <img className='cardFrameBackground'src={cardBG}></img>
     <img className='cardImage'  src='https://i.pinimg.com/1200x/59/15/8b/59158b3d3e0dc0c98954f3da89e14469.jpg'></img>
-    <h2 id='cardTitle'>{ store.formInputItem.name}</h2>
+    <h2 id='cardTitle'>{ formInputSpell.name}</h2>
 	  <div className='mainBody'>
 			<div className='statContainer container'>
 				<div className='row mb-3'>
@@ -135,20 +135,20 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
 
 
 			<div className='rightStatInfo'>
-				<p id='className' className='titled'>{formInput.class}</p>
-				<p id='raceName' className='titled'>{formInput.race}</p>
-        <p id='alignmentName' className='titled'>{formInput.alignment}</p>
+				<p id='className' className='titled'>{formInputSpell.class}</p>
+				<p id='raceName' className='titled'>{formInputSpell.race}</p>
+        <p id='alignmentName' className='titled'>{formInputSpell.alignment}</p>
 				
 
 				<p className='text-decoration-underline titled'>Spells</p> 
-        <p id='stat1' className='statDetails'>{formInput.spell}</p>
+        <p id='stat1' className='statDetails'>{formInputSpell.spell}</p>
         
 
 				<p className='text-decoration-underline titled'>Damage</p>
-				<p id='stat1' className='statDetails'>{formInput.damage}</p>
+				<p id='stat1' className='statDetails'>{formInputSpell.damage}</p>
 
 				<p className='text-decoration-underline titled'>Description</p>
-				<p id='stat1' className='statDetails'>{formInput.description}</p>
+				<p id='stat1' className='statDetails'>{formInputSpell.description}</p>
 
 			</div>
 		</div>
@@ -156,7 +156,7 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
     <div className='footer'>
       <div className='originStory'>
         <p className='titled text-center'>Backstory/Origin</p>
-        <p className='statDetails text-center px-3'> {store.formInput.backstory}</p>
+        <p className='statDetails text-center px-3'> {store.formInputSpell.backstory}</p>
           
       </div>
 
@@ -173,7 +173,7 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
 
 
 
-export const MyComponent = () => {
+export const SpellImageCreator = () => {
   const componentRef = useRef();
   const [imageUri, setImageUri] = useState("");
 
