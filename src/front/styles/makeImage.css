@@ -17,6 +17,7 @@
     position: absolute;
     z-index: 0;
     max-height: 200px;
+    max-width: 100px;
    top: 100px;
    left:20%;
    border-radius: 40%;
@@ -50,7 +51,7 @@
     padding-right: 12px;
     max-width: 125px;
     min-width: 100px;
-    max-height: 200px;
+    max-height: 250px;
     overflow: hidden;
 }
 .titled{
@@ -62,24 +63,17 @@
 .statDetails{
     font-size: 10px;
 }
-#stat2{
+#stat{
+    width:30px;
+    height: 35px;
+    background-color: rgb(255, 255, 255);
+    border: 2px solid ;
+   border-color: rgba(0, 0, 0, 0.644);
+   border-radius: 40%;
+   
+}
+.leftStats{
+  
     
 }
-#stat3{
-    
-}
-#stat4{
-    
-}
-#stat5{
-    
-}
-#stat6{
-    
-}
-#stat7{
-    
-}
-#stat8{
-    
-}
+

@@ -12,6 +12,7 @@ const StatForm = () =>{
    const { store, actions } = useContext(Context);
   let {formInput} = store;
 
+
   return(
   <div className='form'>
 
@@ -90,10 +91,10 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
         clipPath: 'inset(0 0 0 0)'
       }}>
     <img className='cardFrameBackground'src={cardBG}></img>
-    <img className='cardImage'  src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg/220px-Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg'></img>
-    <h2 id='cardTitle'>{ store.formInput.name}</h2>
+    <img className='cardImage'  src='https://i.pinimg.com/1200x/59/15/8b/59158b3d3e0dc0c98954f3da89e14469.jpg'></img>
+    <h2 id='cardTitle'>{ store.formInputItem.name}</h2>
 	  <div className='mainBody'>
-    <div className='statContainer container'>
+			<div className='statContainer container'>
 				<div className='row mb-3'>
 					<div className='col leftStats d-flex justify-content-end'>	
 						<h4 id='stat' ></h4>
@@ -130,7 +131,7 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
 						<h4 id='stat'></h4>
 					</div>
 				</div>
-			</div>
+			</div>	
 
 
 			<div className='rightStatInfo'>
@@ -158,6 +159,8 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
         <p className='statDetails text-center px-3'> {store.formInput.backstory}</p>
           
       </div>
+
+    
 
 
     </div>

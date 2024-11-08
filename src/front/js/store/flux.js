@@ -15,7 +15,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			],
 
-			formInput: {class:"", race:"", alignment:['',''], spell:[], skill:[], stat:[], weapon:[], backstory:"", statToAdd:['','',''],choice:''}
+			formInput: {name:"", class:"", race:"", alignment:['',''], spell:[], description:[], damage:[], backstory:"", statToAdd:""},
+
+			formInputItem: {name:"",uses:"", ac:"", attune:false, atribute1:"",atribute2:"",atribute3:"", rarity:"", description:[], damage:[],  backstory:"", statToAdd:""}
+
 		},
 		actions: {
 
@@ -23,15 +26,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ formInput: newObj });
 			},
 
-			statAdd: () => {
-				const actions = getStore();
-				const store = getStore();
-				store.choice=="weapon" ? actions.setFormInput({...formInput, weapon: [...weapon, store.statToAdd]})
-				: store.choice=="spell" ? actions.setFormInput({...formInput, spell: [...spell, store.statToAdd]})
-				: store.choice=="skill" ? actions.setFormInput({...formInput, skill: [...skill, store.statToAdd]})
-				: store.choice=="stat" ? actions.setFormInput({...formInput, stat: [...stat, store.statToAdd]})
-				: null;
+			setFormInputItem: (newObj) => {
+				setStore({ formInputItem: newObj });
 			},
+
+		
 
 
 			exampleFunction: () => {

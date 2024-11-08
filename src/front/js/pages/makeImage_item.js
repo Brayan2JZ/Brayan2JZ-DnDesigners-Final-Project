@@ -10,36 +10,44 @@ import { Context } from "../store/appContext";
 
 const StatForm = () =>{
    const { store, actions } = useContext(Context);
-  let {formInput} = store;
+  let {formInputItem} = store;
+
 
   return(
   <div className='form'>
-
     <div className="input-group">
       <span className="input-group-text">Name</span>
-      <input type="text" aria-label="classInput" class="form-control" onChange={(e)=>actions.setFormInput(  {...formInput, name:e.target.value})}/>
+      <input type="text" aria-label="nameInput" class="form-control" onChange={(e)=>actions.setFormInputItem(  {...formInputItem, name:e.target.value})}/>
     </div>
 
     <div className="input-group">
-      <span className="input-group-text">Class</span>
-      <input type="text" aria-label="classInput" class="form-control" onChange={(e)=>actions.setFormInput(  {...formInput, class:e.target.value})}/>
+      <span className="input-group-text">Number of uses</span>
+      <input type="text" aria-label="usesInput" class="form-control" onChange={(e)=>actions.setFormInputItem(  {...formInputItem, uses:e.target.value})}/>
     </div>
 
     <div className="input-group">
-      <span className="input-group-text">Race</span>
-      <input type="text" aria-label="raceInput" className="form-control" onChange={(e)=>actions.setFormInput(  {...formInput, race:e.target.value})}/>
+      <span className="input-group-text">AC</span>
+      <input type="text" aria-label="acInput" className="form-control" onChange={(e)=>actions.setFormInputItem(  {...formInputItem, ac:e.target.value})}/>
+    </div>
+
+    <div className="input-group">
+      <span className="input-group-text">Does Item Require Attunement?</span>
+      <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" value="true" onChange={(e)=>actions.setFormInputItem(  {...formInputItem, attune:e.target.value})}/>
+    </div>
+
     </div>
 
     <div className="input-group mb-3">
       <label className="input-group-text" for="inputGroupSelect01">Alignment</label>
-      <select className="form-select" id="inputGroupSelect01" onChange={(e)=>actions.setFormInput(  {...formInput, alignment: [e.target.value, formInput.alignment[1]]})}>
+      <select className="form-select" id="inputGroupSelect01" onChange={(e)=>actions.setFormInputItem(  {...formInputItem, alignment: [e.target.value, formInputItem.alignment[1]]})}>
         <option value=" ">Pick Alignment</option>
         <option value="chaotic ">Chaotic</option>
         <option value="neutral ">Neutral</option>
         <option value="lawful ">Lawful</option>
       </select>
 
-      <select className="form-select" id="inputGroupSelect01" onChange={(e)=>actions.setFormInput(  {...formInput, alignment: [formInput.alignment[0], e.target.value ]})}>
+      <select className="form-select" id="inputGroupSelect01" onChange={(e)=>actions.setFormInputItem(  {...formInputItem, alignment: [formInputItem.alignment[0], e.target.value ]})}>
         <option value=" ">Pick Alignment</option>
         <option value="good">Good</option>
         <option value="neutral">Neutral</option>
@@ -57,12 +65,13 @@ const StatForm = () =>{
         <div class="mb-3">
           <label for="itemNameInput" class="form-label"></label>
           <div class="btn-group" role="group" aria-label="Basic example" >
-            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInput(  {...formInput, damage: formInput.statToAdd})}>Damage</button>
-            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInput(  {...formInput, spell: formInput.statToAdd})}>Spell/Effect</button>
-            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInput(  {...formInput, description: formInput.statToAdd})}>Description</button>
+            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInputItem(  {...formInputItem, rarity: formInputItem.statToAdd})}>Damage</button>
+            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInputItem(  {...formInputItem, atribute1: formInputItem.statToAdd})}>Atribute 1</button>
+            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInputItem(  {...formInputItem, atribute2: formInputItem.statToAdd})}>Atribute 2</button>
+            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInputItem(  {...formInputItem, atribute3: formInputItem.statToAdd})}>Atribute 3</button>
           </div>
           <textarea  type="text" class="form-control" id="itemDescriptionInput" placeholder="Description" 
-            onChange={(e)=>actions.setFormInput({...formInput, statToAdd: [e.target.value]})}>
+            onChange={(e)=>actions.setFormInputItem({...formInputItem, statToAdd: [e.target.value]})}>
           </textarea>
         </div>
 
@@ -70,7 +79,7 @@ const StatForm = () =>{
 
     </div>
     <textarea  type="text" class="form-control" id="itemDescriptionInput" placeholder="Backstory" 
-            onChange={(e)=>actions.setFormInput({...formInput, backstory: [e.target.value]})}>
+            onChange={(e)=>actions.setFormInputItem({...formInputItem, backstory: [e.target.value]})}>
     </textarea>
 
   </div>
@@ -80,7 +89,7 @@ const StatForm = () =>{
 
 const ComponentToPrint = React.forwardRef((props, ref) => {
   const { store, actions } = useContext(Context);
-  let {formInput} = store;
+  let {formInputItem} = store;
   return(
 	<div ref={ref} className='position-relative' style={{
         height: '500px',
@@ -90,11 +99,11 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
         clipPath: 'inset(0 0 0 0)'
       }}>
     <img className='cardFrameBackground'src={cardBG}></img>
-    <img className='cardImage'  src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg/220px-Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg'></img>
-    <h2 id='cardTitle'>{ store.formInput.name}</h2>
+    <img className='cardImage'  src='https://images.nightcafe.studio/jobs/ZgSQlVUA31qvUFwzRJYH/ZgSQlVUA31qvUFwzRJYH--1--2zzil.jpg?tr=w-1600,c-at_max'></img>
+    <h2 id='cardTitle'>{ formInputItem.name}</h2>
 	  <div className='mainBody'>
     <div className='statContainer container'>
-				<div className='row mb-3'>
+				<div className='row mb-1 '>
 					<div className='col leftStats d-flex justify-content-end'>	
 						<h4 id='stat' ></h4>
 					</div>
@@ -103,8 +112,8 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
 						<h4 id='stat'></h4>
 					</div>
 				</div>
-				<div className='row mb-3'>
-					<div className='col leftStats d-flex justify-content-end'>	
+				<div className='row mb-1'>
+					<div className='col leftStats d-flex justify-content-end '>	
 						<h4 id='stat' ></h4>
 					</div>
 					<div className='col-5 middleEmptyStats'></div>	
@@ -112,7 +121,7 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
 						<h4 id='stat'></h4>
 					</div>
 				</div>
-				<div className='row mb-3'>
+				<div className='row mb-1'>
 					<div className='col leftStats d-flex justify-content-end'>	
 						<h4 id='stat' ></h4>
 					</div>
@@ -130,24 +139,20 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
 						<h4 id='stat'></h4>
 					</div>
 				</div>
-			</div>
+			</div>	
 
 
 			<div className='rightStatInfo'>
-				<p id='className' className='titled'>{formInput.class}</p>
-				<p id='raceName' className='titled'>{formInput.race}</p>
-        <p id='alignmentName' className='titled'>{formInput.alignment}</p>
+				<p  className='titled'>Uses: {formInputItem.uses}</p>
+				<p  className='titled'>AC: {formInputItem.ac}</p>
+        <p  className='titled'>Requires Attunement? {formInputItem.attune}</p>
 				
 
-				<p className='text-decoration-underline titled'>Spells</p> 
-        <p id='stat1' className='statDetails'>{formInput.spell}</p>
+				<p className='text-decoration-underline titled'>Atributes</p> 
+        <p id='stat1' className='statDetails'>{formInputItem.atribute1}</p>
+        <p id='stat1' className='statDetails'>{formInputItem.atribute2}</p>
+        <p id='stat1' className='statDetails'>{formInputItem.atribute3}</p>
         
-
-				<p className='text-decoration-underline titled'>Damage</p>
-				<p id='stat1' className='statDetails'>{formInput.damage}</p>
-
-				<p className='text-decoration-underline titled'>Description</p>
-				<p id='stat1' className='statDetails'>{formInput.description}</p>
 
 			</div>
 		</div>
@@ -155,9 +160,11 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
     <div className='footer'>
       <div className='originStory'>
         <p className='titled text-center'>Backstory/Origin</p>
-        <p className='statDetails text-center px-3'> {store.formInput.backstory}</p>
+        <p className='statDetails text-center px-3'> {store.formInputItem.backstory}</p>
           
       </div>
+
+    
 
 
     </div>
