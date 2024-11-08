@@ -22,7 +22,7 @@ const StatForm = () =>{
 
     <div className="input-group">
       <span className="input-group-text">Class</span>
-      <input type="text" aria-label="classInput" class="form-control" onChange={(e)=>actions.setFormInput(  {...formInput, class:e.target.value})}/>
+      <input type="text" aria-label="classInput" className="form-control" onChange={(e)=>actions.setFormInput(  {...formInput, class:e.target.value})}/>
     </div>
 
     <div className="input-group">
@@ -173,18 +173,25 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
 export const MyComponent = () => {
   const componentRef = useRef();
   const [imageUri, setImageUri] = useState("");
+  const [fileName,setFileName]=useState('')
+  const [tagList,setTagList]=useState(['Space Monkey','Cowboy Monkey','Zebronkey','Monkey Kong','Simian','Party Monkey'])
 
-  const saveAs = (uri, filename) => {
-    const link = document.createElement('a');
-
-    if (typeof link.download === 'string') {
-        link.href = imageUri;
-        link.download = filename+'.jpeg';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    } else {
-        window.open(uri);
+  const saveAs = (uri) => {
+    if(fileName!=''){
+      const link = document.createElement('a');
+      if (typeof link.download === 'string') {
+          link.href = imageUri;
+          link.download = fileName +'.jpeg';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+      } else {
+          window.open(uri);
+      }
+    }
+    else{
+      alert("Please enter a name for the card")
+      return
     }
 };
 
@@ -217,11 +224,16 @@ export const MyComponent = () => {
   },[imageUri])
 
   const insertImage=()=>{
-    fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/addcard',{
+    if(fileName==''){
+      alert("Please enter a name for the card")
+      return
+    }
+    fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/card',{
       method:'POST',
       body:JSON.stringify({
-        'filename':'Monkeyz2',
-        'uri':imageUri
+        'filename':fileName,
+        'uri':imageUri,
+        'tags':tagList
       }),
       headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+ localStorage.getItem('token')}
     }).then((response)=>{
@@ -229,20 +241,19 @@ export const MyComponent = () => {
       return response.json()
     }).then((jsonRes)=>{
       console.log(jsonRes)
-      return jsonRes
+      return
     })
   }
 
   const getImageURLs=()=>{
-    fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/getcards',{
-      method:'GET',
-      headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+ localStorage.getItem('token')}
+    fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/cards',{
+    method:'GET',
+    headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+ localStorage.getItem('token')}
     }).then((response)=>{
-      console.log(response)
-      return response.json()
+    console.log(response)
+    return response.json()
     }).then((jsonRes)=>{
-      console.log(jsonRes)
-      return jsonRes
+    console.log(jsonRes)
     })
   }
 
@@ -259,8 +270,10 @@ export const MyComponent = () => {
           <StatForm/>
         </div>
       </div>
+      <label>filename</label>
+      <input value={fileName} onChange={(e)=>{setFileName(e.target.value)}}></input>
       <button onClick={handleExportAsURI}>Export as URI</button>
-      <button onClick={()=>{saveAs(imageUri,"test")}}>Save to device</button>
+      <button onClick={()=>{saveAs(imageUri)}}>Save to device</button>
       <button onClick={getImageURLs}>Get all Cards</button>
     </div>
   );
