@@ -59,8 +59,15 @@ export const Register = () => {
     })
   }
   return (
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog d-flex justify-content-center">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="exampleModalLabel1">Register</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+        <div class="modal-body">
     <form onSubmit={handleSubmit} className="container p-4">
-      <h2>Register</h2>
       {error && <p className="text-danger">{error}</p>}
       {success && <p className="text-success">{success}</p>}
 
@@ -123,5 +130,9 @@ export const Register = () => {
         </div>
       </div>
     </form>
+    </div>
+    </div>
+    </div>
+    </div>
   );
 };

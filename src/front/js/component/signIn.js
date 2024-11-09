@@ -42,10 +42,16 @@ export const SignIn = () => {
     }
   
     return (
+      <div class="modal fade" id="signInModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog d-flex justify-content-center">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="exampleModalLabel1">Sign In</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+        <div class="modal-body">
       <form onSubmit={handleSubmit} className="container p-4">
-        <h2>Sign In</h2>
         {error && <p className="text-danger">{error}</p>}
-  
         <div className="row mb-3">
           <label htmlFor="inputEmail3" className="col-sm-2 col-form-label">
             Email
@@ -80,11 +86,17 @@ export const SignIn = () => {
   
         <div className="row mb-3">
           <div className="col-sm-10 offset-sm-2">
-            <button type="submit" className="btn btn-primary" onClick={signIn}>
+            <button type="submit" className="btn btn-primary m-2" onClick={signIn}>
               Sign In
             </button>
+            <button className="btn btn-success" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
           </div>
         </div>
       </form>
+      </div>
+      </div>
+      </div>
+      </div>
+      
     );
   };
