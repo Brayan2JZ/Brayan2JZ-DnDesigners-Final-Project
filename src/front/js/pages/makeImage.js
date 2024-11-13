@@ -12,6 +12,7 @@ const StatForm = () =>{
    const { store, actions } = useContext(Context);
   let {formInput} = store;
 
+
   return(
   <div className='form'>
 
@@ -47,10 +48,9 @@ const StatForm = () =>{
       </select>
     </div>
 
-    <div className="input-group mb-3">
-      <label className="input-group-text" for="inputGroupFile01">Upload</label>
-      <input type="file" className="form-control" id="inputGroupFile01"/>
-    </div>
+    <label for="bubbleRange" class="form-label">How many stat bubbles do you need? {store.bubbleRange}</label>
+      <input type="range" class="form-range" min="0" max="8" id="bubbleRange" defaultValue={store.bubbleRange} onChange={(e)=>actions.setstatBubbleVis([e.target.value])}>
+    </input>
 
     <div className= "input-group statToAdd d-flex">
       
@@ -72,6 +72,11 @@ const StatForm = () =>{
     <textarea  type="text" class="form-control" id="itemDescriptionInput" placeholder="Backstory" 
             onChange={(e)=>actions.setFormInput({...formInput, backstory: [e.target.value]})}>
     </textarea>
+
+    <div className="input-group mb-3">
+      <label className="input-group-text" for="inputGroupFile01">Upload</label>
+      <input type="file" className="form-control" id="inputGroupFile01"/>
+    </div>
 
   </div>
   
@@ -96,38 +101,38 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
     <div className='statContainer container'>
 				<div className='row mb-3'>
 					<div className='col leftStats d-flex justify-content-end'>	
-						<h4 id='stat' ></h4>
+						<h4  className='stat' id='stat1' style={{visibility:  store.statBubbleVis[0]}}></h4>
 					</div>
 					<div className='col-3 middleEmptyStats'></div>	
 					<div className='col rightStats' >
-						<h4 id='stat'></h4>
+						<h4  className='stat' id='stat2' style={{visibility:  store.statBubbleVis[1]}}></h4>
 					</div>
 				</div>
 				<div className='row mb-3'>
 					<div className='col leftStats d-flex justify-content-end'>	
-						<h4 id='stat' ></h4>
+						<h4  className='stat' id='stat3' style={{visibility:  store.statBubbleVis[2]}}></h4>
 					</div>
 					<div className='col-5 middleEmptyStats'></div>	
 					<div className='col rightStats'>
-						<h4 id='stat'></h4>
+						<h4  className='stat' id='stat4'style={{visibility:  store.statBubbleVis[3]}}></h4>
 					</div>
 				</div>
 				<div className='row mb-3'>
 					<div className='col leftStats d-flex justify-content-end'>	
-						<h4 id='stat' ></h4>
+						<h4  className='stat' id='stat5' style={{visibility:  store.statBubbleVis[4]}}></h4>
 					</div>
 					<div className='col-5 middleEmptyStats'></div>	
 					<div className='col rightStats'>
-						<h4 id='stat'></h4>
+						<h4  className='stat' id='stat6' style={{visibility:  store.statBubbleVis[5]}}></h4>
 					</div>
 				</div>
 				<div className='row'>
 					<div className='col leftStats d-flex justify-content-end'>	
-						<h4 id='stat' ></h4>
+						<h4  className='stat' id='stat7' style={{visibility:  store.statBubbleVis[6]}}></h4>
 					</div>
 					<div className='col-3 middleEmptyStats'></div>	
 					<div className='col rightStats'>
-						<h4 id='stat'></h4>
+						<h4  className='stat' id='stat8' style={{visibility:  store.statBubbleVis[7]}}></h4>
 					</div>
 				</div>
 			</div>
@@ -264,7 +269,7 @@ export const CharacterImageCreator = () => {
             <div ref={componentRef}>
                 <ComponentToPrint/>
             </div>
-            <img src={imageUri} alt="Generated Image" />
+            <img src={imageUri} alt="" />
         </div>
         <div>
           <StatForm/>

@@ -22,36 +22,54 @@ const StatForm = () =>{
     </div>
 
     <div className="input-group">
-      <span className="input-group-text">Class</span>
+      <span className="input-group-text">Classes</span>
       <input type="text" aria-label="classInput" class="form-control" onChange={(e)=>actions.setFormInputSpell(  {...formInputSpell, class:e.target.value})}/>
     </div>
 
     <div className="input-group">
-      <span className="input-group-text">Race</span>
-      <input type="text" aria-label="raceInput" className="form-control" onChange={(e)=>actions.setFormInputSpell(  {...formInputSpell, race:e.target.value})}/>
+      <span className="input-group-text">Casting time</span>
+      <input type="text" aria-label="raceInput" className="form-control" onChange={(e)=>actions.setFormInputSpell(  {...formInputSpell, castingTime:e.target.value})}/>
     </div>
 
-    <div className="input-group mb-3">
-      <label className="input-group-text" for="inputGroupSelect01">Alignment</label>
-      <select className="form-select" id="inputGroupSelect01" onChange={(e)=>actions.setFormInputSpell(  {...formInputSpell, alignment: [e.target.value, formInputSpell.alignment[1]]})}>
-        <option value=" ">Pick Alignment</option>
-        <option value="chaotic ">Chaotic</option>
-        <option value="neutral ">Neutral</option>
-        <option value="lawful ">Lawful</option>
-      </select>
-
-      <select className="form-select" id="inputGroupSelect01" onChange={(e)=>actions.setFormInputSpell(  {...formInputSpell, alignment: [formInputSpell.alignment[0], e.target.value ]})}>
-        <option value=" ">Pick Alignment</option>
-        <option value="good">Good</option>
-        <option value="neutral">Neutral</option>
-        <option value="evil">Evil</option>
-      </select>
+    <div className="input-group">
+      <span className="input-group-text">Range</span>
+      <input type="text" aria-label="raceInput" className="form-control" onChange={(e)=>actions.setFormInputSpell(  {...formInputSpell, range:e.target.value})}/>
     </div>
 
-    <div className="input-group mb-3">
-      <label className="input-group-text" for="inputGroupFile01">Upload</label>
-      <input type="file" className="form-control" id="inputGroupFile01"/>
+    <div className="input-group">
+      <span className="input-group-text">Duration</span>
+      <input type="text" aria-label="raceInput" className="form-control" onChange={(e)=>actions.setFormInputSpell(  {...formInputSpell, duration:e.target.value})}/>
     </div>
+
+    <div className="form-check">
+      <span className="form-check-text "><strong><u>Components required</u></strong></span>
+      
+      <div className="form-check">
+        <input className="form-check-input" type="checkbox" name="flexCheckDefault" id="flexCheckDefault1" value="V "  onClick={ (e)=>actions.setFormInputSpell( {...formInputSpell, isVerbal:e.target.value})}/>
+        <label className="form-check-label" for="flexCheckDefault1">
+            Verbal
+        </label>
+      </div>
+      <div className="form-check">
+        <input className="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault2" value="S " onClick={ (e)=>actions.setFormInputSpell( {...formInputSpell, isSomatic:e.target.value})}/>
+        <label className="form-check-label" for="flexRadioDefault2">
+          Somatic 
+        </label>
+      </div>
+      <div className="form-check">
+        <input className="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault2" value="M" onClick={ (e)=>actions.setFormInputSpell( {...formInputSpell, isMaterial:e.target.value})}/>
+        <label className="form-check-label" for="flexRadioDefault2">
+          Material 
+        </label>
+      </div>
+    </div>
+
+    <label for="bubbleRange" class="form-label">How many stat bubbles do you need? {store.bubbleRange}</label>
+      <input type="range" class="form-range" min="0" max="8" id="bubbleRange" defaultValue={store.bubbleRange} onChange={(e)=>actions.setstatBubbleVis([e.target.value])}>
+    </input>
+
+
+
 
     <div className= "input-group statToAdd d-flex">
       
@@ -74,6 +92,12 @@ const StatForm = () =>{
             onChange={(e)=>actions.setFormInputSpell({...formInputSpell, backstory: [e.target.value]})}>
     </textarea>
 
+
+    <div className="input-group mb-3">
+      <label className="input-group-text" for="inputGroupFile01">Upload</label>
+      <input type="file" className="form-control" id="inputGroupFile01"/>
+    </div>
+
   </div>
   
 )};
@@ -94,51 +118,53 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
     <img className='cardImage'  src='https://i.pinimg.com/1200x/59/15/8b/59158b3d3e0dc0c98954f3da89e14469.jpg'></img>
     <h2 id='cardTitle'>{ formInputSpell.name}</h2>
 	  <div className='mainBody'>
-			<div className='statContainer container'>
+    <div className='statContainer container'>
 				<div className='row mb-3'>
 					<div className='col leftStats d-flex justify-content-end'>	
-						<h4 id='stat' ></h4>
+						<h4  className='stat' id='stat1' style={{visibility:  store.statBubbleVis[0]}}></h4>
 					</div>
 					<div className='col-3 middleEmptyStats'></div>	
 					<div className='col rightStats' >
-						<h4 id='stat'></h4>
+						<h4  className='stat' id='stat2' style={{visibility:  store.statBubbleVis[1]}}></h4>
 					</div>
 				</div>
 				<div className='row mb-3'>
 					<div className='col leftStats d-flex justify-content-end'>	
-						<h4 id='stat' ></h4>
+						<h4  className='stat' id='stat3' style={{visibility:  store.statBubbleVis[2]}}></h4>
 					</div>
 					<div className='col-5 middleEmptyStats'></div>	
 					<div className='col rightStats'>
-						<h4 id='stat'></h4>
+						<h4  className='stat' id='stat4'style={{visibility:  store.statBubbleVis[3]}}></h4>
 					</div>
 				</div>
 				<div className='row mb-3'>
 					<div className='col leftStats d-flex justify-content-end'>	
-						<h4 id='stat' ></h4>
+						<h4  className='stat' id='stat5' style={{visibility:  store.statBubbleVis[4]}}></h4>
 					</div>
 					<div className='col-5 middleEmptyStats'></div>	
 					<div className='col rightStats'>
-						<h4 id='stat'></h4>
+						<h4  className='stat' id='stat6' style={{visibility:  store.statBubbleVis[5]}}></h4>
 					</div>
 				</div>
 				<div className='row'>
 					<div className='col leftStats d-flex justify-content-end'>	
-						<h4 id='stat' ></h4>
+						<h4  className='stat' id='stat7' style={{visibility:  store.statBubbleVis[6]}}></h4>
 					</div>
 					<div className='col-3 middleEmptyStats'></div>	
 					<div className='col rightStats'>
-						<h4 id='stat'></h4>
+						<h4  className='stat' id='stat8' style={{visibility:  store.statBubbleVis[7]}}></h4>
 					</div>
 				</div>
-			</div>	
-
+			</div>
 
 			<div className='rightStatInfo'>
 				<p id='className' className='titled'>{formInputSpell.class}</p>
 				<p id='raceName' className='titled'>{formInputSpell.race}</p>
-        <p id='alignmentName' className='titled'>{formInputSpell.alignment}</p>
-				
+        <p id='alignmentName' className='titled'>{formInputSpell.castingTime}</p>
+        <p id='alignmentName' className='titled'>{formInputSpell.range}</p>
+        <p id='alignmentName' className='titled'>{formInputSpell.duration}</p>
+        <p id='alignmentName' className='titled'>{formInputSpell.isVerbal}{formInputSpell.isSomatic}{formInputSpell.isMaterial}</p>
+
 
 				<p className='text-decoration-underline titled'>Spells</p> 
         <p id='stat1' className='statDetails'>{formInputSpell.spell}</p>
@@ -256,7 +282,7 @@ export const SpellImageCreator = () => {
             <div ref={componentRef}>
                 <ComponentToPrint/>
             </div>
-            <img src={imageUri} alt="Generated Image" />
+            <img src={imageUri} alt="" />
         </div>
         <div>
           <StatForm/>

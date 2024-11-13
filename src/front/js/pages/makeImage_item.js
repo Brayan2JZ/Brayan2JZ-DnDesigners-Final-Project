@@ -12,6 +12,12 @@ const StatForm = () =>{
    const { store, actions } = useContext(Context);
   let {formInputItem} = store;
 
+  const attuneSwitch = (e)=>{
+      if(e == "true"){
+        console.log(false);
+        return false;
+      }else return true;
+  }
 
   return(
   <div className='form'>
@@ -30,42 +36,45 @@ const StatForm = () =>{
       <input type="text" aria-label="acInput" className="form-control" onChange={(e)=>actions.setFormInputItem(  {...formInputItem, ac:e.target.value})}/>
     </div>
 
-    <div className="input-group">
-      <span className="input-group-text">Does Item Require Attunement?</span>
-      <div class="form-check form-switch">
-      <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" value="true" onChange={(e)=>actions.setFormInputItem(  {...formInputItem, attune:e.target.value})}/>
+    <div className="form-check">
+      <span className="form-check-text "><strong><u>Does Item Require Attunement?</u></strong></span>
+      
+      <div className="form-check">
+        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="true" onClick={ (e)=>actions.setFormInputItem( {...formInputItem, attune:"Requires Attunement"})}/>
+        <label className="form-check-label" for="flexRadioDefault1">
+          Requires Attunement
+        </label>
+      </div>
+      <div className="form-check">
+        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="false" onClick={ (e)=>actions.setFormInputItem( {...formInputItem, attune: ""})}/>
+        <label className="form-check-label" for="flexRadioDefault2">
+          No Attunement
+        </label>
+      </div>
     </div>
 
-    </div>
 
-    <div className="input-group mb-3">
-      <label className="input-group-text" for="inputGroupSelect01">Alignment</label>
-      <select className="form-select" id="inputGroupSelect01" onChange={(e)=>actions.setFormInputItem(  {...formInputItem, alignment: [e.target.value, formInputItem.alignment[1]]})}>
-        <option value=" ">Pick Alignment</option>
-        <option value="chaotic ">Chaotic</option>
-        <option value="neutral ">Neutral</option>
-        <option value="lawful ">Lawful</option>
-      </select>
+    <select class="form-select" aria-label="Select Rarity of Item" onChange={(e)=>actions.setFormInputItem(  {...formInputItem, rarity: e.target.value})}>
+      <option value= "" selected>Select Rarity of Item</option>
+      <option value="Common">Common</option>
+      <option value="Uncommon">Uncommon</option>
+      <option value="Rare">Rare</option>
+      <option value="Very Rare">Very Rare</option>
+      <option value="Legendary">Legendary</option>
+    </select>
 
-      <select className="form-select" id="inputGroupSelect01" onChange={(e)=>actions.setFormInputItem(  {...formInputItem, alignment: [formInputItem.alignment[0], e.target.value ]})}>
-        <option value=" ">Pick Alignment</option>
-        <option value="good">Good</option>
-        <option value="neutral">Neutral</option>
-        <option value="evil">Evil</option>
-      </select>
-    </div>
+    <label for="bubbleRange" class="form-label">How many stat bubbles do you need? {store.bubbleRange}</label>
+      <input type="range" class="form-range" min="0" max="8" id="bubbleRange" defaultValue={store.bubbleRange} onChange={(e)=>actions.setstatBubbleVis([e.target.value])}>
+    </input>
 
-    <div className="input-group mb-3">
-      <label className="input-group-text" for="inputGroupFile01">Upload</label>
-      <input type="file" className="form-control" id="inputGroupFile01"/>
-    </div>
 
     <div className= "input-group statToAdd d-flex">
       
         <div class="mb-3">
           <label for="itemNameInput" class="form-label"></label>
           <div class="btn-group" role="group" aria-label="Basic example" >
-            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInputItem(  {...formInputItem, rarity: formInputItem.statToAdd})}>Damage</button>
+            
+            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInputItem(  {...formInputItem, damage: "Damage: "+formInputItem.statToAdd})}>Damage</button>
             <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInputItem(  {...formInputItem, atribute1: formInputItem.statToAdd})}>Atribute 1</button>
             <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInputItem(  {...formInputItem, atribute2: formInputItem.statToAdd})}>Atribute 2</button>
             <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInputItem(  {...formInputItem, atribute3: formInputItem.statToAdd})}>Atribute 3</button>
@@ -82,8 +91,19 @@ const StatForm = () =>{
             onChange={(e)=>actions.setFormInputItem({...formInputItem, backstory: [e.target.value]})}>
     </textarea>
 
+    
+    <div className="input-group mb-3">
+      <label className="input-group-text" for="inputGroupFile01">Upload</label>
+      <input type="file" className="form-control" id="inputGroupFile01"/>
+    </div>
+
+
   </div>
   
+
+
+ 
+
 )};
 
 
@@ -103,50 +123,52 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
     <h2 id='cardTitle'>{ formInputItem.name}</h2>
 	  <div className='mainBody'>
     <div className='statContainer container'>
-				<div className='row mb-1 '>
+				<div className='row mb-3'>
 					<div className='col leftStats d-flex justify-content-end'>	
-						<h4 id='stat' ></h4>
+						<h4  className='stat' id='stat1' style={{visibility:  store.statBubbleVis[0]}}></h4>
 					</div>
 					<div className='col-3 middleEmptyStats'></div>	
 					<div className='col rightStats' >
-						<h4 id='stat'></h4>
+						<h4  className='stat' id='stat2' style={{visibility:  store.statBubbleVis[1]}}></h4>
 					</div>
 				</div>
-				<div className='row mb-1'>
-					<div className='col leftStats d-flex justify-content-end '>	
-						<h4 id='stat' ></h4>
-					</div>
-					<div className='col-5 middleEmptyStats'></div>	
-					<div className='col rightStats'>
-						<h4 id='stat'></h4>
-					</div>
-				</div>
-				<div className='row mb-1'>
+				<div className='row mb-3'>
 					<div className='col leftStats d-flex justify-content-end'>	
-						<h4 id='stat' ></h4>
+						<h4  className='stat' id='stat3' style={{visibility:  store.statBubbleVis[2]}}></h4>
 					</div>
 					<div className='col-5 middleEmptyStats'></div>	
 					<div className='col rightStats'>
-						<h4 id='stat'></h4>
+						<h4  className='stat' id='stat4'style={{visibility:  store.statBubbleVis[3]}}></h4>
+					</div>
+				</div>
+				<div className='row mb-3'>
+					<div className='col leftStats d-flex justify-content-end'>	
+						<h4  className='stat' id='stat5' style={{visibility:  store.statBubbleVis[4]}}></h4>
+					</div>
+					<div className='col-5 middleEmptyStats'></div>	
+					<div className='col rightStats'>
+						<h4  className='stat' id='stat6' style={{visibility:  store.statBubbleVis[5]}}></h4>
 					</div>
 				</div>
 				<div className='row'>
 					<div className='col leftStats d-flex justify-content-end'>	
-						<h4 id='stat' ></h4>
+						<h4  className='stat' id='stat7' style={{visibility:  store.statBubbleVis[6]}}></h4>
 					</div>
 					<div className='col-3 middleEmptyStats'></div>	
 					<div className='col rightStats'>
-						<h4 id='stat'></h4>
+						<h4  className='stat' id='stat8' style={{visibility:  store.statBubbleVis[7]}}></h4>
 					</div>
 				</div>
-			</div>	
+			</div>
 
 
 			<div className='rightStatInfo'>
 				<p  className='titled'>Uses: {formInputItem.uses}</p>
 				<p  className='titled'>AC: {formInputItem.ac}</p>
-        <p  className='titled'>Requires Attunement? {formInputItem.attune}</p>
+        <p  className='titled'> {formInputItem.attune}</p>
+        <p  className='titled'> {formInputItem.rarity}</p>
 				
+        <p className='statDetails'>{formInputItem.damage}</p>
 
 				<p className='text-decoration-underline titled'>Atributes</p> 
         <p id='stat1' className='statDetails'>{formInputItem.atribute1}</p>
@@ -260,7 +282,7 @@ export const ItemImageCreator = () => {
             <div ref={componentRef}>
                 <ComponentToPrint/>
             </div>
-            <img src={imageUri} alt="Generated Image" />
+            <img src={imageUri} alt="" />
         </div>
         <div>
           <StatForm/>

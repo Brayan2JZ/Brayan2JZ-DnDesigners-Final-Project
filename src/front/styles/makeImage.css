@@ -63,7 +63,7 @@
 .statDetails{
     font-size: 10px;
 }
-#stat{
+.stat{
     width:30px;
     height: 35px;
     background-color: rgb(255, 255, 255);
@@ -71,9 +71,5 @@
    border-color: rgba(0, 0, 0, 0.644);
    border-radius: 40%;
    
-}
-.leftStats{
-  
-    
 }
 
