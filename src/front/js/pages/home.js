@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import { SignIn } from "../component/signIn";
-import { Register } from "./register";
+import { Register } from "../component/register";
 
 export const Home = () => {
     return (
         <div className="container">
-            <SignIn/>
+            
             <h1 className="text-center">Featured</h1>
             <div id="carouselExampleIndicators" className="carousel slide">
                 <div className="carousel-indicators">
@@ -42,12 +42,15 @@ export const Home = () => {
                     <h1 className="display-5 fw-bold lh-1 mb-3">Tags</h1>
                     <p className="lead">Lorem ipsum dolor sit amet et delectus accommodare his consul copiosae legendos at vix ad putent delectus delicata usu. Vidit dissentiet eos cu eum an brute copiosae hendrerit.</p>
                     <div className="d-grid gap-2 d-md-flex justify-content-md-start">
+
+                    <a className="nav-link" href="/tags">
                     <button type="button" className="btn btn-info btn-lg px-4 me-md-2">Search Tags</button>
+                    </a>
+                    
                     <button type="button" className="btn btn-outline-primary btn-lg px-4">Create</button>
                     </div>
                 </div>
             </div>
-        <Register/>
         </div>
     );
 };
