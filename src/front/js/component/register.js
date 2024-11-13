@@ -33,7 +33,10 @@ export const Register = () => {
   const getAll=async ()=>{
     const response= await fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/users',{
       method:'GET',
-      headers:{'Content-Type': 'application/json'}
+      headers:{
+        'Content-Type': 'application/json',
+        "Authorization": "Bearer "+localStorage.getItem("token")
+      }
     }).then((resp)=>{
       return resp.json()
     }).catch((e)=>{console.log(e)})
