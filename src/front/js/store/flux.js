@@ -15,14 +15,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			],
 
-			formInput: {name:"", class:"", race:"", alignment:['',''], spell:"", description:"", damage:"", backstory:"", statToAdd:""},
+			formInput: {name:"", class:"", race:"", alignment:['',''], spell:"", description:"", damage:"", backstory:"", statToAdd:"", imageFile:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg/220px-Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg"},
 
-			formInputItem: {name:"",uses:"", ac:"", attune:false, atribute1:"",atribute2:"",atribute3:"", rarity:"", description:[], damage:[],  backstory:"", statToAdd:""},
+			formInputItem: {name:"",uses:"", ac:"", attune:false, atribute1:"",atribute2:"",atribute3:"", rarity:"", description:[], damage:[],  backstory:"", statToAdd:"", imageFile:"https://images.nightcafe.studio/jobs/ZgSQlVUA31qvUFwzRJYH/ZgSQlVUA31qvUFwzRJYH--1--2zzil.jpg?tr=w-1600,c-at_max"},
 
-			formInputSpell: {name:"",class:"", castingTime:"Instantaneous", range:"", duration:"", atribute1:"",atribute2:"",atribute3:"", rarity:"", description:[], damage:"",  backstory:"", statToAdd:"", isVerbal:"", isSomatic:"", isMaterial:""},
+			formInputSpell: {name:"",class:"", castingTime:"Instantaneous", range:"", duration:"", atribute1:"",atribute2:"",atribute3:"", rarity:"", description:[], damage:"",  backstory:"", statToAdd:"", isVerbal:"", isSomatic:"", isMaterial:"", imageFile:"https://i.pinimg.com/1200x/59/15/8b/59158b3d3e0dc0c98954f3da89e14469.jpg"},
 
-			bubbleRange: 0, 
-			statBubbleVis: ['hidden', 'hidden','hidden','hidden','hidden','hidden','hidden','hidden'],
+			bubbleRange: 2, 
+			statBubbleVis: ['visible', 'visible','hidden','hidden','hidden','hidden','hidden','hidden'],
 
 		},
 		actions: {
@@ -53,10 +53,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 												}else {setStore({ statBubbleVis: ['hidden', 'hidden','hidden','hidden','hidden','hidden','hidden','hidden'] });}
 				},
 
-			setComponents: (newObj) => {
-				const store = getStore();
-				console.log(newObj);
-			},
+			
 
 			
 			exampleFunction: () => {

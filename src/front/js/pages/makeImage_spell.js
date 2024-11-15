@@ -45,19 +45,19 @@ const StatForm = () =>{
       <span className="form-check-text "><strong><u>Components required</u></strong></span>
       
       <div className="form-check">
-        <input className="form-check-input" type="checkbox" name="flexCheckDefault" id="flexCheckDefault1" value="V "  onClick={ (e)=>actions.setFormInputSpell( {...formInputSpell, isVerbal:e.target.value})}/>
+        <input className="form-check-input" type="checkbox" name="flexCheckDefault" id="flexCheckDefault1" value="V "  onClick={ (e)=>actions.setFormInputSpell( {...formInputSpell, isVerbal: e.target.checked? e.target.value:""})}/>
         <label className="form-check-label" for="flexCheckDefault1">
             Verbal
         </label>
       </div>
       <div className="form-check">
-        <input className="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault2" value="S " onClick={ (e)=>actions.setFormInputSpell( {...formInputSpell, isSomatic:e.target.value})}/>
+        <input className="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault2" value="S " onClick={ (e)=>actions.setFormInputSpell( {...formInputSpell, isSomatic: e.target.checked? e.target.value:""})}/>
         <label className="form-check-label" for="flexRadioDefault2">
           Somatic 
         </label>
       </div>
       <div className="form-check">
-        <input className="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault2" value="M" onClick={ (e)=>actions.setFormInputSpell( {...formInputSpell, isMaterial:e.target.value})}/>
+        <input className="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault2" value="M" onClick={ (e)=>actions.setFormInputSpell( {...formInputSpell, isMaterial: e.target.checked? e.target.value:""})}/>
         <label className="form-check-label" for="flexRadioDefault2">
           Material 
         </label>
@@ -95,7 +95,7 @@ const StatForm = () =>{
 
     <div className="input-group mb-3">
       <label className="input-group-text" for="inputGroupFile01">Upload</label>
-      <input type="file" className="form-control" id="inputGroupFile01"/>
+      <input type="file" className="form-control" id="inputGroupFile01" onChange={(e)=>actions.setFormInputSpell({...formInputSpell, imageFile: [e.target.value]})}></input>/>
     </div>
 
   </div>
@@ -108,16 +108,16 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
   let {formInputSpell} = store;
   return(
 	<div ref={ref} className='position-relative' style={{
-        height: '500px',
-        width: '354.5px',
+        height: '700px',
+        width: '500px',
         overflow: 'hidden',
         boxSizing: 'border-box',
         clipPath: 'inset(0 0 0 0)'
       }}>
     <img className='cardFrameBackground'src={cardBG}></img>
-    <img className='cardImage'  src='https://i.pinimg.com/1200x/59/15/8b/59158b3d3e0dc0c98954f3da89e14469.jpg'></img>
+    <img className='cardImage'  src={formInputSpell.imageFile}></img>
     <h2 id='cardTitle'>{ formInputSpell.name}</h2>
-	  <div className='mainBody'>
+	  <div className='mainCardBody'>
     <div className='statContainer container'>
 				<div className='row mb-3'>
 					<div className='col leftStats d-flex justify-content-end'>	
@@ -277,7 +277,7 @@ export const SpellImageCreator = () => {
 
   return (
     <div> 
-      <div className='d-flex mx-5'>
+      <div className='d-flex mx-5 flex-row justify-content-center'>
         <div className='d-flex mx-5'>
             <div ref={componentRef}>
                 <ComponentToPrint/>
@@ -288,9 +288,11 @@ export const SpellImageCreator = () => {
           <StatForm/>
         </div>
       </div>
-      <button onClick={handleExportAsURI}>Export as URI</button>
-      <button onClick={()=>{saveAs(imageUri,"test")}}>Save to device</button>
-      <button onClick={getImageURLs}>Get all Cards</button>
+      <div className='export d-flex justify-content-center my-3'>
+        <button onClick={handleExportAsURI}>Export as URI</button>
+        <button onClick={()=>{saveAs(imageUri,"test")}}>Save to device</button>
+        <button onClick={getImageURLs}>Get all Cards</button>
+      </div>
     </div>
   );
 };

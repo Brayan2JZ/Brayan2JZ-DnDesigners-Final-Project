@@ -112,16 +112,16 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
   let {formInputItem} = store;
   return(
 	<div ref={ref} className='position-relative' style={{
-        height: '500px',
-        width: '354.5px',
+        height: '700px',
+        width: '500px',
         overflow: 'hidden',
         boxSizing: 'border-box',
         clipPath: 'inset(0 0 0 0)'
       }}>
     <img className='cardFrameBackground'src={cardBG}></img>
-    <img className='cardImage'  src='https://images.nightcafe.studio/jobs/ZgSQlVUA31qvUFwzRJYH/ZgSQlVUA31qvUFwzRJYH--1--2zzil.jpg?tr=w-1600,c-at_max'></img>
+    <img className='cardImage'  src={formInputItem.imageFile}></img>
     <h2 id='cardTitle'>{ formInputItem.name}</h2>
-	  <div className='mainBody'>
+	  <div className='mainCardBody'>
     <div className='statContainer container'>
 				<div className='row mb-3'>
 					<div className='col leftStats d-flex justify-content-end'>	
@@ -277,7 +277,7 @@ export const ItemImageCreator = () => {
 
   return (
     <div> 
-      <div className='d-flex mx-5'>
+      <div className='d-flex mx-5 flex-row justify-content-center'>
         <div className='d-flex mx-5'>
             <div ref={componentRef}>
                 <ComponentToPrint/>
@@ -288,9 +288,11 @@ export const ItemImageCreator = () => {
           <StatForm/>
         </div>
       </div>
-      <button onClick={handleExportAsURI}>Export as URI</button>
-      <button onClick={()=>{saveAs(imageUri,"test")}}>Save to device</button>
-      <button onClick={getImageURLs}>Get all Cards</button>
+      <div className='export d-flex justify-content-center my-3'>
+        <button onClick={handleExportAsURI}>Export as URI</button>
+        <button onClick={()=>{saveAs(imageUri,"test")}}>Save to device</button>
+        <button onClick={getImageURLs}>Get all Cards</button>
+      </div>
     </div>
   );
 };
