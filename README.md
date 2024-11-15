@@ -8,6 +8,7 @@ Ultimately the site will have a function to create your own custom card by selec
 
 
 
+![DNDesigners_flow_map](https://github.com/user-attachments/assets/c315a5b5-3a01-4ac5-88be-9aae9824b189)
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # WebApp boilerplate with React JS and Flask API
