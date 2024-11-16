@@ -23,7 +23,7 @@ export const SignIn = () => {
     };
 
     const signIn=()=>{
-      fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/token',{
+      fetch('https://wild-spooky-crypt-v6gwqqp7g44jfqr9-3001.app.github.dev/api/token',{
         method:'POST',
         body: JSON.stringify({
           username:email,

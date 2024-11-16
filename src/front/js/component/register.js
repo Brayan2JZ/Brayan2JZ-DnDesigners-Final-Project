@@ -31,7 +31,7 @@ export const Register = () => {
 
   };
   const getAll=async ()=>{
-    const response= await fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/users',{
+    const response= await fetch('https://wild-spooky-crypt-v6gwqqp7g44jfqr9-3001.app.github.dev/api/users',{
       method:'GET',
       headers:{
         'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ export const Register = () => {
   }
 
   const createUser=()=>{
-    fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/register',{
+    fetch('https://wild-spooky-crypt-v6gwqqp7g44jfqr9-3001.app.github.dev/api/register',{
       method:'POST',
       body: JSON.stringify({
         username:email,

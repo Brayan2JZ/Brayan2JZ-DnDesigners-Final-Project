@@ -233,7 +233,7 @@ export const CharacterImageCreator = () => {
       alert("Please enter a name for the card")
       return
     }
-    fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/card',{
+    fetch('https://wild-spooky-crypt-v6gwqqp7g44jfqr9-3001.app.github.dev/api/card',{
       method:'POST',
       body:JSON.stringify({
         'filename':fileName,
@@ -251,7 +251,7 @@ export const CharacterImageCreator = () => {
   }
 
   const getImageURLs=()=>{
-    fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/cards',{
+    fetch('https://wild-spooky-crypt-v6gwqqp7g44jfqr9-3001.app.github.dev/api/cards',{
     method:'GET',
     headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+ localStorage.getItem('token')}
     }).then((response)=>{

@@ -95,7 +95,7 @@ const StatForm = () =>{
 
     <div className="input-group mb-3">
       <label className="input-group-text" for="inputGroupFile01">Upload</label>
-      <input type="file" className="form-control" id="inputGroupFile01" onChange={(e)=>actions.setFormInputSpell({...formInputSpell, imageFile: [e.target.value]})}></input>/>
+      <input type="file" className="form-control" id="inputGroupFile01" onChange={(e)=>actions.setFormInputSpell({...formInputSpell, imageFile: [e.target.value]})}></input>/
     </div>
 
   </div>
@@ -246,7 +246,7 @@ export const SpellImageCreator = () => {
   },[imageUri])
 
   const insertImage=()=>{
-    fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/addcard',{
+    fetch('https://wild-spooky-crypt-v6gwqqp7g44jfqr9-3001.app.github.dev/api/addcard',{
       method:'POST',
       body:JSON.stringify({
         'filename':'Monkeyz2',
@@ -263,7 +263,7 @@ export const SpellImageCreator = () => {
   }
 
   const getImageURLs=()=>{
-    fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/getcards',{
+    fetch('https://wild-spooky-crypt-v6gwqqp7g44jfqr9-3001.app.github.dev/api/getcards',{
       method:'GET',
       headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+ localStorage.getItem('token')}
     }).then((response)=>{
