@@ -96,10 +96,8 @@ def getCard():      #Need only image ID
 @api.route('/cards',methods=['GET'])
 def getCards():
     cards=CardBank.query.all()
-    print(cards)
 
     cardsList=list(map(lambda x: x.serialize(),cards))
-    print(cardsList)
     return cardsList
 
 @api.route('/usercards',methods=['GET'])
@@ -119,15 +117,15 @@ def getByTag():
     cards=CardBank.query.all()
     cards=list(map(lambda x: x.serialize(),cards))
     for card in cards:
-        if tag.get('tagDescription') in card.get('tags'):
+        if tag in card.get('tags'):
             cardList.append(card)
+    # print(cardList)
     return jsonify(cardList)
 
 @api.route('/tags',methods=['GET'])
 def allTags():
     tags=TagList.query.all();
     tags=list(map(lambda x: x.serialize(),tags))
-    print(tags)
     return jsonify({'tags':tags})
 
 #### USER STUFF

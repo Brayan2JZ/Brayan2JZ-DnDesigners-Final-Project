@@ -49,7 +49,7 @@ export const Gallery = () => {
                                     return(
                                         <div className="col m-0 p-1">
                                             <h3>{cardObj.filename}</h3>
-                                            <img src={cardObj.url}/>
+                                            <img width={200} height={282} src={cardObj.url}/>
                                         </div>
                                     )
                                 })}

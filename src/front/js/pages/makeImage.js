@@ -179,7 +179,7 @@ export const CharacterImageCreator = () => {
   const componentRef = useRef();
   const [imageUri, setImageUri] = useState("");
   const [fileName,setFileName]=useState('')
-  const [tagList,setTagList]=useState(['Space Monkey','Cowboy Monkey','Zebronkey','Monkey Kong','Simian','Party Monkey'])
+  const [tagList,setTagList]=useState(['Paul'])
   const { store, actions } = useContext(Context);
   const [imageUrl, setImageUrl] = useState("");
 

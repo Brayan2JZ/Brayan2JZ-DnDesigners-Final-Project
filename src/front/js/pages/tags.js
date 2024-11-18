@@ -11,12 +11,12 @@ export const Tags = () => {
         }).then((response)=>{
             return response.json();
         }).then((respJson)=>{
-            console.log(respJson.tags)
+            // console.log(respJson.tags)
             setTags(respJson.tags)
         })
     }
 
-    const tagCards=(tag)=>{
+    const tagCards=async(tag)=>{
         fetch(localStorage.getItem('backendUrl')+'api/cardbytag',{
             method:'POST',
             body:JSON.stringify({
@@ -27,8 +27,12 @@ export const Tags = () => {
             return response.json();
         }).then((respJson)=>{
             const temp={}
-            temp[tag]=respJson.cards
-            setCardByTag({...cardByTag,...temp})
+            temp[tag]=respJson
+            setCardByTag((prevState) => ({
+                ...prevState,
+                [tag]: respJson,
+            }));
+            // console.log(cardByTag)
         })
     }
 
@@ -38,9 +42,9 @@ export const Tags = () => {
 
     useEffect(()=>{
         async function fetchtags(){
-            console.log(tags)
+            // console.log(tags)
             for(let tag of tags){
-                console.log(tag)
+                // console.log(tag)
                 await tagCards(tag.tagDescription)
             }
         };
@@ -55,23 +59,25 @@ export const Tags = () => {
     <div>
         <h1 className="text-center">Tags</h1>
         <div>
-            {/* {tags.length!=0 ? tags.forEach((tag)=>{
-                return(
-                    <>
-                        <div className='d-flex mx-auto'>
-                            <h4>{tag.tagDescription}</h4>
-                            <h6>{tag.tagCount}</h6>
-                        </div>
-                        <div>
-                            {cardByTag!=undefined? cardByTag.card.map((card)=>{
+            <div>
+                {cardByTag!=undefined? Object.entries(cardByTag).map(([prop,cardList])=>{
+                    return(
+                        <>
+                            <h3>{prop}</h3>
+                            <div>
+                            {cardList.map((card)=>{
                                 return(
-                                    <img src={card.url}></img>
+                                    <>
+                                        <img width={200} height={282} src={card.url}></img>
+                                    </>
                                 )
-                            }):null}
-                        </div>
-                    </>
-                )
-            }):null} */}
+                                })
+                            }
+                            </div>
+                        </>
+                    )
+                }):null}
+            </div>
         </div>
     </div>
 )};

@@ -206,23 +206,18 @@ export const SpellImageCreator = () => {
   const [tagList,setTagList]=useState(['Space Monkey','Cowboy Monkey','Zebronkey','Monkey Kong','Simian','Party Monkey'])
   const { store, actions } = useContext(Context);
   const [imageUrl, setImageUrl] = useState("");
+  const rand=Math.floor(Math.random() * 1000)
 
   const saveAs = () => {
-    if(fileName!=''){
-      const link = document.createElement('a');
-      if (typeof link.download === 'string') {
-          link.href = imageUri;
-          link.download = 'fileName' +'.jpeg';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-      } else {
-          window.open(uri);
-      }
-    }
-    else{
-      alert("Please enter a name for the card")
-      return
+    const link = document.createElement('a');
+    if (typeof link.download === 'string') {
+        link.href = imageUri;
+        link.download = 'fileName' +rand+'.jpeg';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    } else {
+        window.open(uri);
     }
 };
 
@@ -264,7 +259,7 @@ export const SpellImageCreator = () => {
     fetch(localStorage.getItem('backendUrl')+'api/card',{
       method:'POST',
       body:JSON.stringify({
-        'filename':'fileName',
+        'filename':'fileName'+rand,
         'uri':imageUri,
         'tags':tagList,
         'userId':localStorage.getItem('userId'),
