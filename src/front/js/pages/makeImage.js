@@ -88,16 +88,16 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
   let {formInput} = store;
   return(
 	<div ref={ref} className='position-relative' style={{
-        height: '500px',
-        width: '354.5px',
+        width:500,
+        height: 700,
         overflow: 'hidden',
         boxSizing: 'border-box',
         clipPath: 'inset(0 0 0 0)'
       }}>
     <img className='cardFrameBackground'src={cardBG}></img>
-    <img className='cardImage'  src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg/220px-Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg'></img>
+    <img className='cardImage'  src={formInput.imageFile}></img>
     <h2 id='cardTitle'>{ store.formInput.name}</h2>
-	  <div className='mainBody'>
+	  <div className='mainCardBody'>
     <div className='statContainer container'>
 				<div className='row mb-3'>
 					<div className='col leftStats d-flex justify-content-end'>	
@@ -285,14 +285,14 @@ export const CharacterImageCreator = () => {
 
   return (
     <div> 
-      <div className='d-flex mx-5'>
-        <div className='d-flex mx-5'>
-            <div ref={componentRef}>
+      <div className='d-flex mx-5 flex-row justify-content-center my-3'>
+        <div className='d-flex mx-5 '>
+            <div className="imageDisplay" ref={componentRef}>
                 <ComponentToPrint/>
             </div>
-            <img src={imageUri} alt="" />
+            {/* <img src={imageUri} alt="" /> */}
         </div>
-        <div>
+        <div className='statForm'>
           <StatForm/>
         </div>
       </div>

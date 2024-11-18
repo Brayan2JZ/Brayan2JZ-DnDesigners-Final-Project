@@ -4,15 +4,13 @@ import logo from "../../img/logowide.png"
 import { SignIn } from "../component/signIn";
 import { Register } from "./register";
 
-// Hey Bradley, Brayan here!!, Edited the navbar a little to add logo, rearranged buttons and added a gallery button. Also made tags and gallery button route to proper pages =D dont beat me up!!!!
-
 export const Navbar = () => {
 	return (
 		<nav className="navbar navbar-expand-lg bg-body-tertiary bg-light">
 			<SignIn/>
 			<Register/>
 		  <div className="container-fluid">
-													{/* Adjust "to=/home" to proper home page when home page is finalized in layout */}
+													{/* Comment */}
 		  <Link className="navbar-brand" to="/">
 			<img 
 				src={logo} 
@@ -48,8 +46,8 @@ export const Navbar = () => {
 					</div>
 				</li>
 				<li className="nav-item dropdown">
-				  <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-					User pic
+				  <a className="nav-link dropdown-toggle pt-0" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				  <i class="fa-regular fa-circle-user fa-2x"></i>
 				  </a>
 				  <ul className="dropdown-menu">
 					<li><a className="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#signInModal">Profile</a></li>
