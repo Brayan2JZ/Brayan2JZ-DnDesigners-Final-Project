@@ -4,7 +4,7 @@ export const Gallery = () => {
     const [cardList,setCardList]=useState([])
 
     const getImageURLs=()=>{
-        fetch('https://wild-spooky-crypt-v6gwqqp7g44jfqr9-3001.app.github.dev/api/cards',{
+        fetch(localStorage.getItem('backendUrl')+'api/cards',{
         method:'GET',
         headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+ localStorage.getItem('token')}
         }).then((response)=>{
@@ -50,7 +50,7 @@ export const Gallery = () => {
                                     return(
                                         <div className="col m-0 p-1">
                                             <h3>{cardObj.filename}</h3>
-                                            <img src={cardObj.url}/>
+                                            <img width={200} height={282} src={cardObj.url}/>
                                         </div>
                                     )
                                 })}

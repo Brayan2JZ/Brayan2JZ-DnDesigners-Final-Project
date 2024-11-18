@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext, useEffect} from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
@@ -16,6 +16,7 @@ import { Navbar } from "./component/navbar";
 import { Gallery } from "./pages/gallery";
 import { Tags } from "./pages/tags"
 import { Footer } from "./component/footer";
+import { Context } from "./store/appContext";
 
 
 
@@ -26,6 +27,8 @@ const Layout = () => {
     const basename = process.env.BASENAME || "";
 
     if(!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL/ >;
+    const backendUrl="https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/"
+    const { store, actions } = useContext(Context);
 
     return (
         <div>

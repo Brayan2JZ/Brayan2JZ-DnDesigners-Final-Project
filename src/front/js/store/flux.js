@@ -26,7 +26,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 		},
 		actions: {
-
 			setFormInput: (newObj) => {
 				setStore({ formInput: newObj });
 			},

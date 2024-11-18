@@ -202,13 +202,17 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
 export const SpellImageCreator = () => {
   const componentRef = useRef();
   const [imageUri, setImageUri] = useState("");
+  const [fileName,setFileName]=useState('')
+  const [tagList,setTagList]=useState(['Space Monkey','Cowboy Monkey','Zebronkey','Monkey Kong','Simian','Party Monkey'])
+  const { store, actions } = useContext(Context);
+  const [imageUrl, setImageUrl] = useState("");
+  const rand=Math.floor(Math.random() * 1000)
 
-  const saveAs = (uri, filename) => {
+  const saveAs = () => {
     const link = document.createElement('a');
-
     if (typeof link.download === 'string') {
         link.href = imageUri;
-        link.download = filename+'.jpeg';
+        link.download = 'fileName' +rand+'.jpeg';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -230,9 +234,9 @@ export const SpellImageCreator = () => {
           backgroundColor: 'transparent',
       });
       const uri = canvas.toDataURL("image/jpeg");
-      console.log(canvas.width)
-      console.log(canvas.height)
-      console.log(uri);
+      // console.log(canvas.width)
+      // console.log(canvas.height)
+      // console.log(uri);
       setImageUri(uri);
     } catch (error) {
       console.error("Error generating URI:", error);
@@ -244,34 +248,53 @@ export const SpellImageCreator = () => {
       insertImage();
     }
   },[imageUri])
+  useEffect(()=>{
+    if(imageUrl != ""){
+      saveAs();
+    }
+  },[imageUrl])
 
   const insertImage=()=>{
-    fetch('https://wild-spooky-crypt-v6gwqqp7g44jfqr9-3001.app.github.dev/api/addcard',{
+    const date=new Date()
+    fetch(localStorage.getItem('backendUrl')+'api/card',{
       method:'POST',
       body:JSON.stringify({
-        'filename':'Monkeyz2',
-        'uri':imageUri
+        'filename':'fileName'+rand,
+        'uri':imageUri,
+        'tags':tagList,
+        'userId':localStorage.getItem('userId'),
+        'uploadedDate': date
       }),
-      headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+ localStorage.getItem('token')}
+      headers: {
+        'Content-Type':'application/json', 
+        'Authorization':'Bearer '+ localStorage.getItem('token')
+      }
     }).then((response)=>{
       console.log(response)
       return response.json()
     }).then((jsonRes)=>{
+      fetch(localStorage.getItem('backendUrl'),{
+        method:'GET',
+        headers:{'Content-Type' : 'application/json'}
+      }).then((response)=>{
+        return response
+      }).then((respJson)=>{
+        setImageUrl(respJson['url'])
+      })
       console.log(jsonRes)
-      return jsonRes
+      return
     })
   }
 
   const getImageURLs=()=>{
-    fetch('https://wild-spooky-crypt-v6gwqqp7g44jfqr9-3001.app.github.dev/api/getcards',{
-      method:'GET',
-      headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+ localStorage.getItem('token')}
+    fetch(localStorage.getItem('backendUrl')+'api/cards',{
+    method:'GET',
+    headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+ localStorage.getItem('token')}
     }).then((response)=>{
-      console.log(response)
-      return response.json()
+    console.log(response)
+    return response.json()
     }).then((jsonRes)=>{
-      console.log(jsonRes)
-      return jsonRes
+    console.log(jsonRes)
     })
   }
 
@@ -296,4 +319,3 @@ export const SpellImageCreator = () => {
     </div>
   );
 };
-  
