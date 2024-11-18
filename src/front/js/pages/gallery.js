@@ -4,7 +4,7 @@ export const Gallery = () => {
     const [cardList,setCardList]=useState([])
 
     const getImageURLs=()=>{
-        fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/cards',{
+        fetch(localStorage.getItem('backendUrl')+'api/cards',{
         method:'GET',
         headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+ localStorage.getItem('token')}
         }).then((response)=>{

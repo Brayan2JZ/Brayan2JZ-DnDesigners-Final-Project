@@ -1,4 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Date
+
 #from sqlalchemy import asc
 #from sqlalchemy.ext.declarative import declarative_base
 
@@ -21,9 +23,11 @@ class User(db.Model):
     
 class CardBank(db.Model):
     id = db.Column(db.Integer,primary_key=True)
+    userId=db.Column(db.Integer,nullable=True)
     filename=db.Column(db.String(40),unique=True,nullable=False)
     url=db.Column(db.Text,unique=True,nullable=False)
     tags=db.Column(db.Text,nullable=True) #Change to false once we have a tagging system
+    uploadedDate=db.Column(Date)
 
     def __ref__(self):
         return f'<User {self.filename}>'
@@ -31,9 +35,11 @@ class CardBank(db.Model):
     def serialize(self):
         return{
             'id':self.id,
+            'userId':self.userId,
             'filename':self.filename,
             'url':self.url,
-            'tags':self.tags
+            'tags':self.tags,
+            'uploadedDate':self.uploadedDate
         }
     
 

@@ -1,8 +1,20 @@
 import React, { useState, useEffect, useContext } from "react";
 import { SignIn } from "../component/signIn";
 import { Register } from "../component/register";
+import { Context } from "../store/appContext";
 
 export const Home = () => {
+    // localStorage.setItem('backendUrl',"https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/")
+    const [codespaceUrl, setCodespaceUrl] = useState('');
+
+  useEffect(() => {
+    // Check if running in a Codespace
+    if (window.location.hostname.endsWith('.github.dev')) {
+      const codespaceName = window.location.hostname.split('.')[0];
+      localStorage.setItem('backendUrl',`https://${codespaceName}-3001.app.github.dev`);
+    }
+  }, []);
+
     return (
         <div className="container">
             

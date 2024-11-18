@@ -8,6 +8,7 @@ from flask_cors import CORS
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
 from imagekitio import ImageKit
 
+
 api = Blueprint('api', __name__)
 
 # Allow CORS requests to this API
@@ -60,9 +61,12 @@ def addCard():
         file_name=request.json['filename'],
     )
     newCard= CardBank(
+        userId=request.json['userId'],
         filename=request.json['filename'],
         url= upload.response_metadata.raw['url'],
-        tags=",".join(request.json['tags'])
+        tags=",".join(request.json['tags']),
+        uploadedDate=request.json['uploadedDate']
+
         )
     print(newCard)
     db.session.add(newCard)
@@ -97,14 +101,34 @@ def getCards():
     cardsList=list(map(lambda x: x.serialize(),cards))
     print(cardsList)
     return cardsList
+
 @api.route('/usercards',methods=['GET'])
 @jwt_required()
 def userGallery():      #Need user ID
-    userCards=CardBank.query.all()
+    userCards=CardBank.query.filter_by(userId=request.json['userId'])
 
     serializedCards=list(map(lambda x: x.serialize(),userCards))
 
     return jsonify(serializedCards)
+
+### TAG STUFF
+@api.route('/cardbytag',methods=['POST'])
+def getByTag():
+    tag=request.json['tag']
+    cardList=[]
+    cards=CardBank.query.all()
+    cards=list(map(lambda x: x.serialize(),cards))
+    for card in cards:
+        if tag.get('tagDescription') in card.get('tags'):
+            cardList.append(card)
+    return jsonify(cardList)
+
+@api.route('/tags',methods=['GET'])
+def allTags():
+    tags=TagList.query.all();
+    tags=list(map(lambda x: x.serialize(),tags))
+    print(tags)
+    return jsonify({'tags':tags})
 
 #### USER STUFF
 @api.route('/token',methods=['POST'])

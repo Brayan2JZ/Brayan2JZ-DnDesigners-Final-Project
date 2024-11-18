@@ -14,7 +14,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					initial: "white"
 				}
 			],
-
 			formInput: {name:"", class:"", race:"", alignment:['',''], spell:"", description:"", damage:"", backstory:"", statToAdd:""},
 
 			formInputItem: {name:"",uses:"", ac:"", attune:false, atribute1:"",atribute2:"",atribute3:"", rarity:"", description:[], damage:[],  backstory:"", statToAdd:""},
@@ -26,7 +25,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 		},
 		actions: {
-
 			setFormInput: (newObj) => {
 				setStore({ formInput: newObj });
 			},
