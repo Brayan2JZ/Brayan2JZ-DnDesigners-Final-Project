@@ -10,8 +10,9 @@ export const Home = () => {
   useEffect(() => {
     // Check if running in a Codespace
     if (window.location.hostname.endsWith('.github.dev')) {
-      const codespaceName = window.location.hostname.split('.')[0];
-      localStorage.setItem('backendUrl',`https://${codespaceName}-3001.app.github.dev`);
+      const codespaceName = window.location.hostname.split('.')[0].slice(0,-5);
+      console.log(codespaceName) 
+      localStorage.setItem('backendUrl',`https://${codespaceName}-3001.app.github.dev/`);
     }
   }, []);
 

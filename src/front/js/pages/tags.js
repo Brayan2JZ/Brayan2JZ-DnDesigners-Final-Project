@@ -67,9 +67,9 @@ export const Tags = () => {
                             <div>
                             {cardList.map((card)=>{
                                 return(
-                                    <>
+                                    <a href='/#'>
                                         <img width={200} height={282} src={card.url}></img>
-                                    </>
+                                    </a>
                                 )
                                 })
                             }
