@@ -25,6 +25,7 @@ export const Gallery = () => {
             <h1 className="text-center">Gallery</h1>
 
             <div className="container">
+                                             .image-container
                                                                                             {/* Pills Tab !!! */}
                 <ul className="nav nav-pills mb-3 d-flex justify-content-center align-items-center" id="pills-tab" role="tablist">
                     <li className="nav-item" role="presentation">
