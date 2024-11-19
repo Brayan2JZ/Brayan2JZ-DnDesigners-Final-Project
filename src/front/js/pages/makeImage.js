@@ -1,6 +1,5 @@
 import React, { useRef, useState, useContext, useEffect } from 'react';
 import { Context } from "../store/appContext";
-import html2canvas from 'html2canvas';
 import cardBG from "../../img/blank_bg.png";
 import '../../styles/makeImage.css'
 import { Link, useParams } from "react-router-dom";
@@ -183,105 +182,18 @@ export const CharacterImageCreator = () => {
   const { store, actions } = useContext(Context);
   const [imageUrl, setImageUrl] = useState("");
 
-  const saveAs = () => {
-    if(fileName!=''){
-      const link = document.createElement('a');
-      if (typeof link.download === 'string') {
-          link.href = imageUri;
-          link.download = fileName +'.jpeg';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-      } else {
-          window.open(uri);
-      }
-    }
-    else{
-      alert("Please enter a name for the card")
-      return
-    }
-};
-
-  const handleExportAsURI = async () => {
-    try {
-      const element = componentRef.current;
-      if (!element) return;
-
-      const canvas = await html2canvas(element, {
-          scale: window.devicePixelRatio || 1,
-          scrollX: -window.scrollX,
-          scrollY: -window.scrollY,
-          useCORS: true,
-          backgroundColor: 'transparent',
-      });
-      const uri = canvas.toDataURL("image/jpeg");
-      // console.log(canvas.width)
-      // console.log(canvas.height)
-      // console.log(uri);
-      setImageUri(uri);
-    } catch (error) {
-      console.error("Error generating URI:", error);
-    }
-  };
-
   useEffect(()=>{
     if(imageUri != ""){
-      insertImage();
+      console.log(imageUri)
+      setImageUrl(actions.insertImage(fileName,imageUri,tagList));
     }
   },[imageUri])
+
   useEffect(()=>{
     if(imageUrl != ""){
-      saveAs();
+      actions.saveAs(imageUri,fileName);
     }
   },[imageUrl])
-
-  const insertImage=()=>{
-    const date=new Date()
-    if(fileName==''){
-      alert("Please enter a name for the card")
-      return
-    }
-    fetch(localStorage.getItem('backendUrl')+'api/card',{
-      method:'POST',
-      body:JSON.stringify({
-        'filename':fileName,
-        'uri':imageUri,
-        'tags':tagList,
-        'userId':localStorage.getItem('userId'),
-        'uploadedDate': date
-      }),
-      headers: {
-        'Content-Type':'application/json', 
-        'Authorization':'Bearer '+ localStorage.getItem('token')
-      }
-    }).then((response)=>{
-      console.log(response)
-      return response.json()
-    }).then((jsonRes)=>{
-      fetch(localStorage.getItem('backendUrl'),{
-        method:'GET',
-        headers:{'Content-Type' : 'application/json'}
-      }).then((response)=>{
-        return response
-      }).then((respJson)=>{
-        setImageUrl(respJson['url'])
-      })
-      console.log(jsonRes)
-      return
-    })
-  }
-
-  const getImageURLs=()=>{
-    fetch(localStorage.getItem('backendUrl')+'api/cards',{
-    method:'GET',
-    headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+ localStorage.getItem('token')}
-    }).then((response)=>{
-    console.log(response)
-    return response.json()
-    }).then((jsonRes)=>{
-    console.log(jsonRes)
-    })
-  }
 
   return (
     <div> 
@@ -298,8 +210,13 @@ export const CharacterImageCreator = () => {
       </div>
       <label>filename</label>
       <input value={fileName} onChange={(e)=>{setFileName(e.target.value)}}></input>
-      <button onClick={handleExportAsURI}>Export as URI</button>
-      <button onClick={getImageURLs}>Get all Cards</button>
+      <button onClick={async ()=>{
+          const element = componentRef.current;
+          const uri=await actions.handleExportAsURI(element)
+          console.log(uri)
+          setImageUri(uri)}
+        }>Export as URI</button>
+      <button onClick={actions.getImageURLs}>Get all Cards</button>
     </div>
   );
 };

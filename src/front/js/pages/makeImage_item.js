@@ -208,95 +208,18 @@ export const ItemImageCreator = () => {
   const [imageUrl, setImageUrl] = useState("");
   const rand=Math.floor(Math.random() * 1000)
 
-  const saveAs = () => {
-    const link = document.createElement('a');
-    if (typeof link.download === 'string') {
-        link.href = imageUri;
-        link.download = 'fileName' +rand+'.jpeg';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    } else {
-        window.open(uri);
-    }
-};
-
-  const handleExportAsURI = async () => {
-    try {
-      const element = componentRef.current;
-      if (!element) return;
-
-      const canvas = await html2canvas(element, {
-          scale: window.devicePixelRatio || 1,
-          scrollX: -window.scrollX,
-          scrollY: -window.scrollY,
-          useCORS: true,
-          backgroundColor: 'transparent',
-      });
-      const uri = canvas.toDataURL("image/jpeg");
-      // console.log(canvas.width)
-      // console.log(canvas.height)
-      // console.log(uri);
-      setImageUri(uri);
-    } catch (error) {
-      console.error("Error generating URI:", error);
-    }
-  };
-
   useEffect(()=>{
     if(imageUri != ""){
-      insertImage();
+      console.log(imageUri)
+      setImageUrl(actions.insertImage('fileName'+rand,imageUri,tagList));
     }
   },[imageUri])
+
   useEffect(()=>{
     if(imageUrl != ""){
-      saveAs();
+      actions.saveAs(imageUri,'fileName'+rand);
     }
   },[imageUrl])
-
-  const insertImage=()=>{
-    const date=new Date()
-    fetch(localStorage.getItem('backendUrl')+'api/card',{
-      method:'POST',
-      body:JSON.stringify({
-        'filename':'fileName'+rand,
-        'uri':imageUri,
-        'tags':tagList,
-        'userId':localStorage.getItem('userId'),
-        'uploadedDate': date
-      }),
-      headers: {
-        'Content-Type':'application/json', 
-        'Authorization':'Bearer '+ localStorage.getItem('token')
-      }
-    }).then((response)=>{
-      console.log(response)
-      return response.json()
-    }).then((jsonRes)=>{
-      fetch(localStorage.getItem('backendUrl'),{
-        method:'GET',
-        headers:{'Content-Type' : 'application/json'}
-      }).then((response)=>{
-        return response
-      }).then((respJson)=>{
-        setImageUrl(respJson['url'])
-      })
-      console.log(jsonRes)
-      return
-    })
-  }
-
-  const getImageURLs=()=>{
-    fetch(localStorage.getItem('backendUrl')+'api/cards',{
-    method:'GET',
-    headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+ localStorage.getItem('token')}
-    }).then((response)=>{
-    console.log(response)
-    return response.json()
-    }).then((jsonRes)=>{
-    console.log(jsonRes)
-    })
-  }
 
   return (
     <div> 
@@ -312,9 +235,12 @@ export const ItemImageCreator = () => {
         </div>
       </div>
       <div className='export d-flex justify-content-center my-3'>
-        <button onClick={handleExportAsURI}>Export as URI</button>
-        <button onClick={()=>{saveAs(imageUri,"test")}}>Save to device</button>
-        <button onClick={getImageURLs}>Get all Cards</button>
+        <button onClick={async ()=>{
+          const element = componentRef.current;
+          const uri=await actions.handleExportAsURI(element)
+          console.log(uri)
+          setImageUri(uri)}}>Export as URI</button>
+        <button onClick={actions.getImageURLs}>Get all Cards</button>
       </div>
     </div>
   );

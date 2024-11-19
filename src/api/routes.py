@@ -41,6 +41,16 @@ def addFavorite():      #Need image ID and user ID
         db.session.add(newFavorite)
         db.session.commit()
 
+@api.route('/favorite',methods=['GET'])
+@jwt_required()
+def getFavorites():
+    userId=request.json['id']
+    userFavorites=Favorites.query.filter_by(userId=userId).all()
+    userFavorites=list(map(lambda x: x.serialize().get('imageID'),userFavorites))
+    userCards = CardBank.query.filter(CardBank.id.in_(userFavorites)).all()
+    userCards=list(map(lambda x: x.serialize(),userCards))
+    return jsonify(userCards)
+
 @api.route('/favorite',methods=['DELETE'])
 @jwt_required()
 def deleteFavorite():      #Need image ID and user ID
@@ -55,11 +65,15 @@ def deleteFavorite():      #Need image ID and user ID
 ### CARD STUFF
 @api.route('/card',methods=['POST'])
 @jwt_required()
-def addCard():
-    upload = imagekit.upload_file(
+def addCard(): #library to upload pictures
+    print("before picture upload")
+    print(request.json['uri'])
+    print(request.json['filename'])
+    upload = imagekit.upload_file(  
         file=request.json['uri'],
         file_name=request.json['filename'],
     )
+    print("uploaded new card")
     newCard= CardBank(
         userId=request.json['userId'],
         filename=request.json['filename'],
@@ -86,7 +100,7 @@ def addCard():
     print(cardId)
     return jsonify({'id':cardId,'url': upload.response_metadata.raw['url']})
 
-@api.route('/card',methods=['GET'])
+@api.route('/cardid',methods=['POST'])
 def getCard():      #Need only image ID
     imageMatch=CardBank(id=request.json['imageId'])
 

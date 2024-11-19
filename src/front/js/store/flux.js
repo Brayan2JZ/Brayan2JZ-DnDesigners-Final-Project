@@ -1,3 +1,4 @@
+import html2canvas from 'html2canvas';
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
@@ -26,6 +27,93 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 		},
 		actions: {
+			saveAs : (imageUri,fileName) => {
+				if(fileName!=''){
+				  const link = document.createElement('a');
+				  if (typeof link.download === 'string') {
+					  link.href = imageUri;
+					  link.download = fileName +'.jpeg';
+					  document.body.appendChild(link);
+					  link.click();
+					  document.body.removeChild(link);
+				  } else {
+					  window.open(uri);
+				  }
+				}
+				else{
+				  alert("Please enter a name for the card")
+				  return
+				}
+			},
+			handleExportAsURI : async (element) => {
+				try {
+				  if (!element) return;
+			
+				  const canvas = await html2canvas(element, {
+					  scale: window.devicePixelRatio || 1,
+					  scrollX: -window.scrollX,
+					  scrollY: -window.scrollY,
+					  useCORS: true,
+					  backgroundColor: 'transparent',
+				  });
+				  const uri = canvas.toDataURL("image/jpeg");
+				  // console.log(canvas.width)
+				  // console.log(canvas.height)
+				  console.log(uri);
+				  return(uri);
+				} catch (error) {
+				  console.error("Error generating URI:", error);
+				}
+			  },
+			  insertImage:(fileName,imageUri,tagList)=>{
+				const date=new Date()
+				if(fileName==''){
+				  alert("Please enter a name for the card")
+				  return
+				}
+				console.log("before fetch")
+				const Url=fetch(localStorage.getItem('backendUrl')+'api/card',{
+				  method:'POST',
+				  body:JSON.stringify({
+					'filename':fileName,
+					'uri':imageUri,
+					'tags':tagList,
+					'userId':localStorage.getItem('userId'),
+					'uploadedDate': date
+				  }),
+				  headers: {
+					'Content-Type':'application/json', 
+					'Authorization':'Bearer '+ localStorage.getItem('token')
+				  }
+				}).then((response)=>{
+				  console.log("after fetch")
+				  return response.json()
+				}).then((jsonRes)=>{
+				  fetch(localStorage.getItem('backendUrl')+'/api/cardid',{
+					method:'POST',
+					body:JSON.stringify({
+						imageId:jsonRes['id']
+					}),
+					headers:{'Content-Type' : 'application/json'}
+				  }).then((response)=>{
+					return response
+				  }).then((respJson)=>{
+					return(JSON.stringify(respJson['url']))
+				  })
+				})
+				return JSON.stringify(Url)
+			  },
+			  getImageURLs:()=>{
+				fetch(localStorage.getItem('backendUrl')+'api/cards',{
+				method:'GET',
+				headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+ localStorage.getItem('token')}
+				}).then((response)=>{
+				console.log(response)
+				return response.json()
+				}).then((jsonRes)=>{
+				console.log(jsonRes)
+				})
+			  },
 			setFormInput: (newObj) => {
 				setStore({ formInput: newObj });
 			},

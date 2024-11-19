@@ -62,19 +62,21 @@ export const Tags = () => {
             <div>
                 {cardByTag!=undefined? Object.entries(cardByTag).map(([prop,cardList])=>{
                     return(
-                        <>
+                        <div key={prop} className='row'>
                             <h3>{prop}</h3>
-                            <div>
+                            <div className='row justify-content-start'>
                             {cardList.map((card)=>{
                                 return(
-                                    <a href='/#'>
-                                        <img width={200} height={282} src={card.url}></img>
-                                    </a>
+                                    <div key={card.filename} id={card.id} className='col px-0'>
+                                        <a href='/#'>
+                                            <img width={200} height={282} src={card.url}></img>
+                                        </a>
+                                    </div>
                                 )
                                 })
                             }
                             </div>
-                        </>
+                        </div>
                     )
                 }):null}
             </div>
