@@ -83,3 +83,24 @@ class Settings(db.Model):
 
     def __ref__(self):
         return f'<Settings {self.id}>'
+    
+    def serialize(self):
+        return {
+            'id':self.id
+        }
+
+class ArtBank(db.Model):
+    id=db.Column(db.Integer,nullable=False, primary_key=True)
+    fileName=db.Column(db.String(40),nullable=False, unique=True)
+    imageUrl=db.Column(db.Text,nullable=False)
+    caption=db.Column(db.Text,nullable=False)
+
+    def __ref__(self):
+        return f'<ArtBank {self.id}>'
+    
+    def serialize(self):
+        return {
+            'id':self.id,
+            'fileName':self.fileName,
+            'imageUrl':self.imageUrl
+        }

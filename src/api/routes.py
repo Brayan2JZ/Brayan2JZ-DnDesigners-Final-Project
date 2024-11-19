@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User,CardBank,TagList,Favorites
+from api.models import db, User,CardBank,TagList,Favorites,ArtBank,Settings
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
@@ -181,3 +181,20 @@ def getAllUsers():
     userList=list(map(lambda x: x.serialize(),users))
     print(userList)
     return userList
+
+### ART STUFF
+@api.route('/upload-art',methods=['POST'])
+@jwt_required()
+def addArt():
+    formData=request.json['formData']
+    newArt=ArtBank(imageId=formData.get('url'), fileName=formData.get('imageTitle'), caption=formData.get('imageCaption'))
+
+    db.session.add(newArt)
+    db.session.commit()
+
+    art=ArtBank.query.filter_by(fileName=formData.get('imageTitle'))
+    return jsonify({
+        'id':art.id,
+        'fileName':art.fileName,
+        'url':art.url
+    })

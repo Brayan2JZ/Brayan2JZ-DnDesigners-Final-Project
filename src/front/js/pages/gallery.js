@@ -38,19 +38,22 @@ export const Gallery = () => {
     };
 
     const handleUpload = () => {
+        console.log(imageFile)
         if (!imageTitle || !imageCaption || !imageFile) {
             alert('Please provide a title, caption, and select an image file.');
             return;
         }
 
         const formData = new FormData();
+        const imageUrl=URL.createObjectURL(imageFile)
         formData.append('file', imageFile);
         formData.append('title', imageTitle);
         formData.append('caption', imageCaption);
+        formData.append('url', imageUrl);
 
         fetch(localStorage.getItem('backendUrl') + 'api/upload-art', {
             method: 'POST',
-            body: formData,
+            body: JSON.stringify(formData),
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
