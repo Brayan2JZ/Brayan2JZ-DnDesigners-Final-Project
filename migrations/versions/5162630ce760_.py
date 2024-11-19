@@ -1,14 +1,8 @@
 """empty message
 
-<<<<<<<< HEAD:migrations/versions/5d05b500ec6b_.py
-Revision ID: 5d05b500ec6b
+Revision ID: 5162630ce760
 Revises: 
-Create Date: 2024-11-14 00:58:35.941136
-========
-Revision ID: b338d2f257da
-Revises: 
-Create Date: 2024-11-07 20:40:11.682248
->>>>>>>> d5a45a2a62fd3a35895cfb47c4ac6a53ef014a7a:migrations/versions/b338d2f257da_.py
+Create Date: 2024-11-19 01:09:38.871401
 
 """
 from alembic import op
@@ -16,11 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-<<<<<<<< HEAD:migrations/versions/5d05b500ec6b_.py
-revision = '5d05b500ec6b'
-========
-revision = 'b338d2f257da'
->>>>>>>> d5a45a2a62fd3a35895cfb47c4ac6a53ef014a7a:migrations/versions/b338d2f257da_.py
+revision = '5162630ce760'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -34,7 +24,7 @@ def upgrade():
     sa.Column('filename', sa.String(length=40), nullable=False),
     sa.Column('url', sa.Text(), nullable=False),
     sa.Column('tags', sa.Text(), nullable=True),
-    sa.Column('uploadedDate', sa.Text(), nullable=True),
+    sa.Column('uploadedDate', sa.Date(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('filename'),
     sa.UniqueConstraint('url')
