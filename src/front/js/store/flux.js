@@ -22,7 +22,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			formInputSpell: {name:"",class:"", castingTime:"Instantaneous", range:"", duration:"", atribute1:"",atribute2:"",atribute3:"", rarity:"", description:[], damage:"",  backstory:"", statToAdd:"", isVerbal:"", isSomatic:"", isMaterial:"", imageFile:"https://i.pinimg.com/1200x/59/15/8b/59158b3d3e0dc0c98954f3da89e14469.jpg"},
 
 			bubbleRange: 2, 
-			statBubbleVis: ['visible', 'visible','hidden','hidden','hidden','hidden','hidden','hidden'],
+			statBubbleVis: ['visible', 'visible','hidden','hidden','hidden','hidden','hidden','hidden','hidden','hidden','hidden'],
 
 		},
 		actions: {
@@ -42,16 +42,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 			setstatBubbleVis: (ind) => {
 				const store = getStore();
 				setStore({ bubbleRange: parseInt(ind) });
-				if(store.bubbleRange>=8){setStore({ statBubbleVis: ['visible', 'visible','visible','visible','visible','visible','visible','visible'] });
-					}else if(store.bubbleRange>=7){setStore({ statBubbleVis: ['visible', 'visible','visible','visible','visible','visible','visible','hidden'] });
-						}else if(store.bubbleRange>=6){setStore({ statBubbleVis: ['visible', 'visible','visible','visible','visible','visible','hidden','hidden'] });
-							}else if(store.bubbleRange>=5){setStore({ statBubbleVis: ['visible', 'visible','visible','visible','visible','hidden','hidden','hidden'] });
-								}else if(store.bubbleRange>=4){setStore({ statBubbleVis: ['visible', 'visible','visible','visible','hidden','hidden','hidden','hidden'] });
-									}else if(store.bubbleRange>=3){setStore({ statBubbleVis: ['visible', 'visible','visible','hidden','hidden','hidden','hidden','hidden'] });
-										}else if(store.bubbleRange>=2){setStore({ statBubbleVis: ['visible', 'visible','hidden','hidden','hidden','hidden','hidden','hidden'] });
-											}else if(store.bubbleRange>=1){setStore({ statBubbleVis: ['visible', 'hidden','hidden','hidden','hidden','hidden','hidden','hidden'] });
-												}else {setStore({ statBubbleVis: ['hidden', 'hidden','hidden','hidden','hidden','hidden','hidden','hidden'] });}
-				},
+				if(store.bubbleRange>=11){setStore({ statBubbleVis: ['visible','visible', 'visible','visible', 'visible','visible','visible','visible','visible','visible','visible'] });
+					}else if(store.bubbleRange>=10){setStore({ statBubbleVis: ['visible', 'visible','visible', 'visible','visible','visible','visible','visible','visible','visible','hidden'] });
+						}else if(store.bubbleRange>=9){setStore({ statBubbleVis: ['visible','visible', 'visible','visible','visible','visible','visible','visible','visible','hidden','hidden'] });
+							}else if(store.bubbleRange>=8){setStore({ statBubbleVis: ['visible', 'visible','visible','visible','visible','visible','visible','visible','hidden','hidden','hidden'] });
+								}else if(store.bubbleRange>=7){setStore({ statBubbleVis: ['visible', 'visible','visible','visible','visible','visible','visible','hidden','hidden','hidden','hidden'] });
+									}else if(store.bubbleRange>=6){setStore({ statBubbleVis: ['visible', 'visible','visible','visible','visible','visible','hidden','hidden','hidden','hidden','hidden'] });
+										}else if(store.bubbleRange>=5){setStore({ statBubbleVis: ['visible', 'visible','visible','visible','visible','hidden','hidden','hidden','hidden','hidden','hidden'] });
+											}else if(store.bubbleRange>=4){setStore({ statBubbleVis: ['visible', 'visible','visible','visible','hidden','hidden','hidden','hidden','hidden','hidden','hidden'] });
+												}else if(store.bubbleRange>=3){setStore({ statBubbleVis: ['visible', 'visible','visible','hidden','hidden','hidden','hidden','hidden','hidden','hidden','hidden'] });
+													}else if(store.bubbleRange>=2){setStore({ statBubbleVis: ['visible', 'visible','hidden','hidden','hidden','hidden','hidden','hidden','hidden','hidden','hidden'] });
+														}else if(store.bubbleRange>=1){setStore({ statBubbleVis: ['visible', 'hidden','hidden','hidden','hidden','hidden','hidden','hidden','hidden','hidden','hidden'] });
+															}else {setStore({ statBubbleVis: ['hidden', 'hidden','hidden','hidden','hidden','hidden','hidden','hidden','hidden','hidden','hidden'] });}
+					},
 
 			
 
