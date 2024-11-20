@@ -95,7 +95,7 @@ const StatForm = () =>{
 
     <div className="input-group mb-3">
       <label className="input-group-text" for="inputGroupFile01">Upload</label>
-      <input type="file" className="form-control" id="inputGroupFile01" onChange={(e)=>actions.setFormInputSpell({...formInputSpell, imageFile: [e.target.value]})}></input>/>
+      <input type="file" className="form-control" id="inputGroupFile01" onChange={(e)=>actions.setFormInputSpell({...formInputSpell, imageFile: [e.target.value]})}></input>/
     </div>
 
   </div>
@@ -193,87 +193,27 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
   </div>
 )});
 
-
-
-
-
-
-
 export const SpellImageCreator = () => {
   const componentRef = useRef();
   const [imageUri, setImageUri] = useState("");
-
-  const saveAs = (uri, filename) => {
-    const link = document.createElement('a');
-
-    if (typeof link.download === 'string') {
-        link.href = imageUri;
-        link.download = filename+'.jpeg';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    } else {
-        window.open(uri);
-    }
-};
-
-  const handleExportAsURI = async () => {
-    try {
-      const element = componentRef.current;
-      if (!element) return;
-
-      const canvas = await html2canvas(element, {
-          scale: window.devicePixelRatio || 1,
-          scrollX: -window.scrollX,
-          scrollY: -window.scrollY,
-          useCORS: true,
-          backgroundColor: 'transparent',
-      });
-      const uri = canvas.toDataURL("image/jpeg");
-      console.log(canvas.width)
-      console.log(canvas.height)
-      console.log(uri);
-      setImageUri(uri);
-    } catch (error) {
-      console.error("Error generating URI:", error);
-    }
-  };
+  const [fileName,setFileName]=useState('')
+  const [tagList,setTagList]=useState(['Space Monkey','Cowboy Monkey','Zebronkey','Monkey Kong','Simian','Party Monkey'])
+  const { store, actions } = useContext(Context);
+  const [imageUrl, setImageUrl] = useState("");
+  const rand=Math.floor(Math.random() * 1000)
 
   useEffect(()=>{
     if(imageUri != ""){
-      insertImage();
+      console.log(imageUri)
+      setImageUrl(actions.insertImage('fileName'+rand,imageUri,tagList));
     }
   },[imageUri])
 
-  const insertImage=()=>{
-    fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/addcard',{
-      method:'POST',
-      body:JSON.stringify({
-        'filename':'Monkeyz2',
-        'uri':imageUri
-      }),
-      headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+ localStorage.getItem('token')}
-    }).then((response)=>{
-      console.log(response)
-      return response.json()
-    }).then((jsonRes)=>{
-      console.log(jsonRes)
-      return jsonRes
-    })
-  }
-
-  const getImageURLs=()=>{
-    fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/getcards',{
-      method:'GET',
-      headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+ localStorage.getItem('token')}
-    }).then((response)=>{
-      console.log(response)
-      return response.json()
-    }).then((jsonRes)=>{
-      console.log(jsonRes)
-      return jsonRes
-    })
-  }
+  useEffect(()=>{
+    if(imageUrl != ""){
+      actions.saveAs(imageUri,'fileName'+rand);
+    }
+  },[imageUrl])
 
   return (
     <div> 
@@ -289,11 +229,13 @@ export const SpellImageCreator = () => {
         </div>
       </div>
       <div className='export d-flex justify-content-center my-3'>
-        <button onClick={handleExportAsURI}>Export as URI</button>
-        <button onClick={()=>{saveAs(imageUri,"test")}}>Save to device</button>
-        <button onClick={getImageURLs}>Get all Cards</button>
+      <button onClick={async ()=>{
+          const element = componentRef.current;
+          const uri=await actions.handleExportAsURI(element)
+          console.log(uri)
+          setImageUri(uri)}}>Export as URI</button>
+        <button onClick={actions.getImageURLs}>Get all Cards</button>
       </div>
     </div>
   );
 };
-  

@@ -2,11 +2,12 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User,CardBank,TagList,Favorites
+from api.models import db, User,CardBank,TagList,Favorites,ArtBank,Settings
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
 from imagekitio import ImageKit
+
 
 api = Blueprint('api', __name__)
 
@@ -40,6 +41,16 @@ def addFavorite():      #Need image ID and user ID
         db.session.add(newFavorite)
         db.session.commit()
 
+@api.route('/favorite',methods=['GET'])
+@jwt_required()
+def getFavorites():
+    userId=request.json['id']
+    userFavorites=Favorites.query.filter_by(userId=userId).all()
+    userFavorites=list(map(lambda x: x.serialize().get('imageID'),userFavorites))
+    userCards = CardBank.query.filter(CardBank.id.in_(userFavorites)).all()
+    userCards=list(map(lambda x: x.serialize(),userCards))
+    return jsonify(userCards)
+
 @api.route('/favorite',methods=['DELETE'])
 @jwt_required()
 def deleteFavorite():      #Need image ID and user ID
@@ -54,15 +65,22 @@ def deleteFavorite():      #Need image ID and user ID
 ### CARD STUFF
 @api.route('/card',methods=['POST'])
 @jwt_required()
-def addCard():
-    upload = imagekit.upload_file(
+def addCard(): #library to upload pictures
+    print("before picture upload")
+    print(request.json['uri'])
+    print(request.json['filename'])
+    upload = imagekit.upload_file(  
         file=request.json['uri'],
         file_name=request.json['filename'],
     )
+    print("uploaded new card")
     newCard= CardBank(
+        userId=request.json['userId'],
         filename=request.json['filename'],
         url= upload.response_metadata.raw['url'],
-        tags=",".join(request.json['tags'])
+        tags=",".join(request.json['tags']),
+        uploadedDate=request.json['uploadedDate']
+
         )
     print(newCard)
     db.session.add(newCard)
@@ -82,7 +100,7 @@ def addCard():
     print(cardId)
     return jsonify({'id':cardId,'url': upload.response_metadata.raw['url']})
 
-@api.route('/card',methods=['GET'])
+@api.route('/cardid',methods=['POST'])
 def getCard():      #Need only image ID
     imageMatch=CardBank(id=request.json['imageId'])
 
@@ -92,19 +110,37 @@ def getCard():      #Need only image ID
 @api.route('/cards',methods=['GET'])
 def getCards():
     cards=CardBank.query.all()
-    print(cards)
 
     cardsList=list(map(lambda x: x.serialize(),cards))
-    print(cardsList)
     return cardsList
+
 @api.route('/usercards',methods=['GET'])
 @jwt_required()
 def userGallery():      #Need user ID
-    userCards=CardBank.query.all()
+    userCards=CardBank.query.filter_by(userId=request.json['userId'])
 
     serializedCards=list(map(lambda x: x.serialize(),userCards))
 
     return jsonify(serializedCards)
+
+### TAG STUFF
+@api.route('/cardbytag',methods=['POST'])
+def getByTag():
+    tag=request.json['tag']
+    cardList=[]
+    cards=CardBank.query.all()
+    cards=list(map(lambda x: x.serialize(),cards))
+    for card in cards:
+        if tag in card.get('tags'):
+            cardList.append(card)
+    # print(cardList)
+    return jsonify(cardList)
+
+@api.route('/tags',methods=['GET'])
+def allTags():
+    tags=TagList.query.all();
+    tags=list(map(lambda x: x.serialize(),tags))
+    return jsonify({'tags':tags})
 
 #### USER STUFF
 @api.route('/token',methods=['POST'])
@@ -145,3 +181,20 @@ def getAllUsers():
     userList=list(map(lambda x: x.serialize(),users))
     print(userList)
     return userList
+
+### ART STUFF
+@api.route('/upload-art',methods=['POST'])
+@jwt_required()
+def addArt():
+    formData=request.json['formData']
+    newArt=ArtBank(imageId=formData.get('url'), fileName=formData.get('imageTitle'), caption=formData.get('imageCaption'))
+
+    db.session.add(newArt)
+    db.session.commit()
+
+    art=ArtBank.query.filter_by(fileName=formData.get('imageTitle'))
+    return jsonify({
+        'id':art.id,
+        'fileName':art.fileName,
+        'url':art.url
+    })
