@@ -20,7 +20,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			formInputItem: {name:"",uses:"", ac:"", attune:false, atribute1:"",atribute2:"",atribute3:"", rarity:"", description:[], damage:[],  backstory:"", statToAdd:"", imageFile:"https://images.nightcafe.studio/jobs/ZgSQlVUA31qvUFwzRJYH/ZgSQlVUA31qvUFwzRJYH--1--2zzil.jpg?tr=w-1600,c-at_max"},
 
-			formInputSpell: {name:"",class:"", castingTime:"Instantaneous", range:"", duration:"", atribute1:"",atribute2:"",atribute3:"", rarity:"", description:[], damage:"",  backstory:"", statToAdd:"", isVerbal:"", isSomatic:"", isMaterial:"", imageFile:"https://i.pinimg.com/1200x/59/15/8b/59158b3d3e0dc0c98954f3da89e14469.jpg"},
+			formInputSpell: {name:"",class:"", castingTime:"Instantaneous", range:"", duration:"", rarity:"", components:"", damage:"",higherLvl:"",  backstory:"", statToAdd:"", isVerbal:"", isSomatic:"", isMaterial:"", imageFile:"https://i.pinimg.com/1200x/59/15/8b/59158b3d3e0dc0c98954f3da89e14469.jpg"},
 
 			bubbleRange: 2, 
 			statBubbleVis: ['visible', 'visible','hidden','hidden','hidden','hidden','hidden','hidden','hidden','hidden','hidden'],
