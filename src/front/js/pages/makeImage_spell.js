@@ -97,7 +97,7 @@ const StatForm = () =>{
 
     <div className="input-group mb-3">
       <label className="input-group-text" for="inputGroupFile01">Upload</label>
-      <input type="file" className="form-control" id="inputGroupFile01" onChange={(e)=>actions.setFormInputSpell({...formInputSpell, imageFile: [e.target.value]})}></input>/
+      <input type="file" className="form-control" id="inputGroupFile01" ></input>/
     </div>
 
   </div>
@@ -233,7 +233,7 @@ export const SpellImageCreator = () => {
             <div ref={componentRef}>
                 <ComponentToPrint/>
             </div>
-            <img src={imageUri} alt="" />
+            {/* <img src={imageUri} alt="" /> */}
         </div>
         <div>
           <StatForm/>

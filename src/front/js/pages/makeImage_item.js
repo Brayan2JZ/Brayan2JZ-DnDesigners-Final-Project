@@ -245,7 +245,7 @@ export const ItemImageCreator = () => {
             <div ref={componentRef}>
                 <ComponentToPrint/>
             </div>
-            <img src={imageUri} alt="" />
+            {/* <img src={imageUri} alt="" /> */}
         </div>
         <div>
           <StatForm/>
