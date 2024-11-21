@@ -4,43 +4,42 @@ import getState from "./flux.js";
 // Don't change, here is where we initialize our context, by default it's just going to be null.
 export const Context = React.createContext(null);
 
-// This function injects the global store to any view/component where you want to use it, we will inject the context to layout.js, you can see it here:
-// https://github.com/4GeeksAcademy/react-hello-webapp/blob/master/src/js/layout.js#L35
-const injectContext = PassedComponent => {
-	const StoreWrapper = props => {
-		//this will be passed as the contenxt value
-		const [state, setState] = useState(
-			getState({
-				getStore: () => state.store,
-				getActions: () => state.actions,
-				setStore: updatedStore =>
-					setState({
-						store: Object.assign(state.store, updatedStore),
-						actions: { ...state.actions }
-					})
-			})
-		);
+// This function injects the global store to any view/component where you want to use it
+const injectContext = (PassedComponent) => {
+  const StoreWrapper = (props) => {
+    // Initialize state with a store for global state management
+    const [state, setState] = useState(
+      getState({
+        getStore: () => state.store,
+        getActions: () => state.actions,
+        setStore: (updatedStore) =>
+          setState({
+            store: Object.assign(state.store, updatedStore),
+            actions: { ...state.actions },
+          }),
+      })
+    );
 
-		useEffect(() => {
-			/**
-			 * EDIT THIS!
-			 * This function is the equivalent to "window.onLoad", it only runs once on the entire application lifetime
-			 * you should do your ajax requests or fetch api requests here. Do not use setState() to save data in the
-			 * store, instead use actions, like this:
-			 **/
-			state.actions.getMessage(); // <---- calling this function from the flux.js actions
-		}, []);
+    useEffect(() => {
+      // Check for the token in localStorage when the app first loads
+      const token = localStorage.getItem('token');
+      if (token) {
+        state.actions.setIsLoggedIn(true); // Set login state to true if token exists
+      }
 
-		// The initial value for the context is not null anymore, but the current state of this component,
-		// the context will now have a getStore, getActions and setStore functions available, because they were declared
-		// on the state of this component
-		return (
-			<Context.Provider value={state}>
-				<PassedComponent {...props} />
-			</Context.Provider>
-		);
-	};
-	return StoreWrapper;
+      // Uncomment this if you have a message fetch action to call on load
+      // state.actions.getMessage(); // <---- Calling this function from the flux.js actions
+
+    }, []); // Empty array ensures this runs only once after the component mounts
+
+    // Return the context provider to wrap your app and provide global state
+    return (
+      <Context.Provider value={state}>
+        <PassedComponent {...props} />
+      </Context.Provider>
+    );
+  };
+  return StoreWrapper;
 };
 
 export default injectContext;
