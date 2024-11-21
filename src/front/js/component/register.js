@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 export const Register = () => {
   const [email, setEmail] = useState("");
@@ -31,7 +32,7 @@ export const Register = () => {
 
   };
   const getAll=async ()=>{
-    const response= await fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/users',{
+    const response= await fetch('https://turbo-spork-9vpq6qqqq6whx96-3001.app.github.dev/users',{
       method:'GET',
       headers:{
         'Content-Type': 'application/json',
@@ -45,7 +46,7 @@ export const Register = () => {
   }
 
   const createUser=()=>{
-    fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/register',{
+    fetch('https://turbo-spork-9vpq6qqqq6whx96-3001.app.github.dev/api/users',{
       method:'POST',
       body: JSON.stringify({
         username:email,
@@ -124,7 +125,7 @@ export const Register = () => {
 
       <div className="row mb-3">
         <div className="col-sm-10 offset-sm-2">
-          <button type="submit" className="btn btn-primary" onClick={createUser}>
+          <button type="submit" className="btn btn-primary" data-bs-target="#registerModal" onClick={createUser}>
             Register
           </button>
           <button onClick={getAll}>

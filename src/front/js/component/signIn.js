@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 export const SignIn = () => {
     const [email, setEmail] = useState("");
@@ -23,7 +24,7 @@ export const SignIn = () => {
     };
 
     const signIn=()=>{
-      fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/token',{
+      fetch('https://turbo-spork-9vpq6qqqq6whx96-3001.app.github.dev/api/token',{
         method:'POST',
         body: JSON.stringify({
           username:email,
@@ -86,8 +87,8 @@ export const SignIn = () => {
   
         <div className="row mb-3">
           <div className="col-sm-10 offset-sm-2">
-            <button type="submit" className="btn btn-primary m-2" onClick={signIn}>
-              Sign In
+            <button type="submit" className="btn btn-primary m-2" data-bs-dismiss="modal" onClick={signIn}>
+              <Link to="/user">Sign In</Link>
             </button>
             <button className="btn btn-success" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
           </div>

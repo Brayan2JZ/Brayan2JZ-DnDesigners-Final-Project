@@ -24,7 +24,7 @@ export const Navbar = () => {
 			<button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 			  <span className="navbar-toggler-icon"></span>
 			</button>
-			<div className="d-flex" id="navbarNavDropdown">
+			<div className="d-flex mx-5" id="navbarNavDropdown">
 			  <ul className="navbar-nav">
 			  <li className="nav-item mx-2">
 				  <a className="nav-link" href="#">Cards</a>
@@ -48,7 +48,7 @@ export const Navbar = () => {
 					</div>
 				</li>
 				<li className="nav-item dropdown">
-				  <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				  <a className="nav-link dropdown-toggle-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 					User pic
 				  </a>
 				  <ul className="dropdown-menu">

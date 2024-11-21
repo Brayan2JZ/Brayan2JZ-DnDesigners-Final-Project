@@ -9,7 +9,7 @@ import { Home } from "./pages/home";
 import { CharacterImageCreator } from "./pages/makeImage";
 import { ItemImageCreator } from "./pages/makeImage_item";
 import { SpellImageCreator } from "./pages/makeImage_spell";
-
+import { UserHome } from "./pages/userHome";
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
@@ -34,6 +34,7 @@ const Layout = () => {
                     <Navbar />
                     <Routes>
                         <Route element={<Home />} path="/" />
+                        <Route element={<UserHome />} path="/user"/>
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<Gallery />} path="/gallery" />
