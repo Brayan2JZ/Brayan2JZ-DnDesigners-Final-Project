@@ -5,7 +5,7 @@ export const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [loginSuccess, setLoginSuccess] = useState(false); // Track login success
+  const [loginSuccess, setLoginSuccess] = useState(false);
   const { store, actions } = useContext(Context);
 
   const handleEmailChange = (e) => setEmail(e.target.value);
@@ -13,8 +13,8 @@ export const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");  // Clear previous errors
-    setLoginSuccess(false); // Reset the success message on each submit
+    setError("");
+    setLoginSuccess(false);
 
     if (!email.includes("@")) {
       setError("Please enter a valid email address.");
@@ -25,7 +25,6 @@ export const SignIn = () => {
       return;
     }
 
-    // Call signIn function after validating inputs
     signIn();
   };
 
@@ -41,20 +40,16 @@ export const SignIn = () => {
     .then((response) => response.json())
     .then((jsonRes) => {
       if (jsonRes.token) {
-        // Save token and user ID to localStorage
         localStorage.setItem('token', jsonRes.token);
         localStorage.setItem('userId', jsonRes.id);
-        localStorage.setItem('userLoggedIn', 'true'); // Add this line to set login status
+        localStorage.setItem('userLoggedIn', 'true');
   
         console.log("Token retrieved for user ID:", jsonRes.id);
   
-        // Update the global state to reflect the signed-in state
         actions.setIsLoggedIn(true);
   
-        // Show success message
         setLoginSuccess(true);
       } else {
-        // Handle case when token is not returned (authentication failure)
         setError("Invalid credentials.");
         setLoginSuccess(false);
       }
@@ -78,7 +73,6 @@ export const SignIn = () => {
             <form onSubmit={handleSubmit} className="container p-4">
               {error && <p className="text-danger">{error}</p>}
 
-              {/* Display success message after successful login */}
               {loginSuccess && (
                 <div className="alert alert-success" role="alert">
                   Login Successful! Welcome back.

@@ -3,15 +3,13 @@ import { Link } from "react-router-dom";
 import logo from "../../img/logowide.png";
 import { SignIn } from "../component/signIn";
 import { Register } from "./register";
-import { Context } from "../store/appContext";  // Import Context
+import { Context } from "../store/appContext";
 
 export const Navbar = () => {
-  const { store, actions } = useContext(Context);  // Access store and actions from context
+  const { store, actions } = useContext(Context);
 
-  // Ensure the component updates the global state when the component mounts
   useEffect(() => {
 	const userLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
-	// Update state if login status has changed
 	if (userLoggedIn !== store.isLoggedIn) {
 	  actions.setIsLoggedIn(userLoggedIn);
 	}
@@ -45,7 +43,6 @@ export const Navbar = () => {
         
         <div className="d-flex" id="navbarNavDropdown">
           <ul className="navbar-nav">
-            {/* Gallery and Tags (visible only if logged in) */}
             {store.isLoggedIn && (
               <>
                 <li className="nav-item mx-2">
@@ -54,7 +51,6 @@ export const Navbar = () => {
                 <li className="nav-item mx-2">
                   <a className="nav-link" href="/tags">Tags</a>
                 </li>
-                {/* Create a Card (visible only if logged in) */}
                 <li>
                   <div className="dropdown">
                     <button 
@@ -75,7 +71,6 @@ export const Navbar = () => {
               </>
             )}
 
-            {/* Sign In Button (visible only if not logged in) */}
             {!store.isLoggedIn && (
               <li className="nav-item dropdown">
                 <a 
@@ -93,7 +88,6 @@ export const Navbar = () => {
               </li>
             )}
 
-            {/* User Profile Dropdown (visible only if logged in) */}
             {store.isLoggedIn && (
               <li className="nav-item dropdown">
                 <a 
@@ -110,9 +104,8 @@ export const Navbar = () => {
                   <li><a className="dropdown-item" href="#">Favorites</a></li>
                   <li><a className="dropdown-item" href="#">Settings</a></li>
                   <li><a className="dropdown-item" href="#" onClick={() => {
-                    // Logout logic here
                     localStorage.setItem('userLoggedIn', 'false');
-                    actions.setIsLoggedIn(false);  // Update global state
+                    actions.setIsLoggedIn(false);
                   }}>Logout</a></li>
                 </ul>
               </li>
