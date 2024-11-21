@@ -1,6 +1,7 @@
 import React, { useRef, useState, useContext, useEffect } from 'react';
 import { Context } from "../store/appContext";
 import cardBG from "../../img/blank_bg.png";
+import cardFG from "../../img/Cardbg2.png";
 import '../../styles/makeImage.css'
 import { Link, useParams } from "react-router-dom";
 
@@ -22,12 +23,12 @@ const StatForm = () =>{
 
     <div className="input-group">
       <span className="input-group-text">Class</span>
-      <input type="text" aria-label="classInput" className="form-control" onChange={(e)=>actions.setFormInput(  {...formInput, class:e.target.value})}/>
+      <input type="text" aria-label="classInput" className="form-control" onChange={(e)=>actions.setFormInput(  {...formInput, class: "Class: "+e.target.value})}/>
     </div>
 
     <div className="input-group">
       <span className="input-group-text">Race</span>
-      <input type="text" aria-label="raceInput" className="form-control" onChange={(e)=>actions.setFormInput(  {...formInput, race:e.target.value})}/>
+      <input type="text" aria-label="raceInput" className="form-control" onChange={(e)=>actions.setFormInput(  {...formInput, race: "Race: "+e.target.value})}/>
     </div>
 
     <div className="input-group mb-3">
@@ -48,7 +49,7 @@ const StatForm = () =>{
     </div>
 
     <label for="bubbleRange" class="form-label">How many stat bubbles do you need? {store.bubbleRange}</label>
-      <input type="range" class="form-range" min="0" max="8" id="bubbleRange" defaultValue={store.bubbleRange} onChange={(e)=>actions.setstatBubbleVis([e.target.value])}>
+      <input type="range" class="form-range" min="0" max="11" id="bubbleRange" defaultValue={store.bubbleRange} onChange={(e)=>actions.setstatBubbleVis([e.target.value])}>
     </input>
 
     <div className= "input-group statToAdd d-flex">
@@ -74,7 +75,7 @@ const StatForm = () =>{
 
     <div className="input-group mb-3">
       <label className="input-group-text" for="inputGroupFile01">Upload</label>
-      <input type="file" className="form-control" id="inputGroupFile01"/>
+      <input type="file" className="form-control" id="inputGroupFile01" onChange={(e)=>actions.setFormInput({...formInput, imageFile: [e.target.files[0]]})}></input>
     </div>
 
   </div>
@@ -85,6 +86,8 @@ const StatForm = () =>{
 const ComponentToPrint = React.forwardRef((props, ref) => {
   const { store, actions } = useContext(Context);
   let {formInput} = store;
+  
+
   return(
 	<div ref={ref} className='position-relative' style={{
         width:500,
@@ -95,60 +98,74 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
       }}>
     <img className='cardFrameBackground'src={cardBG}></img>
     <img className='cardImage'  src={formInput.imageFile}></img>
-    <h2 id='cardTitle'>{ store.formInput.name}</h2>
+    <img className='cardFrameForeground'src={cardFG}></img>
+    
 	  <div className='mainCardBody'>
-    <div className='statContainer container'>
-				<div className='row mb-3'>
-					<div className='col leftStats d-flex justify-content-end'>	
-						<h4  className='stat' id='stat1' style={{visibility:  store.statBubbleVis[0]}}></h4>
-					</div>
-					<div className='col-3 middleEmptyStats'></div>	
-					<div className='col rightStats' >
-						<h4  className='stat' id='stat2' style={{visibility:  store.statBubbleVis[1]}}></h4>
-					</div>
-				</div>
-				<div className='row mb-3'>
-					<div className='col leftStats d-flex justify-content-end'>	
-						<h4  className='stat' id='stat3' style={{visibility:  store.statBubbleVis[2]}}></h4>
-					</div>
-					<div className='col-5 middleEmptyStats'></div>	
-					<div className='col rightStats'>
-						<h4  className='stat' id='stat4'style={{visibility:  store.statBubbleVis[3]}}></h4>
-					</div>
-				</div>
-				<div className='row mb-3'>
-					<div className='col leftStats d-flex justify-content-end'>	
-						<h4  className='stat' id='stat5' style={{visibility:  store.statBubbleVis[4]}}></h4>
-					</div>
-					<div className='col-5 middleEmptyStats'></div>	
-					<div className='col rightStats'>
-						<h4  className='stat' id='stat6' style={{visibility:  store.statBubbleVis[5]}}></h4>
-					</div>
-				</div>
-				<div className='row'>
-					<div className='col leftStats d-flex justify-content-end'>	
-						<h4  className='stat' id='stat7' style={{visibility:  store.statBubbleVis[6]}}></h4>
-					</div>
-					<div className='col-3 middleEmptyStats'></div>	
-					<div className='col rightStats'>
-						<h4  className='stat' id='stat8' style={{visibility:  store.statBubbleVis[7]}}></h4>
-					</div>
-				</div>
-			</div>
+      <div className='statContainer container bubblesContainer '>
+          <div className='row bubblesRow mb-3 gx-0'>
+            <div className='col align-self-end'>	
+              <h4  className='stat' id='stat1' style={{visibility:  store.statBubbleVis[0]}}></h4>
+            </div>
+            	
+            <div className='col align-self-start colBlend' >
+              <h4  className='stat' id='stat2' style={{visibility:  store.statBubbleVis[1]}}></h4>
+            </div>
+
+            <div className='col align-self-end colBlend'>	
+              <h4  className='stat' id='stat3' style={{visibility:  store.statBubbleVis[2]}}></h4>
+            </div>
+            	
+            <div className='col align-self-start colBlend'>
+              <h4  className='stat' id='stat4'style={{visibility:  store.statBubbleVis[3]}}></h4>
+            </div>
+            
+            <div className='col align-self-end colBlend'>	
+              <h4  className='stat' id='stat5' style={{visibility:  store.statBubbleVis[4]}}></h4>
+            </div>
+            	
+            <div className='col align-self-start colBlend'>
+              <h4  className='stat' id='stat6' style={{visibility:  store.statBubbleVis[5]}}></h4>
+            </div>
+
+            
+          </div>
+          <div className='row bubblesRow2 gx-0 mb-3'>
+            <div className='col align-self-start'>	
+              <h4  className='stat' id='stat7' style={{visibility:  store.statBubbleVis[6]}}></h4>
+            </div>
+            	
+            <div className='col align-self-end colBlend'>
+              <h4  className='stat' id='stat8' style={{visibility:  store.statBubbleVis[7]}}></h4>
+            </div>
+
+            <div className='col align-self-start colBlend'>
+              <h4  className='stat' id='stat9' style={{visibility:  store.statBubbleVis[8]}}></h4>
+            </div>
+          
+            <div className='col align-self-end colBlend'>
+                <h4  className='stat' id='stat10' style={{visibility:  store.statBubbleVis[9]}}></h4>
+            </div>
+
+            <div className='col align-self-start colBlend'>
+                <h4  className='stat' id='stat11' style={{visibility:  store.statBubbleVis[10]}}></h4>
+            </div>
+            
+            
+          </div>
+        </div>
 
 
-			<div className='rightStatInfo'>
+			<div className='rightStatInfo mt-1'>
+        <h3 id='cardTitle'>{ store.formInput.name}</h3>
 				<p id='className' className='titled'>{formInput.class}</p>
 				<p id='raceName' className='titled'>{formInput.race}</p>
         <p id='alignmentName' className='titled'>{formInput.alignment}</p>
 				
-
-				<p className='text-decoration-underline titled'>Spells</p> 
+        <p className='text-decoration-underline titled'>Damage</p>
+        <p id='stat1' className='statDetails'>{formInput.damage}</p>
+				
+        <p className='text-decoration-underline titled'>Spells</p> 
         <p id='stat1' className='statDetails'>{formInput.spell}</p>
-        
-
-				<p className='text-decoration-underline titled'>Damage</p>
-				<p id='stat1' className='statDetails'>{formInput.damage}</p>
 
 				<p className='text-decoration-underline titled'>Description</p>
 				<p id='stat1' className='statDetails'>{formInput.description}</p>
@@ -156,7 +173,7 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
 			</div>
 		</div>
 
-    <div className='footer'>
+    
       <div className='originStory'>
         <p className='titled text-center'>Backstory/Origin</p>
         <p className='statDetails text-center px-3'> {store.formInput.backstory}</p>
@@ -164,7 +181,7 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
       </div>
 
 
-    </div>
+    
   </div>
 )});
 
@@ -199,7 +216,7 @@ export const CharacterImageCreator = () => {
     <div> 
       <div className='d-flex mx-5 flex-row justify-content-center my-3'>
         <div className='d-flex mx-5 '>
-            <div className="imageDisplay" ref={componentRef}>
+            <div ref={componentRef}>
                 <ComponentToPrint/>
             </div>
             {/* <img src={imageUri} alt="" /> */}
