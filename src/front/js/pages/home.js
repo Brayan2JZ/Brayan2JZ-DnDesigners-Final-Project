@@ -4,7 +4,6 @@ import { Register } from "../component/register";
 import { Context } from "../store/appContext";
 
 export const Home = () => {
-    // localStorage.setItem('backendUrl',"https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/")
     const [codespaceUrl, setCodespaceUrl] = useState('');
 
     useEffect(() => {
@@ -55,11 +54,11 @@ export const Home = () => {
                     <h1 className="display-5 fw-bold lh-1 mb-3">Tags</h1>
                     <p className="lead">Lorem ipsum dolor sit amet et delectus accommodare his consul copiosae legendos at vix ad putent delectus delicata usu. Vidit dissentiet eos cu eum an brute copiosae hendrerit.</p>
                     <div className="d-grid gap-2 d-md-flex justify-content-md-start">
-
                         <a className="nav-link" href="/tags">
                             <button type="button" className="btn btn-info btn-lg px-4 me-md-2">Search Tags</button>
                         </a>
-
+                        {/* Restored Create Button */}
+                        <button type="button" className="btn btn-outline-primary btn-lg px-4">Create</button>
                     </div>
                 </div>
             </div>
