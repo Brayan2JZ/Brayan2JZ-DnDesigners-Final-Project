@@ -49,7 +49,7 @@ export const SignIn = () => {
       <div class="modal-content">
           <div class="modal-header">
               <h2 class="modal-title" id="exampleModalLabel1">Sign In</h2>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" class="btn-close" data-bs-toggle="modal" aria-label="Close"></button>
           </div>
       <div class="modal-body">
     <form onSubmit={handleSubmit} className="container p-4">

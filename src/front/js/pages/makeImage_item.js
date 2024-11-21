@@ -194,11 +194,6 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
 )});
 
 
-
-
-
-
-
 export const ItemImageCreator = () => {
   const componentRef = useRef();
   const [imageUri, setImageUri] = useState("");
@@ -211,7 +206,7 @@ export const ItemImageCreator = () => {
   useEffect(()=>{
     if(imageUri != ""){
       console.log(imageUri)
-      setImageUrl(actions.insertImage('fileName'+rand,imageUri,tagList));
+      setImageUrl(actions.insertImage('fileName'+rand,imageUri,[tagList[rand%8]]));
     }
   },[imageUri])
 
