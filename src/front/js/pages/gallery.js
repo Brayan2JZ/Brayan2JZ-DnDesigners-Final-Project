@@ -26,6 +26,24 @@ export const Gallery = () => {
         getImageURLs()
     },[])
 
+    useEffect(async()=>{
+        const getArt=async()=>{
+            fetch(localStorage.getItem('backendUrl')+'api/arts',{
+                method:'GET',
+                headers:{'Content-Type':'application/json'}
+            }).then((response)=>{
+                return response.json();
+            }).then((respJson)=>{
+                setUploadedImages(respJson)
+            })
+        }
+        await getArt()
+    },[])
+
+    useEffect(()=>{
+        console.log(uploadedImages)
+    },[uploadedImages])
+
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -45,15 +63,9 @@ export const Gallery = () => {
         }
 
         const formData = new FormData();
-        const imageUrl=URL.createObjectURL(imageFile)
-        console.log(imageUrl)
-        console.log(imageTitle)
-        console.log(imageCaption)
-        console.log(imageUrl)
         formData.append('file', imageFile);
         formData.append('title', imageTitle);
         formData.append('caption', imageCaption);
-        formData.append('url', imageUrl);
 
         fetch(localStorage.getItem('backendUrl') + 'api/upload-art', {
             method: 'POST',
@@ -103,7 +115,7 @@ export const Gallery = () => {
                     <div className="tab-pane fade" id="pills-cards" role="tabpanel" aria-labelledby="pills-home-tab" tabIndex="0">
                         <div className="container mb-0 pb-0">
                             <div className="row row-cols-3">
-                                {cardList.map((cardObj) => {
+                                {cardList && cardList.map((cardObj) => {
                                     return (
                                         <div className="col m-0 p-1" key={cardObj.id}>
                                             <h3>{cardObj.filename}</h3>
@@ -170,13 +182,14 @@ export const Gallery = () => {
 
                             {/* Display Uploaded Art */}
                             <div className="row mt-3">
-                                {uploadedImages.map((imageUrl, index) => (
-                                    <div key={index} className="col-3">
+                                {uploadedImages.map((art) => 
+                                    <div key={art.fileName} id={art.id} className="col-3">
                                         <div className="card">
-                                            <img src={imageUrl} className="card-img-top" alt="Uploaded Art" />
+                                            <img src={art.imageUrl} className="card-img-top" alt="Uploaded Art" />
+                                            <p>{art.caption}</p>
                                         </div>
                                     </div>
-                                ))}
+                                )}
                             </div>
                         </div>
                     </div>

@@ -226,6 +226,12 @@ def addArt():
     return jsonify({
         'id':art.get('id'),
         'fileName':art.get('fileName'),
-        'url':art.get('url'),
+        'imageUrl':art.get('imageUrl'),
         'caption':art.get('caption')
     })
+
+@api.route('/arts',methods=['GET'])
+def getAllArt():
+    allArt=ArtBank.query.all()
+    allArt=list(map(lambda x: x.serialize(),allArt))
+    return jsonify(allArt)
