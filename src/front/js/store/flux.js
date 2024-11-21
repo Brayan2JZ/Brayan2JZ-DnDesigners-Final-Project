@@ -16,6 +16,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			],
 
+			isLoggedIn: false,
+
 			formInput: {name:"", class:"", race:"", alignment:['',''], spell:"", description:"", damage:"", backstory:"", statToAdd:"", imageFile:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg/220px-Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg"},
 
 			formInputItem: {name:"",uses:"", ac:"", attune:false, atribute1:"",atribute2:"",atribute3:"", rarity:"", description:[], damage:[],  backstory:"", statToAdd:"", imageFile:"https://images.nightcafe.studio/jobs/ZgSQlVUA31qvUFwzRJYH/ZgSQlVUA31qvUFwzRJYH--1--2zzil.jpg?tr=w-1600,c-at_max"},
@@ -27,6 +29,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 		},
 		actions: {
+			setIsLoggedIn: (status) => {
+				console.log("setIsLoggedIn action triggered with status:", status);
+				setStore({ isLoggedIn: status });
+			},
+
 			saveAs : (imageUri,fileName) => {
 				if(fileName!=''){
 				  const link = document.createElement('a');
