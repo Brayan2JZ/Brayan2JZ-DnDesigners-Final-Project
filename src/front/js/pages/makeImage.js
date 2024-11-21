@@ -61,7 +61,7 @@ const StatForm = () =>{
             <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInput(  {...formInput, spell: formInput.statToAdd})}>Spell/Effect</button>
             <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInput(  {...formInput, description: formInput.statToAdd})}>Description</button>
           </div>
-          <textarea  type="text" class="form-control" id="itemDescriptionInput" placeholder="Description" 
+          <textarea  type="text" class="form-control" id="itemDescriptionInput" placeholder="Description" rows="3"
             onChange={(e)=>actions.setFormInput({...formInput, statToAdd: [e.target.value]})}>
           </textarea>
         </div>
@@ -69,7 +69,7 @@ const StatForm = () =>{
 
 
     </div>
-    <textarea  type="text" class="form-control" id="itemDescriptionInput" placeholder="Backstory" 
+    <textarea  type="text" class="form-control" id="itemDescriptionInput" placeholder="Backstory" rows="3" 
             onChange={(e)=>actions.setFormInput({...formInput, backstory: [e.target.value]})}>
     </textarea>
 

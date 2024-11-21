@@ -1,6 +1,7 @@
 import React, { useRef, useState, useContext, useEffect } from 'react';
 import html2canvas from 'html2canvas';
 import cardBG from "../../img/blank_bg.png";
+import cardFG from "../../img/Cardbg2.png";
 import '../../styles/makeImage.css'
 import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
@@ -28,12 +29,12 @@ const StatForm = () =>{
 
     <div className="input-group">
       <span className="input-group-text">Number of uses</span>
-      <input type="text" aria-label="usesInput" class="form-control" onChange={(e)=>actions.setFormInputItem(  {...formInputItem, uses:e.target.value})}/>
+      <input type="text" aria-label="usesInput" class="form-control" onChange={(e)=>actions.setFormInputItem(  {...formInputItem, uses:"Uses: "+e.target.value})}/>
     </div>
 
     <div className="input-group">
       <span className="input-group-text">AC</span>
-      <input type="text" aria-label="acInput" className="form-control" onChange={(e)=>actions.setFormInputItem(  {...formInputItem, ac:e.target.value})}/>
+      <input type="text" aria-label="acInput" className="form-control" onChange={(e)=>actions.setFormInputItem(  {...formInputItem, ac:"AC: "+e.target.value})}/>
     </div>
 
     <div className="form-check">
@@ -56,15 +57,15 @@ const StatForm = () =>{
 
     <select class="form-select" aria-label="Select Rarity of Item" onChange={(e)=>actions.setFormInputItem(  {...formInputItem, rarity: e.target.value})}>
       <option value= "" selected>Select Rarity of Item</option>
-      <option value="Common">Common</option>
-      <option value="Uncommon">Uncommon</option>
-      <option value="Rare">Rare</option>
-      <option value="Very Rare">Very Rare</option>
-      <option value="Legendary">Legendary</option>
+      <option value="Rarity: Common">Common</option>
+      <option value="Rarity: Uncommon">Uncommon</option>
+      <option value="Rarity: Rare">Rare</option>
+      <option value="Rarity: Very Rare">Very Rare</option>
+      <option value="Rarity: Legendary">Legendary</option>
     </select>
 
     <label for="bubbleRange" class="form-label">How many stat bubbles do you need? {store.bubbleRange}</label>
-      <input type="range" class="form-range" min="0" max="8" id="bubbleRange" defaultValue={store.bubbleRange} onChange={(e)=>actions.setstatBubbleVis([e.target.value])}>
+      <input type="range" class="form-range" min="0" max="11" id="bubbleRange" defaultValue={store.bubbleRange} onChange={(e)=>actions.setstatBubbleVis([e.target.value])}>
     </input>
 
 
@@ -120,51 +121,67 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
       }}>
     <img className='cardFrameBackground'src={cardBG}></img>
     <img className='cardImage'  src={formInputItem.imageFile}></img>
-    <h2 id='cardTitle'>{ formInputItem.name}</h2>
+    <img className='cardFrameForeground'src={cardFG}></img>
+
 	  <div className='mainCardBody'>
-    <div className='statContainer container'>
-				<div className='row mb-3'>
-					<div className='col leftStats d-flex justify-content-end'>	
-						<h4  className='stat' id='stat1' style={{visibility:  store.statBubbleVis[0]}}></h4>
-					</div>
-					<div className='col-3 middleEmptyStats'></div>	
-					<div className='col rightStats' >
-						<h4  className='stat' id='stat2' style={{visibility:  store.statBubbleVis[1]}}></h4>
-					</div>
-				</div>
-				<div className='row mb-3'>
-					<div className='col leftStats d-flex justify-content-end'>	
-						<h4  className='stat' id='stat3' style={{visibility:  store.statBubbleVis[2]}}></h4>
-					</div>
-					<div className='col-5 middleEmptyStats'></div>	
-					<div className='col rightStats'>
-						<h4  className='stat' id='stat4'style={{visibility:  store.statBubbleVis[3]}}></h4>
-					</div>
-				</div>
-				<div className='row mb-3'>
-					<div className='col leftStats d-flex justify-content-end'>	
-						<h4  className='stat' id='stat5' style={{visibility:  store.statBubbleVis[4]}}></h4>
-					</div>
-					<div className='col-5 middleEmptyStats'></div>	
-					<div className='col rightStats'>
-						<h4  className='stat' id='stat6' style={{visibility:  store.statBubbleVis[5]}}></h4>
-					</div>
-				</div>
-				<div className='row'>
-					<div className='col leftStats d-flex justify-content-end'>	
-						<h4  className='stat' id='stat7' style={{visibility:  store.statBubbleVis[6]}}></h4>
-					</div>
-					<div className='col-3 middleEmptyStats'></div>	
-					<div className='col rightStats'>
-						<h4  className='stat' id='stat8' style={{visibility:  store.statBubbleVis[7]}}></h4>
-					</div>
-				</div>
-			</div>
+    <div className='statContainer container bubblesContainer '>
+          <div className='row bubblesRow mb-3 gx-0'>
+            <div className='col align-self-end'>	
+              <h4  className='stat' id='stat1' style={{visibility:  store.statBubbleVis[0]}}></h4>
+            </div>
+            	
+            <div className='col align-self-start colBlend' >
+              <h4  className='stat' id='stat2' style={{visibility:  store.statBubbleVis[1]}}></h4>
+            </div>
+
+            <div className='col align-self-end colBlend'>	
+              <h4  className='stat' id='stat3' style={{visibility:  store.statBubbleVis[2]}}></h4>
+            </div>
+            	
+            <div className='col align-self-start colBlend'>
+              <h4  className='stat' id='stat4'style={{visibility:  store.statBubbleVis[3]}}></h4>
+            </div>
+            
+            <div className='col align-self-end colBlend'>	
+              <h4  className='stat' id='stat5' style={{visibility:  store.statBubbleVis[4]}}></h4>
+            </div>
+            	
+            <div className='col align-self-start colBlend'>
+              <h4  className='stat' id='stat6' style={{visibility:  store.statBubbleVis[5]}}></h4>
+            </div>
+
+            
+          </div>
+          <div className='row bubblesRow2 gx-0 mb-3'>
+            <div className='col align-self-start'>	
+              <h4  className='stat' id='stat7' style={{visibility:  store.statBubbleVis[6]}}></h4>
+            </div>
+            	
+            <div className='col align-self-end colBlend'>
+              <h4  className='stat' id='stat8' style={{visibility:  store.statBubbleVis[7]}}></h4>
+            </div>
+
+            <div className='col align-self-start colBlend'>
+              <h4  className='stat' id='stat9' style={{visibility:  store.statBubbleVis[8]}}></h4>
+            </div>
+          
+            <div className='col align-self-end colBlend'>
+                <h4  className='stat' id='stat10' style={{visibility:  store.statBubbleVis[9]}}></h4>
+            </div>
+
+            <div className='col align-self-start colBlend'>
+                <h4  className='stat' id='stat11' style={{visibility:  store.statBubbleVis[10]}}></h4>
+            </div>
+            
+            
+          </div>
+        </div>
 
 
 			<div className='rightStatInfo'>
-				<p  className='titled'>Uses: {formInputItem.uses}</p>
-				<p  className='titled'>AC: {formInputItem.ac}</p>
+        <h2 id='cardTitle'>{ formInputItem.name}</h2>
+				<p  className='titled'> {formInputItem.uses}</p>
+				<p  className='titled'>{formInputItem.ac}</p>
         <p  className='titled'> {formInputItem.attune}</p>
         <p  className='titled'> {formInputItem.rarity}</p>
 				
