@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { CardView } from '../component/cardView';
 
 export const Tags = () => {
     const [tags,setTags]=useState([])
@@ -51,9 +52,9 @@ export const Tags = () => {
         fetchtags();
     },[tags])
 
-    useEffect(()=>{
-        console.log(cardByTag)
-    },[cardByTag])
+    // useEffect(()=>{
+    //     console.log(cardByTag)
+    // },[cardByTag])
 
     return(
     <div>
@@ -67,11 +68,7 @@ export const Tags = () => {
                             <div className='row justify-content-start'>
                             {cardList.map((card)=>{
                                 return(
-                                    <div key={card.filename} id={card.id} className='col px-0'>
-                                        <a href='/#'>
-                                            <img width={200} height={282} src={card.url}></img>
-                                        </a>
-                                    </div>
+                                    <CardView card={card}/>
                                 )
                                 })
                             }

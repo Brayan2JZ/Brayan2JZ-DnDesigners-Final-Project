@@ -46,6 +46,10 @@ export const Gallery = () => {
 
         const formData = new FormData();
         const imageUrl=URL.createObjectURL(imageFile)
+        console.log(imageUrl)
+        console.log(imageTitle)
+        console.log(imageCaption)
+        console.log(imageUrl)
         formData.append('file', imageFile);
         formData.append('title', imageTitle);
         formData.append('caption', imageCaption);
@@ -53,7 +57,7 @@ export const Gallery = () => {
 
         fetch(localStorage.getItem('backendUrl') + 'api/upload-art', {
             method: 'POST',
-            body: JSON.stringify(formData),
+            body: formData,
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }

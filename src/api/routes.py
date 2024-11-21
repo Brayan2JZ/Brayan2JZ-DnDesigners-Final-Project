@@ -7,6 +7,7 @@ from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
 from imagekitio import ImageKit
+import base64
 
 
 api = Blueprint('api', __name__)
@@ -30,26 +31,30 @@ def handle_hello():
     return jsonify(response_body), 200
 
 ### FAVORITES
+@api.route('/favorite/<int:userId>/<int:imageId>',methods=['GET'])
+@jwt_required()
+def getFavorite(userId,imageId):
+    print("Before query")
+    userFavorite=Favorites.query.filter_by(userId=userId, imageID=imageId).first()
+    print(userFavorite)
+    if userFavorite is not None:
+        return jsonify({'status':'Found'})
+    else:
+        return jsonify({'status':'Not found'})
+    S
 @api.route('/favorite',methods=['POST'])
 @jwt_required()
-def addFavorite():      #Need image ID and user ID
+def favorite():      #Need image ID and user ID
+    print('in post')
     imageId=request.json['imageId']
     userId=request.json['userId']
 
-    if imageId and userId:
-        newFavorite=Favorites(imageId=imageId,userId=userId)
-        db.session.add(newFavorite)
-        db.session.commit()
+    newFavorite=Favorites(imageID=imageId,userId=userId)
+    db.session.add(newFavorite)
+    db.session.commit()
+    favId=Favorites.query.filter_by(imageID=imageId,userId=userId).first().serialize()
+    return jsonify({'id':favId['id']})
 
-@api.route('/favorite',methods=['GET'])
-@jwt_required()
-def getFavorites():
-    userId=request.json['id']
-    userFavorites=Favorites.query.filter_by(userId=userId).all()
-    userFavorites=list(map(lambda x: x.serialize().get('imageID'),userFavorites))
-    userCards = CardBank.query.filter(CardBank.id.in_(userFavorites)).all()
-    userCards=list(map(lambda x: x.serialize(),userCards))
-    return jsonify(userCards)
 
 @api.route('/favorite',methods=['DELETE'])
 @jwt_required()
@@ -58,9 +63,20 @@ def deleteFavorite():      #Need image ID and user ID
     userId=request.json['userId']
 
     if imageId and userId:
-        newFavorite=Favorites.query.filter_by(imageId=imageId,userId=userId)
+        newFavorite=Favorites.query.filter_by(imageID=imageId,userId=userId).first()
         db.session.delete(newFavorite)
         db.session.commit()
+        return jsonify({'status':'False'})
+    
+@api.route('/favorites',methods=['GET'])
+@jwt_required()
+def getFavorites():
+    userId=request.json['id']
+    userFavorites=Favorites.query.filter_by(userId=userId).all()
+    userFavorites=list(map(lambda x: x.serialize().get('imageID'),userFavorites))
+    userCards = CardBank.query.filter(CardBank.id.in_(userFavorites)).all()
+    userCards=list(map(lambda x: x.serialize(),userCards))
+    return jsonify(userCards)
 
 ### CARD STUFF
 @api.route('/card',methods=['POST'])
@@ -186,15 +202,30 @@ def getAllUsers():
 @api.route('/upload-art',methods=['POST'])
 @jwt_required()
 def addArt():
-    formData=request.json['formData']
-    newArt=ArtBank(imageId=formData.get('url'), fileName=formData.get('imageTitle'), caption=formData.get('imageCaption'))
+    file = request.files['file']
+    title = request.form.get('title')
+    caption = request.form.get('caption')
+
+    if file:
+        # Convert the file to Base64
+        file_content = file.read()
+        base64_encoded_image = base64.b64encode(file_content).decode('utf-8')
+        data_url = f"data:{file.content_type};base64,{base64_encoded_image}"
+
+    upload = imagekit.upload_file(  
+        file=data_url,
+        file_name=title,
+    )
+    url= upload.response_metadata.raw['url']
+    newArt=ArtBank(imageUrl=url, fileName=title, caption=caption)
 
     db.session.add(newArt)
     db.session.commit()
 
-    art=ArtBank.query.filter_by(fileName=formData.get('imageTitle'))
+    art=ArtBank.query.filter_by(fileName=title).first().serialize()
     return jsonify({
-        'id':art.id,
-        'fileName':art.fileName,
-        'url':art.url
+        'id':art.get('id'),
+        'fileName':art.get('fileName'),
+        'url':art.get('url'),
+        'caption':art.get('caption')
     })
