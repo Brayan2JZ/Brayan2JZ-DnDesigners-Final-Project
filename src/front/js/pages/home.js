@@ -1,11 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
-import { SignIn } from "../component/signIn";
-import { Register } from "../component/register";
-import { Context } from "../store/appContext";
+import SignInBG from "../component/threeBG";
 
 export const Home = () => {
-    const [codespaceUrl, setCodespaceUrl] = useState('');
-
     useEffect(() => {
         // Check if running in a Codespace
         if (window.location.hostname.endsWith('.github.dev')) {
@@ -17,7 +13,7 @@ export const Home = () => {
 
     return (
         <div className="container">
-
+            <SignInBG />
             <h1 className="text-center">Featured</h1>
             <div id="carouselExampleIndicators" className="carousel slide">
                 <div className="carousel-indicators">
@@ -27,13 +23,13 @@ export const Home = () => {
                 </div>
                 <div className="carousel-inner">
                     <div className="carousel-item active">
-                        <img src="https://static0.gamerantimages.com/wordpress/wp-content/uploads/2022/04/Jujutsu-Kaisen-Gojo-Hollow-Purple.jpg" className="d-block w-100" alt="..." />
+                        <img src="https://static0.gamerantimages.com/wordpress/wp-content/uploads/2022/04/Jujutsu-Kaisen-Gojo-Hollow-Purple.jpg" className="d-block w-100 mx-3" alt="..." />
                     </div>
                     <div className="carousel-item">
-                        <img src="https://static0.gamerantimages.com/wordpress/wp-content/uploads/2022/04/Jujutsu-Kaisen-Gojo-Hollow-Purple.jpg" className="d-block w-100" alt="..." />
+                        <img src="https://static0.gamerantimages.com/wordpress/wp-content/uploads/2022/04/Jujutsu-Kaisen-Gojo-Hollow-Purple.jpg" className="d-block w-100 mx-3" alt="..." />
                     </div>
                     <div className="carousel-item">
-                        <img src="https://static0.gamerantimages.com/wordpress/wp-content/uploads/2022/04/Jujutsu-Kaisen-Gojo-Hollow-Purple.jpg" className="d-block w-100" alt="..." />
+                        <img src="https://static0.gamerantimages.com/wordpress/wp-content/uploads/2022/04/Jujutsu-Kaisen-Gojo-Hollow-Purple.jpg" className="d-block w-100 mx-3" alt="..." />
                     </div>
                 </div>
                 <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -78,7 +74,6 @@ export const Home = () => {
                     <img src="https://d2t1xqejof9utc.cloudfront.net/screenshots/pics/4035acb1bdb97ed80fb271cf869b63cc/large.png" className="d-block mx-lg-auto img-fluid" alt="3D Models Preview" width="700" height="500" loading="lazy" />
                 </div>
             </div>
-
         </div>
     );
 };
