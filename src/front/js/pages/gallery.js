@@ -7,27 +7,28 @@ export const Gallery = () => {
     const [imageFile, setImageFile] = useState(null);
     const [uploadedImages, setUploadedImages] = useState([]);
 
-    const getImageURLs=()=>{
-        fetch(localStorage.getItem('backendUrl')+'api/cards',{
-        method:'GET',
-        headers: {
-            'Content-Type':'application/json',
-            'Authorization':'Bearer '+ localStorage.getItem('token')}
-        }).then((response)=>{
-            console.log(response)
-            return response.json()
-        }).then((jsonRes)=>{
-            console.log(jsonRes)
-            setCardList(jsonRes)
-        })
-    }
+    
 
     useEffect(()=>{
+        async function getImageURLs(){
+            fetch(localStorage.getItem('backendUrl')+'api/cards',{
+            method:'GET',
+            headers: {
+                'Content-Type':'application/json',
+                'Authorization':'Bearer '+ localStorage.getItem('token')}
+            }).then((response)=>{
+                console.log(response)
+                return response.json()
+            }).then((jsonRes)=>{
+                console.log(jsonRes)
+                setCardList(jsonRes)
+            })
+        }
         getImageURLs()
     },[])
 
-    useEffect(async()=>{
-        const getArt=async()=>{
+    useEffect(()=>{
+        async function getArt(){
             fetch(localStorage.getItem('backendUrl')+'api/arts',{
                 method:'GET',
                 headers:{'Content-Type':'application/json'}
@@ -37,7 +38,7 @@ export const Gallery = () => {
                 setUploadedImages(respJson)
             })
         }
-        await getArt()
+        getArt()
     },[])
 
     useEffect(()=>{
