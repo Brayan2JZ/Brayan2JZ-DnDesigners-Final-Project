@@ -22,6 +22,7 @@ imagekit = ImageKit(
 )
 
 @api.route('/hello', methods=['POST', 'GET'])
+@jwt_required()
 def handle_hello():
 
     response_body = {
@@ -197,6 +198,10 @@ def getAllUsers():
     userList=list(map(lambda x: x.serialize(),users))
     print(userList)
     return userList
+
+# @api.route('/islogin',methods=['GET'])
+# @jwt_required()
+# def isLoggedIn():
 
 ### ART STUFF
 @api.route('/upload-art',methods=['POST'])

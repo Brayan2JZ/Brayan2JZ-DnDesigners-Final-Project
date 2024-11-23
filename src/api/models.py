@@ -104,3 +104,10 @@ class ArtBank(db.Model):
             'fileName':self.fileName,
             'imageUrl':self.imageUrl
         }
+    
+class ChatBank(db.Model):
+    id=db.Column(db.Integer,primary_key=True)
+    userId=db.Column(db.Integer,nullable=False)
+    imageId=db.Column(db.Integer,nullable=True)
+    artId=db.Column(db.Integer,nullable=True)
+    comment=db.Column(db.Text,nullable=False)
