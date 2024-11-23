@@ -1,6 +1,7 @@
 import React, { useRef, useState, useContext, useEffect } from 'react';
 import html2canvas from 'html2canvas';
 import cardBG from "../../img/blank_bg.png";
+import cardFG from "../../img/Cardbg2.png";
 import '../../styles/makeImage.css'
 import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
@@ -23,22 +24,22 @@ const StatForm = () =>{
 
     <div className="input-group">
       <span className="input-group-text">Classes</span>
-      <input type="text" aria-label="classInput" class="form-control" onChange={(e)=>actions.setFormInputSpell(  {...formInputSpell, class:e.target.value})}/>
+      <input type="text" aria-label="classInput" class="form-control" onChange={(e)=>actions.setFormInputSpell(  {...formInputSpell, class:"Classes: "+e.target.value})}/>
     </div>
 
     <div className="input-group">
       <span className="input-group-text">Casting time</span>
-      <input type="text" aria-label="raceInput" className="form-control" onChange={(e)=>actions.setFormInputSpell(  {...formInputSpell, castingTime:e.target.value})}/>
+      <input type="text" aria-label="raceInput" className="form-control" onChange={(e)=>actions.setFormInputSpell(  {...formInputSpell, castingTime:"Casting time: " +e.target.value})}/>
     </div>
 
     <div className="input-group">
       <span className="input-group-text">Range</span>
-      <input type="text" aria-label="raceInput" className="form-control" onChange={(e)=>actions.setFormInputSpell(  {...formInputSpell, range:e.target.value})}/>
+      <input type="text" aria-label="raceInput" className="form-control" onChange={(e)=>actions.setFormInputSpell(  {...formInputSpell, range:"Range: "+e.target.value})}/>
     </div>
 
     <div className="input-group">
       <span className="input-group-text">Duration</span>
-      <input type="text" aria-label="raceInput" className="form-control" onChange={(e)=>actions.setFormInputSpell(  {...formInputSpell, duration:e.target.value})}/>
+      <input type="text" aria-label="raceInput" className="form-control" onChange={(e)=>actions.setFormInputSpell(  {...formInputSpell, duration:"Duration: "+e.target.value})}/>
     </div>
 
     <div className="form-check">
@@ -65,7 +66,7 @@ const StatForm = () =>{
     </div>
 
     <label for="bubbleRange" class="form-label">How many stat bubbles do you need? {store.bubbleRange}</label>
-      <input type="range" class="form-range" min="0" max="8" id="bubbleRange" defaultValue={store.bubbleRange} onChange={(e)=>actions.setstatBubbleVis([e.target.value])}>
+      <input type="range" class="form-range" min="0" max="11" id="bubbleRange" defaultValue={store.bubbleRange} onChange={(e)=>actions.setstatBubbleVis([e.target.value])}>
     </input>
 
 
@@ -76,9 +77,10 @@ const StatForm = () =>{
         <div class="mb-3">
           <label for="itemNameInput" class="form-label"></label>
           <div class="btn-group" role="group" aria-label="Basic example" >
-            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInputSpell(  {...formInputSpell, damage: formInputSpell.statToAdd})}>Damage</button>
-            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInputSpell(  {...formInputSpell, spell: formInputSpell.statToAdd})}>Spell/Effect</button>
-            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInputSpell(  {...formInputSpell, description: formInputSpell.statToAdd})}>Description</button>
+            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInputSpell(  {...formInputSpell, damage: "Damage: "+formInputSpell.statToAdd})}>Damage</button>
+            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInputSpell(  {...formInputSpell, components: "Components needed: " +formInputSpell.statToAdd})}>Components</button>
+            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInputSpell(  {...formInputSpell, higherLvl: "At higher levels: "+formInputSpell.statToAdd})}>Higher Lvl</button>
+
           </div>
           <textarea  type="text" class="form-control" id="itemDescriptionInput" placeholder="Description" 
             onChange={(e)=>actions.setFormInputSpell({...formInputSpell, statToAdd: [e.target.value]})}>
@@ -95,7 +97,7 @@ const StatForm = () =>{
 
     <div className="input-group mb-3">
       <label className="input-group-text" for="inputGroupFile01">Upload</label>
-      <input type="file" className="form-control" id="inputGroupFile01" onChange={(e)=>actions.setFormInputSpell({...formInputSpell, imageFile: [e.target.value]})}></input>/>
+      <input type="file" className="form-control" id="inputGroupFile01" onChange={(e)=>actions.setFormInputSpell({...formInputSpell, imageFile: [e.target.value]})}></input>/
     </div>
 
   </div>
@@ -116,65 +118,74 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
       }}>
     <img className='cardFrameBackground'src={cardBG}></img>
     <img className='cardImage'  src={formInputSpell.imageFile}></img>
-    <h2 id='cardTitle'>{ formInputSpell.name}</h2>
+    <img className='cardFrameForeground'src={cardFG}></img>
 	  <div className='mainCardBody'>
-    <div className='statContainer container'>
-				<div className='row mb-3'>
-					<div className='col leftStats d-flex justify-content-end'>	
-						<h4  className='stat' id='stat1' style={{visibility:  store.statBubbleVis[0]}}></h4>
-					</div>
-					<div className='col-3 middleEmptyStats'></div>	
-					<div className='col rightStats' >
-						<h4  className='stat' id='stat2' style={{visibility:  store.statBubbleVis[1]}}></h4>
-					</div>
-				</div>
-				<div className='row mb-3'>
-					<div className='col leftStats d-flex justify-content-end'>	
-						<h4  className='stat' id='stat3' style={{visibility:  store.statBubbleVis[2]}}></h4>
-					</div>
-					<div className='col-5 middleEmptyStats'></div>	
-					<div className='col rightStats'>
-						<h4  className='stat' id='stat4'style={{visibility:  store.statBubbleVis[3]}}></h4>
-					</div>
-				</div>
-				<div className='row mb-3'>
-					<div className='col leftStats d-flex justify-content-end'>	
-						<h4  className='stat' id='stat5' style={{visibility:  store.statBubbleVis[4]}}></h4>
-					</div>
-					<div className='col-5 middleEmptyStats'></div>	
-					<div className='col rightStats'>
-						<h4  className='stat' id='stat6' style={{visibility:  store.statBubbleVis[5]}}></h4>
-					</div>
-				</div>
-				<div className='row'>
-					<div className='col leftStats d-flex justify-content-end'>	
-						<h4  className='stat' id='stat7' style={{visibility:  store.statBubbleVis[6]}}></h4>
-					</div>
-					<div className='col-3 middleEmptyStats'></div>	
-					<div className='col rightStats'>
-						<h4  className='stat' id='stat8' style={{visibility:  store.statBubbleVis[7]}}></h4>
-					</div>
-				</div>
-			</div>
+    <div className='statContainer container bubblesContainer '>
+          <div className='row bubblesRow mb-3 gx-0'>
+            <div className='col align-self-end'>	
+              <h4  className='stat' id='stat1' style={{visibility:  store.statBubbleVis[0]}}></h4>
+            </div>
+            	
+            <div className='col align-self-start colBlend' >
+              <h4  className='stat' id='stat2' style={{visibility:  store.statBubbleVis[1]}}></h4>
+            </div>
+
+            <div className='col align-self-end colBlend'>	
+              <h4  className='stat' id='stat3' style={{visibility:  store.statBubbleVis[2]}}></h4>
+            </div>
+            	
+            <div className='col align-self-start colBlend'>
+              <h4  className='stat' id='stat4'style={{visibility:  store.statBubbleVis[3]}}></h4>
+            </div>
+            
+            <div className='col align-self-end colBlend'>	
+              <h4  className='stat' id='stat5' style={{visibility:  store.statBubbleVis[4]}}></h4>
+            </div>
+            	
+            <div className='col align-self-start colBlend'>
+              <h4  className='stat' id='stat6' style={{visibility:  store.statBubbleVis[5]}}></h4>
+            </div>
+
+            
+          </div>
+          <div className='row bubblesRow2 gx-0 mb-3'>
+            <div className='col align-self-start'>	
+              <h4  className='stat' id='stat7' style={{visibility:  store.statBubbleVis[6]}}></h4>
+            </div>
+            	
+            <div className='col align-self-end colBlend'>
+              <h4  className='stat' id='stat8' style={{visibility:  store.statBubbleVis[7]}}></h4>
+            </div>
+
+            <div className='col align-self-start colBlend'>
+              <h4  className='stat' id='stat9' style={{visibility:  store.statBubbleVis[8]}}></h4>
+            </div>
+          
+            <div className='col align-self-end colBlend'>
+                <h4  className='stat' id='stat10' style={{visibility:  store.statBubbleVis[9]}}></h4>
+            </div>
+
+            <div className='col align-self-start colBlend'>
+                <h4  className='stat' id='stat11' style={{visibility:  store.statBubbleVis[10]}}></h4>
+            </div>
+            
+            
+          </div>
+        </div>
 
 			<div className='rightStatInfo'>
+        <h2 id='cardTitle'>{ formInputSpell.name}</h2>
 				<p id='className' className='titled'>{formInputSpell.class}</p>
 				<p id='raceName' className='titled'>{formInputSpell.race}</p>
         <p id='alignmentName' className='titled'>{formInputSpell.castingTime}</p>
         <p id='alignmentName' className='titled'>{formInputSpell.range}</p>
         <p id='alignmentName' className='titled'>{formInputSpell.duration}</p>
-        <p id='alignmentName' className='titled'>{formInputSpell.isVerbal}{formInputSpell.isSomatic}{formInputSpell.isMaterial}</p>
+        <p id='alignmentName' className='titled'>Components: {formInputSpell.isVerbal}{formInputSpell.isSomatic}{formInputSpell.isMaterial}</p>
 
 
-				<p className='text-decoration-underline titled'>Spells</p> 
-        <p id='stat1' className='statDetails'>{formInputSpell.spell}</p>
-        
-
-				<p className='text-decoration-underline titled'>Damage</p>
-				<p id='stat1' className='statDetails'>{formInputSpell.damage}</p>
-
-				<p className='text-decoration-underline titled'>Description</p>
-				<p id='stat1' className='statDetails'>{formInputSpell.description}</p>
+				<p id='stat1' className='statDetails'>{formInputSpell.damage}</p>  
+				<p id='stat1' className='statDetails'>{formInputSpell.components}</p>
+        <p id='stat1' className='statDetails'>{formInputSpell.higherLvl}</p>
 
 			</div>
 		</div>
@@ -193,87 +204,27 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
   </div>
 )});
 
-
-
-
-
-
-
 export const SpellImageCreator = () => {
   const componentRef = useRef();
   const [imageUri, setImageUri] = useState("");
-
-  const saveAs = (uri, filename) => {
-    const link = document.createElement('a');
-
-    if (typeof link.download === 'string') {
-        link.href = imageUri;
-        link.download = filename+'.jpeg';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    } else {
-        window.open(uri);
-    }
-};
-
-  const handleExportAsURI = async () => {
-    try {
-      const element = componentRef.current;
-      if (!element) return;
-
-      const canvas = await html2canvas(element, {
-          scale: window.devicePixelRatio || 1,
-          scrollX: -window.scrollX,
-          scrollY: -window.scrollY,
-          useCORS: true,
-          backgroundColor: 'transparent',
-      });
-      const uri = canvas.toDataURL("image/jpeg");
-      console.log(canvas.width)
-      console.log(canvas.height)
-      console.log(uri);
-      setImageUri(uri);
-    } catch (error) {
-      console.error("Error generating URI:", error);
-    }
-  };
+  const [fileName,setFileName]=useState('')
+  const [tagList,setTagList]=useState(['Space Monkey','Cowboy Monkey','Zebronkey','Monkey Kong','Simian','Party Monkey'])
+  const { store, actions } = useContext(Context);
+  const [imageUrl, setImageUrl] = useState("");
+  const rand=Math.floor(Math.random() * 1000)
 
   useEffect(()=>{
     if(imageUri != ""){
-      insertImage();
+      console.log(imageUri)
+      setImageUrl(actions.insertImage('fileName'+rand,imageUri,[tagList[rand%8]]));
     }
   },[imageUri])
 
-  const insertImage=()=>{
-    fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/addcard',{
-      method:'POST',
-      body:JSON.stringify({
-        'filename':'Monkeyz2',
-        'uri':imageUri
-      }),
-      headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+ localStorage.getItem('token')}
-    }).then((response)=>{
-      console.log(response)
-      return response.json()
-    }).then((jsonRes)=>{
-      console.log(jsonRes)
-      return jsonRes
-    })
-  }
-
-  const getImageURLs=()=>{
-    fetch('https://laughing-space-winner-69vqxv9qrjj934rw-3001.app.github.dev/api/getcards',{
-      method:'GET',
-      headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+ localStorage.getItem('token')}
-    }).then((response)=>{
-      console.log(response)
-      return response.json()
-    }).then((jsonRes)=>{
-      console.log(jsonRes)
-      return jsonRes
-    })
-  }
+  useEffect(()=>{
+    if(imageUrl != ""){
+      actions.saveAs(imageUri,'fileName'+rand);
+    }
+  },[imageUrl])
 
   return (
     <div> 
@@ -289,11 +240,13 @@ export const SpellImageCreator = () => {
         </div>
       </div>
       <div className='export d-flex justify-content-center my-3'>
-        <button onClick={handleExportAsURI}>Export as URI</button>
-        <button onClick={()=>{saveAs(imageUri,"test")}}>Save to device</button>
-        <button onClick={getImageURLs}>Get all Cards</button>
+      <button onClick={async ()=>{
+          const element = componentRef.current;
+          const uri=await actions.handleExportAsURI(element)
+          console.log(uri)
+          setImageUri(uri)}}>Export as URI</button>
+        <button onClick={actions.getImageURLs}>Get all Cards</button>
       </div>
     </div>
   );
 };
-  

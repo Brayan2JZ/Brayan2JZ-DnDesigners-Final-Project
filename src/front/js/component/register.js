@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from 'react';
+import { Context } from "../store/appContext";
 
 export const Register = () => {
   const [email, setEmail] = useState("");
@@ -7,6 +7,7 @@ export const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const { store, actions } = useContext(Context);
 
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -32,7 +33,7 @@ export const Register = () => {
 
   };
   const getAll=async ()=>{
-    const response= await fetch('https://turbo-spork-9vpq6qqqq6whx96-3001.app.github.dev/users',{
+    const response= await fetch(localStorage.getItem('backendUrl')+'api/users',{
       method:'GET',
       headers:{
         'Content-Type': 'application/json',
@@ -46,7 +47,7 @@ export const Register = () => {
   }
 
   const createUser=()=>{
-    fetch('https://turbo-spork-9vpq6qqqq6whx96-3001.app.github.dev/api/users',{
+    fetch(localStorage.getItem('backendUrl')+'api/register',{
       method:'POST',
       body: JSON.stringify({
         username:email,

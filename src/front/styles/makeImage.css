@@ -1,10 +1,4 @@
-/*
-    home.css: This website contains selectors only used in home.css
 
-    All pages share the styles on index.css but you should create 
-    one more css for each page that will contain the selected used 
-    on that page only (the ones not reused in other pages).
-*/
 
 .cardFrameBackground{
     position: absolute;
@@ -12,77 +6,99 @@
     max-height : 700px;
     max-width: 500px;
 }
-
+.cardFrameForeground{
+    position: absolute;
+    z-index : 1;   
+    max-height : 700px;
+    max-width: 500px;
+}
 .cardImage{
     position: absolute;
     z-index: 0;
-    max-height: 200px;
-    max-width: 100px;
-   top: 100px;
-   left:20%;
-   border-radius: 40%;
-   border: 5px solid ;
-   border-color: rgba(241, 235, 196, 0.644);
-   
+    max-height: 350px;
+    max-width: 200px;
+   top: 10px;
+   left:10%;   
 }
 #cardTitle{
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
+
+    
+    height: 40px;
 }
 .mainCardBody{   
-    height: 250px;
+    max-height: 350px;
     margin-top: 50px;
-    max-width: 354.5px; 
+    max-width: 400px; 
     
 }
 .statContainer{
     position: absolute;
-    z-index: 1;
-    max-width: 250px; 
+    z-index: 2;
+    max-width: 500px; 
     text-align: center;
 }
 
 .rightStatInfo{
     position: absolute;
-    z-index: 1;
-    right: 0;
+    z-index: 2;
+    right: 50px;
     text-align: center;
     padding-right: 12px;
-    max-width: 125px;
-    min-width: 100px;
-    max-height: 250px;
+    max-width: 155px;
+    min-width: 130px;
+    max-height: 590px;
     overflow: hidden;
 }
 .titled{
-    font-size: 15px;
+    font-size: 20px;
     margin-bottom: 0;
-    word-wrap: break-word;
-    
+    word-wrap: break-word; 
+}
+.originStory{
+    position: absolute;
+    text-align: center;
+    width: 300px;
+    top: 350px;
+    z-index: 2;
+    overflow: hidden;
 }
 .statDetails{
-    font-size: 10px;
+    font-size: 15px;
 }
 .stat{
     width:30px;
-    height: 35px;
+    height: 40px;
     background-color: rgb(255, 255, 255);
     border: 2px solid ;
-   border-color: rgba(0, 0, 0, 0.644);
-   border-radius: 40%;
+    border-color: rgba(0, 0, 0, 0.644);
+    border-radius: 40%;
    
 }
-.mainBody{
+.bubblesContainer{ 
+    width: 300px;
+    height: 200px;   
+    margin-left: 15px;
+    top: 230px;
+}
+.bubblesRow{
+    height: 70px;
+}
+.bubblesRow2{
+    height: 70px;
+    width: 230px;
+    margin-left: 39px;
+    margin-top: -28px;
+}
+.colBlend{
+    margin-left: -20px;
     
-    
 }
-.imageDisplay{
- width:500px;
- height: 700px
+.originStory .titled{
+    font-size: 25px;
 }
-.statForm{
+.originStory .statDetails{
+    font-size: 20px;
+    max-height: 260px;
+}
 
-}
-.export{
 
-}
