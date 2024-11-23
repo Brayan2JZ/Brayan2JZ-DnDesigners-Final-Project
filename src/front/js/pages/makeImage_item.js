@@ -1,10 +1,12 @@
 import React, { useRef, useState, useContext, useEffect } from 'react';
 import html2canvas from 'html2canvas';
 import cardBG from "../../img/blank_bg.png";
-import cardFG from "../../img/Cardbg2.png";
+import cardFG from "../../img/ItemCard.png";
 import '../../styles/makeImage.css'
 import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
+import  UploadImage  from "../component/avatarUpload";
+
 
 
 
@@ -12,6 +14,8 @@ import { Context } from "../store/appContext";
 const StatForm = () =>{
    const { store, actions } = useContext(Context);
   let {formInputItem} = store;
+  const [url, setURL] = useState("https://images.nightcafe.studio/jobs/ZgSQlVUA31qvUFwzRJYH/ZgSQlVUA31qvUFwzRJYH--1--2zzil.jpg?tr=w-1600,c-at_max");
+  useEffect(()=> actions.setCardImageFile(url),[url]);
 
   const attuneSwitch = (e)=>{
       if(e == "true"){
@@ -94,8 +98,7 @@ const StatForm = () =>{
 
     
     <div className="input-group mb-3">
-      <label className="input-group-text" for="inputGroupFile01">Upload</label>
-      <input type="file" className="form-control" id="inputGroupFile01"/>
+      <UploadImage setURL={setURL}/>
     </div>
 
 
@@ -120,7 +123,7 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
         clipPath: 'inset(0 0 0 0)'
       }}>
     <img className='cardFrameBackground'src={cardBG}></img>
-    <img className='cardImage'  src={formInputItem.imageFile}></img>
+    <img className='cardImage'  src={store.cardImageFile}></img>
     <img className='cardFrameForeground'src={cardFG}></img>
 
 	  <div className='mainCardBody'>
