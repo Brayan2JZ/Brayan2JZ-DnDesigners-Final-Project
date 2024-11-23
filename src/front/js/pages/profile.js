@@ -4,6 +4,30 @@ import { Context } from "../store/appContext";
 export const Profile = () => {
    
   const { store, actions } = useContext(Context);
+  const [newUsername, setNewUsername] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleChangeUsername = async () => {
+    try {
+      const response = await fetch(localStorage.getItem('backendUrl')+'api/user/username', {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // Include the JWT token
+        },
+        body: JSON.stringify({ username: newUsername }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setMessage(`Username updated to: ${data.username}`);
+      } else {
+        setMessage(data.error || "Failed to update username.");
+      }
+    } catch (error) {
+      setMessage("An error occurred. Please try again.");
+    }
+  };
 
   useEffect(() => {
 	const userLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
@@ -98,10 +122,22 @@ export const Profile = () => {
             aria-labelledby="settings-tab"
           >
             <h5>Account Settings</h5>
-            <p>Update your profile or manage your account preferences.</p>
-            <button className="btn btn-secondary btn-sm">Edit Profile</button>
-            <button className="btn btn-secondary btn-sm ms-2">Change Password</button>
-          </div>
+              <div className="form-group">
+          <label htmlFor="username">Change Username</label>
+          <input
+            type="text"
+            id="username"
+            className="form-control"
+            placeholder="Enter new username"
+            value={newUsername}
+            onChange={(e) => setNewUsername(e.target.value)}
+          />
+        </div>
+        <button className="btn btn-primary mt-3" onClick={handleChangeUsername}>
+          Update Username
+        </button>
+        {message && <p className="mt-3">{message}</p>}
+            </div>
   
           {/* Logout Tab */}
           <div
