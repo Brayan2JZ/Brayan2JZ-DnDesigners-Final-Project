@@ -9,22 +9,12 @@ export const Navbar = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-	// const userLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
-	// if (userLoggedIn !== store.isLoggedIn) {
-	//   actions.setIsLoggedIn(userLoggedIn);
-	// }
-  // }, [actions, store.isLoggedIn]);
-
-  // useEffect(()=>{
-  //   fetch(localStorage.getItem('backendUrl')+'api/hello',{
-  //     method:'GET',
-  //     headers:{
-  //       'Content-Type':'application/json',
-  //       'Authorization':'Bearer '+localStorage.getItem('token')
-  //     }
-  //   }))
-  // },[])
+  useEffect(() => {
+	const userLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+	if (userLoggedIn !== store.isLoggedIn) {
+	  actions.setIsLoggedIn(userLoggedIn);
+	}
+  }, [actions, store.isLoggedIn]);
 
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary bg-light">

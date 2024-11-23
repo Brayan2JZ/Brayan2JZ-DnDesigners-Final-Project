@@ -22,7 +22,6 @@ imagekit = ImageKit(
 )
 
 @api.route('/hello', methods=['POST', 'GET'])
-@jwt_required()
 def handle_hello():
 
     response_body = {

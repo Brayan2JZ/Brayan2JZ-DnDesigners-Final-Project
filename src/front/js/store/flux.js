@@ -33,6 +33,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 if (!token) return true; // No token is expired
                 const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decode JWT token
                 const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+				console.log(decodedToken.exp < currentTime,"HELOOO")
                 return decodedToken.exp < currentTime; // Check if the token is expired
 			},
 
