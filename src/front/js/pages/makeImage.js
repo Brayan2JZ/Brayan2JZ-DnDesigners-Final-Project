@@ -4,15 +4,15 @@ import cardBG from "../../img/blank_bg.png";
 import cardFG from "../../img/Cardbg2.png";
 import '../../styles/makeImage.css'
 import { Link, useParams } from "react-router-dom";
-
+import  UploadImage  from "../component/avatarUpload";
 
 
 
 const StatForm = () =>{
    const { store, actions } = useContext(Context);
   let {formInput} = store;
-
-
+  const [url, setURL] = useState("https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg/220px-Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg");
+  useEffect(()=> actions.setCardImageFile(url),[url]);
   return(
   <div className='form'>
 
@@ -74,8 +74,8 @@ const StatForm = () =>{
     </textarea>
 
     <div className="input-group mb-3">
-      <label className="input-group-text" for="inputGroupFile01">Upload</label>
-      <input type="file" className="form-control" id="inputGroupFile01" onChange={(e)=>actions.setFormInput({...formInput, imageFile: [e.target.files[0]]})}></input>
+      <UploadImage setURL={setURL}/>
+    
     </div>
 
   </div>
@@ -97,7 +97,7 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
         clipPath: 'inset(0 0 0 0)'
       }}>
     <img className='cardFrameBackground'src={cardBG}></img>
-    <img className='cardImage'  src={formInput.imageFile}></img>
+    <img className='cardImage'  src={store.cardImageFile}></img>
     <img className='cardFrameForeground'src={cardFG}></img>
     
 	  <div className='mainCardBody'>
@@ -213,6 +213,7 @@ export const CharacterImageCreator = () => {
   },[imageUrl])
 
   return (
+    
     <div> 
       <div className='d-flex mx-5 flex-row justify-content-center my-3'>
         <div className='d-flex mx-5 '>
@@ -223,6 +224,7 @@ export const CharacterImageCreator = () => {
         </div>
         <div className='statForm'>
           <StatForm/>
+          
         </div>
       </div>
       <label>filename</label>

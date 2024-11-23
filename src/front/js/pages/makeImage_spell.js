@@ -1,10 +1,11 @@
 import React, { useRef, useState, useContext, useEffect } from 'react';
 import html2canvas from 'html2canvas';
 import cardBG from "../../img/blank_bg.png";
-import cardFG from "../../img/Cardbg2.png";
+import cardFG from "../../img/CardbgSpell.png";
 import '../../styles/makeImage.css'
 import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
+import  UploadImage  from "../component/avatarUpload";
 
 
 
@@ -13,6 +14,8 @@ const StatForm = () =>{
    const { store, actions } = useContext(Context);
   let {formInputSpell} = store;
 
+  const [url, setURL] = useState("https://i0.wp.com/dungeonsanddragonsfan.com/wp-content/uploads/2024/05/monk-dnd-5e-class-guide-hero-1.png?resize=800%2C450&ssl=1");
+  useEffect(()=> actions.setCardImageFile(url),[url]);
 
   return(
   <div className='form'>
@@ -96,8 +99,7 @@ const StatForm = () =>{
 
 
     <div className="input-group mb-3">
-      <label className="input-group-text" for="inputGroupFile01">Upload</label>
-      <input type="file" className="form-control" id="inputGroupFile01" onChange={(e)=>actions.setFormInputSpell({...formInputSpell, imageFile: [e.target.value]})}></input>/
+      <UploadImage setURL={setURL}/>
     </div>
 
   </div>
@@ -117,7 +119,7 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
         clipPath: 'inset(0 0 0 0)'
       }}>
     <img className='cardFrameBackground'src={cardBG}></img>
-    <img className='cardImage'  src={formInputSpell.imageFile}></img>
+    <img className='cardImage'  src={store.cardImageFile}></img>
     <img className='cardFrameForeground'src={cardFG}></img>
 	  <div className='mainCardBody'>
     <div className='statContainer container bubblesContainer '>
@@ -233,7 +235,7 @@ export const SpellImageCreator = () => {
             <div ref={componentRef}>
                 <ComponentToPrint/>
             </div>
-            <img src={imageUri} alt="" />
+            {/* <img src={imageUri} alt="" /> */}
         </div>
         <div>
           <StatForm/>
