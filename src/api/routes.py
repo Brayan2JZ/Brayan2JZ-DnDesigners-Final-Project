@@ -239,3 +239,27 @@ def getAllArt():
     allArt=ArtBank.query.all()
     allArt=list(map(lambda x: x.serialize(),allArt))
     return jsonify(allArt)
+
+@api.route('/user/username', methods=['PUT'])
+@jwt_required()
+def change_username():
+    user_id = get_jwt_identity()
+    
+    new_username = request.json.get("username", None)
+    
+    if not new_username:
+        return jsonify({"error": "Username is required"}), 400
+    
+    # Query the user
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+    
+    existing_user = User.query.filter_by(username=new_username).first()
+    if existing_user:
+        return jsonify({"error": "Username already exists"}), 409
+
+    user.username = new_username
+    db.session.commit()
+
+    return jsonify({"message": "Username updated successfully", "username": user.username}), 200

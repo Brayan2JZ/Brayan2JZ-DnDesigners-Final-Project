@@ -9,7 +9,7 @@ import { Home } from "./pages/home";
 import { CharacterImageCreator } from "./pages/makeImage";
 import { ItemImageCreator } from "./pages/makeImage_item";
 import { SpellImageCreator } from "./pages/makeImage_spell";
-
+import { UserHome } from "./pages/userHome";
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
@@ -19,6 +19,7 @@ import { Models } from "./pages/models"; // Import the Models page
 import { ModelDetail } from "./pages/modelDetail"; // Import the ModelDetail page
 import { Footer } from "./component/footer";
 import { Context } from "./store/appContext";
+import { Profile } from "./pages/profile";
 
 //create your first component
 const Layout = () => {
@@ -37,6 +38,7 @@ const Layout = () => {
                     <Navbar />
                     <Routes>
                         <Route element={<Home />} path="/" />
+                        <Route element={<UserHome />} path="/user"/>
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<Gallery />} path="/gallery" />
@@ -46,6 +48,7 @@ const Layout = () => {
                         <Route element={<Tags />} path="/tags" />
                         <Route element={<Models />} path="/models" /> {/* New Models page route */}
                         <Route element={<ModelDetail />} path="/model/:id" /> {/* New ModelDetail page route */}
+                        <Route element={<Profile />} path="/profile/:id" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />

@@ -18,23 +18,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			isLoggedIn: false,
 
-			formInput: {name:"", class:"", race:"", alignment:['',''], spell:"", description:"", damage:"", backstory:"", statToAdd:"", imageFile:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg/220px-Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg"},
+			formInput: {name:"", class:"", race:"", alignment:['',''], spell:"", description:"", damage:"", backstory:"", statToAdd:""},
 
-			formInputItem: {name:"",uses:"", ac:"", attune:false, atribute1:"",atribute2:"",atribute3:"", rarity:"", description:[], damage:[],  backstory:"", statToAdd:"", imageFile:"https://images.nightcafe.studio/jobs/ZgSQlVUA31qvUFwzRJYH/ZgSQlVUA31qvUFwzRJYH--1--2zzil.jpg?tr=w-1600,c-at_max"},
+			formInputItem: {name:"",uses:"", ac:"", attune:false, atribute1:"",atribute2:"",atribute3:"", rarity:"", description:[], damage:[],  backstory:"", statToAdd:""},
 
-			formInputSpell: {name:"",class:"", castingTime:"Instantaneous", range:"", duration:"", rarity:"", components:"", damage:"",higherLvl:"",  backstory:"", statToAdd:"", isVerbal:"", isSomatic:"", isMaterial:"", imageFile:"https://i.pinimg.com/1200x/59/15/8b/59158b3d3e0dc0c98954f3da89e14469.jpg"},
+			formInputSpell: {name:"",class:"", castingTime:"Instantaneous", range:"", duration:"", rarity:"", components:"", damage:"",higherLvl:"",  backstory:"", statToAdd:"", isVerbal:"", isSomatic:"", isMaterial:""},
 
 			bubbleRange: 2, 
 			statBubbleVis: ['visible', 'visible','hidden','hidden','hidden','hidden','hidden','hidden','hidden','hidden','hidden'],
+			cardImageFile:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg/220px-Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg",
 
 		},
 		actions: {
 			isTokenExpired: (token) => {
-                if (!token) return true; // No token is expired
-                const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decode JWT token
-                const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
-				console.log(decodedToken.exp < currentTime,"HELOOO")
-                return decodedToken.exp < currentTime; // Check if the token is expired
+                if (!token) return true;
+                const decodedToken = JSON.parse(atob(token.split('.')[1]));
+                const currentTime = Math.floor(Date.now() / 1000);
+                return decodedToken.exp < currentTime;
 			},
 
 			setIsLoggedIn: (status) => {
@@ -42,14 +42,37 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ isLoggedIn: status });
 			},
 
-			checkTokenAndLogout: () => {
-                const token = localStorage.getItem('token');
-                if (getActions().isTokenExpired(token)) {
-                    console.log("Token expired, logging out.");
-                    localStorage.removeItem('token'); // Remove expired token from localStorage
-                    setStore({ isLoggedIn: false }); // Set isLoggedIn to false
-                }
-            },
+			checkTokenAndLogout: (navigate) => {
+				const token = localStorage.getItem('token');
+				
+				if (!token) {
+				  actions.setIsLoggedIn(false);  // If no token, log out
+				  localStorage.removeItem('token');
+				  localStorage.setItem('userLoggedIn', 'false');
+				  navigate('/login');  // Redirect to login page
+				  return;
+				}
+			  
+				try {
+				  const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decode JWT token
+				  const tokenExpiry = decodedToken.exp; // Decode token to get expiry time
+				  const currentTime = Math.floor(Date.now() / 1000); // Get current time in seconds
+				
+				  // Check if the token has expired
+				  if (currentTime >= tokenExpiry) {
+					actions.setIsLoggedIn(false);  // Log out if expired
+					localStorage.removeItem('token');
+					localStorage.setItem('userLoggedIn', 'false');
+					navigate('/login');  // Redirect to login page
+				  }
+				} catch (error) {
+				  console.error("Error decoding token: ", error);
+				  actions.setIsLoggedIn(false);  // If decoding fails, log out
+				  localStorage.removeItem('token');
+				  localStorage.setItem('userLoggedIn', 'false');
+				  navigate('/login');  // Redirect to login page
+				}
+			  },
 
 			saveAs : (imageUri,fileName) => {
 				if(fileName!=''){
@@ -148,6 +171,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			setFormInputSpell: (newObj) => {
 				setStore({ formInputSpell: newObj });
+			},
+			setCardImageFile:(newObj) =>{
+				setStore({ cardImageFile: newObj });
 			},
 
 			setstatBubbleVis: (ind) => {

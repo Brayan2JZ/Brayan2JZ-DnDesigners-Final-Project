@@ -126,7 +126,7 @@ export const Register = () => {
 
       <div className="row mb-3">
         <div className="col-sm-10 offset-sm-2">
-          <button type="submit" className="btn btn-primary" onClick={createUser}>
+          <button type="submit" className="btn btn-primary" data-bs-target="#registerModal" onClick={createUser}>
             Register
           </button>
           <button onClick={getAll}>
