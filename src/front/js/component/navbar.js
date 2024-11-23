@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../img/logowide.png";
 import { SignIn } from "../component/signIn";
 import { Register } from "./register";
@@ -7,6 +7,7 @@ import { Context } from "../store/appContext";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
+  const navigate = useNavigate();
 
   useEffect(() => {
 	const userLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
@@ -103,10 +104,17 @@ export const Navbar = () => {
                   <li><a className="dropdown-item" href="#">Profile</a></li>
                   <li><a className="dropdown-item" href="#">Favorites</a></li>
                   <li><a className="dropdown-item" href="#">Settings</a></li>
-                  <li><a className="dropdown-item" href="#" onClick={() => {
-                    localStorage.setItem('userLoggedIn', 'false');
-                    actions.setIsLoggedIn(false);
-                  }}>Logout</a></li>
+                  <li><a 
+                    className="dropdown-item" 
+                    href="/" 
+                    onClick={() => {
+                      localStorage.setItem('userLoggedIn', 'false');
+                      actions.setIsLoggedIn(false);
+                      navigate('/');
+                    }}
+                  >
+                    Logout
+                  </a></li>
                 </ul>
               </li>
             )}

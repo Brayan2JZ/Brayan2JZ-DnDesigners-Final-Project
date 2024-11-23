@@ -35,9 +35,11 @@ export const CardView=(props)=>{
         let method='';
         if(favorite){
             method='DELETE';
+            setFavorite(false);
         }
         else{
             method='POST';
+            setFavorite(true);
         }
         fetch(localStorage.getItem('backendUrl')+'api/favorite',{
             method:method,
@@ -52,13 +54,6 @@ export const CardView=(props)=>{
                 return response.json();
             }).then((respJson)=>{
                 console.log(respJson.id)
-                if(method=='POST'){
-                    setFavorite(true);
-                }
-                else{
-                    setFavorite(false);
-                }
-                return
             })
         }
 

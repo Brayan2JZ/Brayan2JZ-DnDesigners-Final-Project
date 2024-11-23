@@ -47,8 +47,10 @@ export const SignIn = () => {
         console.log("Token retrieved for user ID:", jsonRes.id);
   
         actions.setIsLoggedIn(true);
-  
-        setLoginSuccess(true);
+
+        const modalElement = document.getElementById('signInModal');
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        modal.hide();
       } else {
         setError("Invalid credentials.");
         setLoginSuccess(false);
@@ -56,7 +58,7 @@ export const SignIn = () => {
     })
     .catch((e) => {
       console.log(e);
-      setError("An error occurred during sign-in.");
+      setError("E-mail/Password is Incorrect");
       setLoginSuccess(false);
     });
   };

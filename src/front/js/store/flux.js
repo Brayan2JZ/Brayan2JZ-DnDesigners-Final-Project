@@ -30,10 +30,26 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 		},
 		actions: {
+			isTokenExpired: (token) => {
+                if (!token) return true; // No token is expired
+                const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decode JWT token
+                const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+                return decodedToken.exp < currentTime; // Check if the token is expired
+			},
+
 			setIsLoggedIn: (status) => {
 				console.log("setIsLoggedIn action triggered with status:", status);
 				setStore({ isLoggedIn: status });
 			},
+
+			checkTokenAndLogout: () => {
+                const token = localStorage.getItem('token');
+                if (getActions().isTokenExpired(token)) {
+                    console.log("Token expired, logging out.");
+                    localStorage.removeItem('token'); // Remove expired token from localStorage
+                    setStore({ isLoggedIn: false }); // Set isLoggedIn to false
+                }
+            },
 
 			saveAs : (imageUri,fileName) => {
 				if(fileName!=''){
