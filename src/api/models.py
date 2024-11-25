@@ -30,7 +30,7 @@ class CardBank(db.Model):
     uploadedDate=db.Column(Date)
 
     def __ref__(self):
-        return f'<User {self.filename}>'
+        return f'<CardBank {self.filename}>'
     
     def serialize(self):
         return{
@@ -41,7 +41,27 @@ class CardBank(db.Model):
             'tags':self.tags,
             'uploadedDate':self.uploadedDate
         }
+
+class ThreeDBank(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    userId=db.Column(db.Integer,nullable=True)
+    filename=db.Column(db.String(40),unique=True,nullable=False)
+    url=db.Column(db.Text,unique=True,nullable=False)
+    tags=db.Column(db.Text,nullable=True) #Change to false once we have a tagging system
+    uploadedDate=db.Column(Date)
+
+    def __ref__(self):
+        return f'<ThreeDBank {self.filename}>'
     
+    def serialize(self):
+        return{
+            'id':self.id,
+            'userId':self.userId,
+            'filename':self.filename,
+            'url':self.url,
+            'tags':self.tags,
+            'uploadedDate':self.uploadedDate
+        }
 
 class TagList(db.Model):
     id=db.Column(db.Integer,primary_key=True)
@@ -113,3 +133,15 @@ class CommentsBank(db.Model):
     artId=db.Column(db.Integer,nullable=True)
     comment=db.Column(db.Text,nullable=False)
     
+    def __ref__(self):
+        return f'<CommentsBank {self.id}>'
+    
+    def serialize(self):
+        return{
+            'id':self.id,
+            'userId':self.userId,
+            'filename':self.filename,
+            'url':self.url,
+            'tags':self.tags,
+            'uploadedDate':self.uploadedDate
+        }
