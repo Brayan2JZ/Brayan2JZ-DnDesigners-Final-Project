@@ -27,39 +27,39 @@ const StatForm = () =>{
   return(
   <div className='form'>
     <div className="input-group">
-      <span className="input-group-text">Name</span>
+      <span className="input-group-text formTitle">Name</span>
       <input type="text" aria-label="nameInput" class="form-control" onChange={(e)=>actions.setFormInputItem(  {...formInputItem, name:e.target.value})}/>
     </div>
 
     <div className="input-group">
-      <span className="input-group-text">Number of uses</span>
+      <span className="input-group-text formTitle">Number of uses</span>
       <input type="text" aria-label="usesInput" class="form-control" onChange={(e)=>actions.setFormInputItem(  {...formInputItem, uses:"Uses: "+e.target.value})}/>
     </div>
 
     <div className="input-group">
-      <span className="input-group-text">AC</span>
+      <span className="input-group-text formTitle">AC</span>
       <input type="text" aria-label="acInput" className="form-control" onChange={(e)=>actions.setFormInputItem(  {...formInputItem, ac:"AC: "+e.target.value})}/>
     </div>
 
     <div className="form-check">
-      <span className="form-check-text "><strong><u>Does Item Require Attunement?</u></strong></span>
+      <span className="form-check-text  formTitle"><strong><u>Does Item Require Attunement?</u></strong></span>
       
       <div className="form-check">
-        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="true" onClick={ (e)=>actions.setFormInputItem( {...formInputItem, attune:"Requires Attunement"})}/>
-        <label className="form-check-label" for="flexRadioDefault1">
-          Requires Attunement
+        <input className="form-check-input formTitle" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="true" onClick={ (e)=>actions.setFormInputItem( {...formInputItem, attune:"Needs Attunement"})}/>
+        <label className="form-check-label formTitle" for="flexRadioDefault1">
+          Needs Attunement
         </label>
       </div>
       <div className="form-check">
-        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="false" onClick={ (e)=>actions.setFormInputItem( {...formInputItem, attune: ""})}/>
-        <label className="form-check-label" for="flexRadioDefault2">
+        <input className="form-check-input formTitle" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="false" onClick={ (e)=>actions.setFormInputItem( {...formInputItem, attune: ""})}/>
+        <label className="form-check-label formTitle" for="flexRadioDefault2">
           No Attunement
         </label>
       </div>
     </div>
 
 
-    <select class="form-select" aria-label="Select Rarity of Item" onChange={(e)=>actions.setFormInputItem(  {...formInputItem, rarity: e.target.value})}>
+    <select class="form-select formTitle" aria-label="Select Rarity of Item" onChange={(e)=>actions.setFormInputItem(  {...formInputItem, rarity: e.target.value})}>
       <option value= "" selected>Select Rarity of Item</option>
       <option value="Rarity: Common">Common</option>
       <option value="Rarity: Uncommon">Uncommon</option>
@@ -68,7 +68,7 @@ const StatForm = () =>{
       <option value="Rarity: Legendary">Legendary</option>
     </select>
 
-    <label for="bubbleRange" class="form-label">How many stat bubbles do you need? {store.bubbleRange}</label>
+    <label for="bubbleRange" class="form-label formTitle">How many stat bubbles do you need? {store.bubbleRange}</label>
       <input type="range" class="form-range" min="0" max="11" id="bubbleRange" defaultValue={store.bubbleRange} onChange={(e)=>actions.setstatBubbleVis([e.target.value])}>
     </input>
 
@@ -76,15 +76,15 @@ const StatForm = () =>{
     <div className= "input-group statToAdd d-flex">
       
         <div class="mb-3">
-          <label for="itemNameInput" class="form-label"></label>
+          <label for="itemNameInput" class="form-label formTitle"></label>
           <div class="btn-group" role="group" aria-label="Basic example" >
             
-            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInputItem(  {...formInputItem, damage: "Damage: "+formInputItem.statToAdd})}>Damage</button>
-            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInputItem(  {...formInputItem, atribute1: formInputItem.statToAdd})}>Atribute 1</button>
-            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInputItem(  {...formInputItem, atribute2: formInputItem.statToAdd})}>Atribute 2</button>
-            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInputItem(  {...formInputItem, atribute3: formInputItem.statToAdd})}>Atribute 3</button>
+            <button type="button" class="btn btn-primary mx-1 formTitle" onClick={()=>actions.setFormInputItem(  {...formInputItem, damage: "Damage: "+formInputItem.statToAdd})}>Damage</button>
+            <button type="button" class="btn btn-primary mx-1 formTitle" onClick={()=>actions.setFormInputItem(  {...formInputItem, atribute1: formInputItem.statToAdd})}>Atribute 1</button>
+            <button type="button" class="btn btn-primary mx-1 formTitle" onClick={()=>actions.setFormInputItem(  {...formInputItem, atribute2: formInputItem.statToAdd})}>Atribute 2</button>
+            <button type="button" class="btn btn-primary mx-1 formTitle" onClick={()=>actions.setFormInputItem(  {...formInputItem, atribute3: formInputItem.statToAdd})}>Atribute 3</button>
           </div>
-          <textarea  type="text" class="form-control" id="itemDescriptionInput" placeholder="Description" 
+          <textarea  type="text" class="form-control formTitle" id="itemDescriptionInput" placeholder="Description" 
             onChange={(e)=>actions.setFormInputItem({...formInputItem, statToAdd: [e.target.value]})}>
           </textarea>
         </div>
@@ -92,12 +92,12 @@ const StatForm = () =>{
 
 
     </div>
-    <textarea  type="text" class="form-control" id="itemDescriptionInput" placeholder="Backstory" 
+    <textarea  type="text" class="form-control formTitle" id="itemDescriptionInput" placeholder="Backstory" 
             onChange={(e)=>actions.setFormInputItem({...formInputItem, backstory: [e.target.value]})}>
     </textarea>
 
     
-    <div className="input-group mb-3">
+    <div className="input-group mb-3 formTitle">
       <UploadImage setURL={setURL}/>
     </div>
 
@@ -127,7 +127,7 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
     <img className='cardFrameForeground'src={cardFG}></img>
 
 	  <div className='mainCardBody'>
-    <div className='statContainer container bubblesContainer '>
+    <div className='statContainer container bubblesContainer cardText'>
           <div className='row bubblesRow mb-3 gx-0'>
             <div className='col align-self-end'>	
               <h4  className='stat' id='stat1' style={{visibility:  store.statBubbleVis[0]}}></h4>
@@ -181,12 +181,12 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
         </div>
 
 
-			<div className='rightStatInfo'>
+			<div className='rightStatInfo cardText'>
         <h2 id='cardTitle'>{ formInputItem.name}</h2>
-				<p  className='titled'> {formInputItem.uses}</p>
-				<p  className='titled'>{formInputItem.ac}</p>
-        <p  className='titled'> {formInputItem.attune}</p>
-        <p  className='titled'> {formInputItem.rarity}</p>
+				<p  className='titled cardText'> {formInputItem.uses}</p>
+				<p  className='titled cardText'>{formInputItem.ac}</p>
+        <p  className='titled cardText'> {formInputItem.attune}</p>
+        <p  className='titled cardText'> {formInputItem.rarity}</p>
 				
         <p className='statDetails'>{formInputItem.damage}</p>
 

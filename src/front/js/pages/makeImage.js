@@ -17,30 +17,30 @@ const StatForm = () =>{
   <div className='form'>
 
     <div className="input-group">
-      <span className="input-group-text">Name</span>
+      <span className="input-group-text formTitle">Name</span>
       <input type="text" aria-label="classInput" class="form-control" onChange={(e)=>actions.setFormInput(  {...formInput, name:e.target.value})}/>
     </div>
 
     <div className="input-group">
-      <span className="input-group-text">Class</span>
+      <span className="input-group-text formTitle">Class</span>
       <input type="text" aria-label="classInput" className="form-control" onChange={(e)=>actions.setFormInput(  {...formInput, class: "Class: "+e.target.value})}/>
     </div>
 
     <div className="input-group">
-      <span className="input-group-text">Race</span>
+      <span className="input-group-text formTitle">Race</span>
       <input type="text" aria-label="raceInput" className="form-control" onChange={(e)=>actions.setFormInput(  {...formInput, race: "Race: "+e.target.value})}/>
     </div>
 
     <div className="input-group mb-3">
-      <label className="input-group-text" for="inputGroupSelect01">Alignment</label>
-      <select className="form-select" id="inputGroupSelect01" onChange={(e)=>actions.setFormInput(  {...formInput, alignment: [e.target.value, formInput.alignment[1]]})}>
+      <label className="input-group-text formTitle" for="inputGroupSelect01">Alignment</label>
+      <select className="form-select formTitle" id="inputGroupSelect01" onChange={(e)=>actions.setFormInput(  {...formInput, alignment: [e.target.value, formInput.alignment[1]]})}>
         <option value=" ">Pick Alignment</option>
         <option value="chaotic ">Chaotic</option>
         <option value="neutral ">Neutral</option>
         <option value="lawful ">Lawful</option>
       </select>
 
-      <select className="form-select" id="inputGroupSelect01" onChange={(e)=>actions.setFormInput(  {...formInput, alignment: [formInput.alignment[0], e.target.value ]})}>
+      <select className="form-select formTitle" id="inputGroupSelect01" onChange={(e)=>actions.setFormInput(  {...formInput, alignment: [formInput.alignment[0], e.target.value ]})}>
         <option value=" ">Pick Alignment</option>
         <option value="good">Good</option>
         <option value="neutral">Neutral</option>
@@ -48,20 +48,20 @@ const StatForm = () =>{
       </select>
     </div>
 
-    <label for="bubbleRange" class="form-label">How many stat bubbles do you need? {store.bubbleRange}</label>
-      <input type="range" class="form-range" min="0" max="11" id="bubbleRange" defaultValue={store.bubbleRange} onChange={(e)=>actions.setstatBubbleVis([e.target.value])}>
+    <label for="bubbleRange" className="form-label formTitle">How many stat bubbles do you need? {store.bubbleRange}</label>
+      <input type="range" className="form-range" min="0" max="11" id="bubbleRange" defaultValue={store.bubbleRange} onChange={(e)=>actions.setstatBubbleVis([e.target.value])}>
     </input>
 
     <div className= "input-group statToAdd d-flex">
       
         <div class="mb-3">
           <label for="itemNameInput" class="form-label"></label>
-          <div class="btn-group" role="group" aria-label="Basic example" >
-            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInput(  {...formInput, damage: formInput.statToAdd})}>Damage</button>
-            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInput(  {...formInput, spell: formInput.statToAdd})}>Spell/Effect</button>
-            <button type="button" class="btn btn-primary mx-1" onClick={()=>actions.setFormInput(  {...formInput, description: formInput.statToAdd})}>Description</button>
+          <div className="btn-group" role="group" aria-label="Basic example" >
+            <button type="button" className="btn btn-primary mx-1 formTitle" onClick={()=>actions.setFormInput(  {...formInput, damage: formInput.statToAdd})}>Damage</button>
+            <button type="button" className="btn btn-primary mx-1 formTitle" onClick={()=>actions.setFormInput(  {...formInput, spell: formInput.statToAdd})}>Spell/Effect</button>
+            <button type="button" className="btn btn-primary mx-1 formTitle" onClick={()=>actions.setFormInput(  {...formInput, description: formInput.statToAdd})}>Description</button>
           </div>
-          <textarea  type="text" class="form-control" id="itemDescriptionInput" placeholder="Description" rows="3"
+          <textarea  type="text" className="form-control formTitle" id="itemDescriptionInput" placeholder="Description" rows="3"
             onChange={(e)=>actions.setFormInput({...formInput, statToAdd: [e.target.value]})}>
           </textarea>
         </div>
@@ -69,11 +69,11 @@ const StatForm = () =>{
 
 
     </div>
-    <textarea  type="text" class="form-control" id="itemDescriptionInput" placeholder="Backstory" rows="3" 
+    <textarea  type="text" className="form-control formTitle" id="itemDescriptionInput" placeholder="Backstory" rows="3" 
             onChange={(e)=>actions.setFormInput({...formInput, backstory: [e.target.value]})}>
     </textarea>
 
-    <div className="input-group mb-3">
+    <div className="input-group mb-3 formTitle">
       <UploadImage setURL={setURL}/>
     
     </div>
@@ -155,11 +155,11 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
         </div>
 
 
-			<div className='rightStatInfo mt-1'>
-        <h3 id='cardTitle'>{ store.formInput.name}</h3>
-				<p id='className' className='titled'>{formInput.class}</p>
-				<p id='raceName' className='titled'>{formInput.race}</p>
-        <p id='alignmentName' className='titled'>{formInput.alignment}</p>
+			<div className='rightStatInfo mt-1 '>
+        <h3 id='cardTitle' className='cardText'>{ store.formInput.name}</h3>
+				<p id='className' className='titled cardText'>{formInput.class}</p>
+				<p id='raceName' className='titled cardText'>{formInput.race}</p>
+        <p id='alignmentName' className='titled cardText'>{formInput.alignment}</p>
 				
         <p className='text-decoration-underline titled'>Damage</p>
         <p id='stat1' className='statDetails'>{formInput.damage}</p>
