@@ -198,6 +198,10 @@ def getAllUsers():
     print(userList)
     return userList
 
+# @api.route('/islogin',methods=['GET'])
+# @jwt_required()
+# def isLoggedIn():
+
 ### ART STUFF
 @api.route('/upload-art',methods=['POST'])
 @jwt_required()

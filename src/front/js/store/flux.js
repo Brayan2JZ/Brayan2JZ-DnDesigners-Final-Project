@@ -31,10 +31,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 		},
 		actions: {
 			isTokenExpired: (token) => {
-                if (!token) return true; // No token is expired
-                const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decode JWT token
-                const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
-                return decodedToken.exp < currentTime; // Check if the token is expired
+                if (!token) return true;
+                const decodedToken = JSON.parse(atob(token.split('.')[1]));
+                const currentTime = Math.floor(Date.now() / 1000);
+                return decodedToken.exp < currentTime;
 			},
 
 			setIsLoggedIn: (status) => {
@@ -42,14 +42,37 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ isLoggedIn: status });
 			},
 
-			checkTokenAndLogout: () => {
-                const token = localStorage.getItem('token');
-                if (getActions().isTokenExpired(token)) {
-                    console.log("Token expired, logging out.");
-                    localStorage.removeItem('token'); // Remove expired token from localStorage
-                    setStore({ isLoggedIn: false }); // Set isLoggedIn to false
-                }
-            },
+			checkTokenAndLogout: (navigate) => {
+				const token = localStorage.getItem('token');
+				
+				if (!token) {
+				  actions.setIsLoggedIn(false);  // If no token, log out
+				  localStorage.removeItem('token');
+				  localStorage.setItem('userLoggedIn', 'false');
+				  navigate('/login');  // Redirect to login page
+				  return;
+				}
+			  
+				try {
+				  const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decode JWT token
+				  const tokenExpiry = decodedToken.exp; // Decode token to get expiry time
+				  const currentTime = Math.floor(Date.now() / 1000); // Get current time in seconds
+				
+				  // Check if the token has expired
+				  if (currentTime >= tokenExpiry) {
+					actions.setIsLoggedIn(false);  // Log out if expired
+					localStorage.removeItem('token');
+					localStorage.setItem('userLoggedIn', 'false');
+					navigate('/login');  // Redirect to login page
+				  }
+				} catch (error) {
+				  console.error("Error decoding token: ", error);
+				  actions.setIsLoggedIn(false);  // If decoding fails, log out
+				  localStorage.removeItem('token');
+				  localStorage.setItem('userLoggedIn', 'false');
+				  navigate('/login');  // Redirect to login page
+				}
+			  },
 
 			saveAs : (imageUri,fileName) => {
 				if(fileName!=''){
