@@ -279,6 +279,13 @@ export const Gallery = () => {
                             </div>
                         </div>
                     </div>
+
+{/* 3D Models Tab - Placeholder */}
+                    <div className="tab-pane fade" id="pills-models" role="tabpanel" aria-labelledby="pills-3d-models-tab" tabIndex="0">
+                        <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: '200px' }}>
+                            <p>No 3D models available yet.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -359,6 +366,7 @@ export const Gallery = () => {
     </div>
 )}
         </div>
+        
     );
 };
 
