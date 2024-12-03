@@ -63,6 +63,13 @@ export const SignIn = () => {
     });
   };
 
+  const handleRegisterClick = (e) => {
+    e.preventDefault();
+    const modalElement = document.getElementById('registerModal');
+    const modal = new bootstrap.Modal(modalElement);
+    modal.show();
+  };
+
   return (
     <div className="modal fade" id="signInModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div className="modal-dialog d-flex justify-content-center">
@@ -118,7 +125,12 @@ export const SignIn = () => {
                   <button type="submit" className="btn btn-primary m-2">
                     Sign In
                   </button>
-                  <button className="btn btn-success" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+                  <button
+                    className="btn btn-success"
+                    onClick={handleRegisterClick} 
+                  >
+                    Register
+                  </button>
                 </div>
               </div>
             </form>

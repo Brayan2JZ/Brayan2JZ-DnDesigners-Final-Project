@@ -32,37 +32,27 @@ export const Register = () => {
     }
 
   };
-  const getAll=async ()=>{
-    const response= await fetch(localStorage.getItem('backendUrl')+'api/users',{
-      method:'GET',
-      headers:{
-        'Content-Type': 'application/json',
-        "Authorization": "Bearer "+localStorage.getItem("token")
-      }
-    }).then((resp)=>{
-      return resp.json()
-    }).catch((e)=>{console.log(e)})
 
-    console.log(response)
-  }
-
-  const createUser=()=>{
-    fetch(localStorage.getItem('backendUrl')+'api/register',{
-      method:'POST',
+  const createUser = () => {
+    fetch(localStorage.getItem('backendUrl') + 'api/register', {
+      method: 'POST',
       body: JSON.stringify({
-        username:email,
-        password:password
+        username: email,
+        password: password
       }),
-      headers: {'Content-Type': 'application/json'}
-    }).then((response)=>{
-      return response.json()
-    }).then((jsonRes)=>{
-      console.log(jsonRes)
-      return jsonRes
-    }).catch((e)=>{
-      console.log(e)
-    })
-  }
+      headers: { 'Content-Type': 'application/json' }
+    }).then((response) => {
+      return response.json();
+    }).then((jsonRes) => {
+      console.log(jsonRes);
+      setSuccess("Registration successful!");
+      window.location.reload();
+    }).catch((e) => {
+      console.log(e);
+      setError("Registration failed. Please try again.");
+    });
+  };
+
   return (
     <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
          <div class="modal-dialog d-flex justify-content-center">
@@ -129,9 +119,7 @@ export const Register = () => {
           <button type="submit" className="btn btn-primary" data-bs-target="#registerModal" onClick={createUser}>
             Register
           </button>
-          <button onClick={getAll}>
-            Get all Users
-          </button>
+          
         </div>
       </div>
     </form>

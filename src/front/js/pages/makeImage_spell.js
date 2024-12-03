@@ -18,7 +18,7 @@ const StatForm = () =>{
   useEffect(()=> actions.setCardImageFile(url),[url]);
 
   return(
-  <div className='form'>
+  <div className='form formTitle'>
 
     <div className="input-group">
       <span className="input-group-text">Name</span>

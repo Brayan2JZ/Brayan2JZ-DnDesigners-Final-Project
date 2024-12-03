@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=New+Rocker&family=Playwrite+BE+VLG:wght@100..400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=New+Rocker&family=Playwrite+BE+VLG:wght@100..400&display=swap');
+
+
 
 
 .cardFrameBackground{
@@ -23,14 +27,18 @@
    left:3%;   
 }
 #cardTitle{
-
-    
-    height: 40px;
+font-family: "New Rocker", system-ui; 
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  max-height: 120px;  
+  overflow: hidden;
 }
-.mainCardBody{   
-    max-height: 350px;
-    margin-top: 50px;
-    max-width: 400px; 
+.mainCardBody{  
+    
+    max-height: 700px;
+    margin-top: 23px;
+    width: 493px; 
     
 }
 .statContainer{
@@ -43,29 +51,36 @@
 .rightStatInfo{
     position: absolute;
     z-index: 2;
-    right: 50px;
+    right: 35px;
     text-align: center;
-    padding-right: 12px;
-    max-width: 155px;
+    max-width: 190px;
     min-width: 130px;
     max-height: 590px;
     overflow: hidden;
 }
 .titled{
+    font-family: "New Rocker", system-ui; 
     font-size: 18px;
     margin-bottom: 0;
     word-wrap: break-word; 
 }
+.formTitle{
+    font-family: "New Rocker", system-ui; 
+}
+.cardText{
+    font-family: "Cinzel", system-ui; 
+}
 .originStory{
     position: absolute;
     text-align: center;
-    width: 300px;
+    width: 280px;
     top: 350px;
     z-index: 2;
     overflow: hidden;
 }
 .statDetails{
     font-size: 15px;
+    font-family: "Cinzel", system-ui;
 }
 .stat{
     width:30px;
@@ -77,7 +92,7 @@
    
 }
 .bubblesContainer{ 
-    width: 300px;
+    width: 280px;
     height: 200px;   
     margin-left: 15px;
     top: 230px;
@@ -99,7 +114,7 @@
     font-size: 25px;
 }
 .originStory .statDetails{
-    font-size: 20px;
+    font-size: 13px;
     max-height: 260px;
 }
 
