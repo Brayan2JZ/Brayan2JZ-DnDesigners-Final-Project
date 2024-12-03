@@ -43,7 +43,7 @@ setup_commands(app)
 app.register_blueprint(api, url_prefix='/api')
 
 app.config["JWT_SECRET_KEY"]='its-a-secret'
-# app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=12)
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=12)
 jwt=JWTManager(app)
 
 # Handle/serialize errors like a JSON object

@@ -7,6 +7,42 @@ export const Gallery = () => {
     const [imageFile, setImageFile] = useState(null);
     const [uploadedImages, setUploadedImages] = useState([]);
 
+    const sendComment=()=>{
+        const date=new Date()
+        fetch(localStorage.getItem('backendUrl')+'api/comment',{
+            method:'POST',
+            body:JSON.stringify({
+                'userId':localStorage.getItem('id'),
+                'imageId':'imageIDPlaceholder',                 //replace with real imageId
+                'artId':'artIDPlaceholder',                     //replace with real artId
+                'comment':'The Comment to send',                //Replace with the comment you want to add
+                'uploadDate':date
+            }),
+            headers:{
+                'Content-Type':'application/json',
+                'Authorization':'Bearer '+localStorage.getItem('token')
+            }
+        }).then((response)=>{
+            respJson=response.json()
+            console.log(respJson)
+        }).catch((e)=>{
+            console.log(e)
+        })
+    };
+
+    const getComments=()=>{
+        fetch(localStorage.getItem('token')+'api/comments',{
+            method:'GET',
+            headers:{
+                'Content-Type':'application/json',
+                'Authorixation':'Bearer '+localStorage.getItem('token')
+            }
+        }).then((response)=>{
+            return response.json();
+        }).then((respJson)=>{
+            const commentsList=respJson;        //the returned list of comment for the passes in card/art ID. Need to place somewhere.
+        })
+    }
     
 
     useEffect(()=>{
@@ -77,7 +113,7 @@ export const Gallery = () => {
         })
             .then((response) => response.json())
             .then((data) => {
-                if (data.success) {
+                if (data.ok) {
                     setUploadedImages((prev) => [...prev, data.url]);
                     alert('Art uploaded successfully!');
                 } else {
@@ -145,37 +181,39 @@ export const Gallery = () => {
                                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div className="modal-body">
-                                            <div className="mb-3">
-                                                <label htmlFor="Title" className="form-label"><strong>Title:</strong></label>
+                                            <form>
+                                                <div className="mb-3">
+                                                    <label htmlFor="Title" className="form-label"><strong>Title:</strong></label>
+                                                    <input
+                                                        type="text"
+                                                        className="form-control"
+                                                        value={imageTitle}
+                                                        onChange={(e) => setImageTitle(e.target.value)}
+                                                        placeholder="Add a title for your artwork"
+                                                    />
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label htmlFor="Description" className="form-label"><strong>Caption:</strong></label>
+                                                    <textarea
+                                                        className="form-control"
+                                                        value={imageCaption}
+                                                        onChange={(e) => setImageCaption(e.target.value)}
+                                                        placeholder="Add a caption for your artwork"
+                                                        rows="3"
+                                                    />
+                                                </div>
                                                 <input
-                                                    type="text"
+                                                    type="file"
                                                     className="form-control"
-                                                    value={imageTitle}
-                                                    onChange={(e) => setImageTitle(e.target.value)}
-                                                    placeholder="Add a title for your artwork"
+                                                    id="inputArtGroupFile"
+                                                    accept=".png, .jpeg, .jpg"
+                                                    onChange={handleFileChange}
                                                 />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label htmlFor="Description" className="form-label"><strong>Caption:</strong></label>
-                                                <textarea
-                                                    className="form-control"
-                                                    value={imageCaption}
-                                                    onChange={(e) => setImageCaption(e.target.value)}
-                                                    placeholder="Add a caption for your artwork"
-                                                    rows="3"
-                                                />
-                                            </div>
-                                            <input
-                                                type="file"
-                                                className="form-control"
-                                                id="inputArtGroupFile"
-                                                accept=".png, .jpeg, .jpg"
-                                                onChange={handleFileChange}
-                                            />
+                                            </form>
                                         </div>
                                         <div className="modal-footer">
                                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="button" className="btn btn-success" onClick={handleUpload}>Upload</button>
+                                            <button type="submit" className="btn btn-success" onClick={handleUpload}>Upload</button>
                                         </div>
                                     </div>
                                 </div>

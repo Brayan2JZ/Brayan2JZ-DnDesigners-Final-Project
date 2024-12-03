@@ -10,6 +10,7 @@ import { CharacterImageCreator } from "./pages/makeImage";
 import { ItemImageCreator } from "./pages/makeImage_item";
 import { SpellImageCreator } from "./pages/makeImage_spell";
 import { UserHome } from "./pages/userHome";
+import { FavoritesPage } from "./pages/favoritesPage";
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
@@ -49,6 +50,7 @@ const Layout = () => {
                         <Route element={<Models />} path="/models" /> {/* New Models page route */}
                         <Route element={<ModelDetail />} path="/model/:id" /> {/* New ModelDetail page route */}
                         <Route element={<Profile />} path="/profile/:id" />
+                        <Route element={<FavoritesPage />} path="/favorites"/>
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />

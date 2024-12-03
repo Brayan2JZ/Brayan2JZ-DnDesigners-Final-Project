@@ -102,7 +102,11 @@ export const Navbar = () => {
                 </a>
                 <ul className="dropdown-menu dropdown-menu-end">
                   <li><a className="dropdown-item" href="/profile/:id">Profile</a></li>
-                  <li><a className="dropdown-item" href="#">Favorites</a></li>
+                  <li>
+                    <Link to='/favorites'>
+                      Favorites
+                    </Link>
+                  </li>
                   <li><a className="dropdown-item" href="#">Settings</a></li>
                   <li><a 
                     className="dropdown-item" 

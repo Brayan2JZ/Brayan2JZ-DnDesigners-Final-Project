@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User,CardBank,TagList,Favorites,ArtBank,Settings
+from api.models import db, User,CardBank,TagList,Favorites,ArtBank,Settings,CommentsBank
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
@@ -68,15 +68,19 @@ def deleteFavorite():      #Need image ID and user ID
         db.session.commit()
         return jsonify({'status':'False'})
     
-@api.route('/favorites',methods=['GET'])
+@api.route('/favorites/<int:userId>',methods=['GET'])
 @jwt_required()
-def getFavorites():
-    userId=request.json['id']
-    userFavorites=Favorites.query.filter_by(userId=userId).all()
-    userFavorites=list(map(lambda x: x.serialize().get('imageID'),userFavorites))
-    userCards = CardBank.query.filter(CardBank.id.in_(userFavorites)).all()
-    userCards=list(map(lambda x: x.serialize(),userCards))
-    return jsonify(userCards)
+def getFavorites(userId):
+    user=User.query.get(userId)
+    userFavorites = user.favorites
+    print(userFavorites)
+    userFavorites=list(map(lambda x: x.serialize(),userFavorites))
+    favUrls=[]
+    for i in userFavorites:
+        temp=CardBank.query.get(i.get('imageId'))
+        favUrls.append(temp)
+    favUrls=list(map(lambda x: x.serialize(),favUrls))
+    return jsonify(favUrls)
 
 ### CARD STUFF
 @api.route('/card',methods=['POST'])
@@ -202,6 +206,32 @@ def getAllUsers():
 # @jwt_required()
 # def isLoggedIn():
 
+###SETTINGS STUFF
+@api.route('/username',methods=['GET'])
+@jwt_required()
+def createName():
+    userName=request.json['userName']
+    userId=request.json['userId']
+    userMatch=Settings.query.filter_by(userId=userId)
+    if userMatch is None:
+        newUser=Settings(userName=userName,userId=userId)
+        db.session.add(newUser)
+        db.session.commit()
+        return "Success",200
+    else:
+        userMatch.userName=userName
+        db.session.commit()
+
+@api.route('/username',methods=['POST'])
+@jwt_required()
+def getName():
+    userMatch=Settings.query.filter_by(userId=request.json['userId'])
+    if userMatch is None:
+        return {'userName':''},200
+    else:
+        return {'userName':userMatch.userName},200
+
+
 ### ART STUFF
 @api.route('/upload-art',methods=['POST'])
 @jwt_required()
@@ -227,7 +257,7 @@ def addArt():
     db.session.commit()
 
     art=ArtBank.query.filter_by(fileName=title).first().serialize()
-    return jsonify({
+    return ({
         'id':art.get('id'),
         'fileName':art.get('fileName'),
         'imageUrl':art.get('imageUrl'),
@@ -263,3 +293,23 @@ def change_username():
     db.session.commit()
 
     return jsonify({"message": "Username updated successfully", "username": user.username}), 200
+
+### COMMENTS STUFF
+@api.route('/comment',methods=['POST'])
+@jwt_required()
+def createComment():
+    newComment=CommentsBank(userId=request.json['userId'],imageId=request.json['imageId'],artId=request.json['artId'],comment=request.json['comment'],uploadDate=request.json['uploadDate'])
+    db.session.add(newComment)
+    db.session.commit()
+    return "Success",200
+
+@api.route('/comments',methods=['POST'])        #get all comments based on the id, can be imageId or artId. never both.
+@jwt_required()
+def getComments():
+    if request.json['imageId']:
+        comments=CommentsBank.query.filter_by(userId=request.json['userId'],artId=request.json['imageId'])
+    else:
+        comments=CommentsBank.query.filter_by(userId=request.json['userId'],artId=request.json['artId'])
+    
+    comments=list(map(lambda x: x.serialize(),comments))
+    return jsonify(comments)
