@@ -301,15 +301,22 @@ def createComment():
     newComment=CommentsBank(userId=request.json['userId'],imageId=request.json['imageId'],artId=request.json['artId'],comment=request.json['comment'],uploadDate=request.json['uploadDate'])
     db.session.add(newComment)
     db.session.commit()
-    return "Success",200
+    return {'msg':"Success"}
 
-@api.route('/comments',methods=['POST'])        #get all comments based on the id, can be imageId or artId. never both.
+@api.route('/comments/image/<int:userId>/<int:id>',methods=['GET'])        #get all comments based on the id
 @jwt_required()
-def getComments():
-    if request.json['imageId']:
-        comments=CommentsBank.query.filter_by(userId=request.json['userId'],artId=request.json['imageId'])
-    else:
-        comments=CommentsBank.query.filter_by(userId=request.json['userId'],artId=request.json['artId'])
+def getCommentsImage(userId,id):
+    print("finding comments")
+    comments=CommentsBank.query.filter_by(userId=userId,imageId=id)
+    print(comments)
+    comments=list(map(lambda x: x.serialize(),comments))
+    print(comments)
+    return jsonify(comments)
+
+@api.route('/comments/art/<int:userId>/<int:id>',methods=['GET'])        #get all comments based on the id
+@jwt_required()
+def getCommentsArt(userId,id):
+    comments=CommentsBank.query.filter_by(userId=userId,artId=id)
     
     comments=list(map(lambda x: x.serialize(),comments))
     return jsonify(comments)
