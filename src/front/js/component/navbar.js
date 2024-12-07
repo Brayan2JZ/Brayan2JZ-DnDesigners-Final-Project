@@ -101,9 +101,26 @@ export const Navbar = () => {
                   <i className="fa-regular fa-circle-user fa-2x"></i>
                 </a>
                 <ul className="dropdown-menu dropdown-menu-end">
-                  <li><a className="dropdown-item" href="/profile/:id">Profile</a></li>
-                  <li><a className="dropdown-item" href="#">Favorites</a></li>
-                  <li><a className="dropdown-item" href="#">Settings</a></li>
+                  <li><a 
+                  className="dropdown-item"
+                  href="/profile/:id">
+                    Profile
+                  </a>
+                  </li>
+                  <li>
+                    <a
+                    className="dropdown-item"
+                    href="/favorites">
+                      Favorites
+                    </a>
+                  </li>
+
+                  <li><a 
+                  className="dropdown-item"
+                  href="#">
+                    Settings
+                  </a>
+                  </li>
                   <li><a 
                     className="dropdown-item" 
                     href="/" 

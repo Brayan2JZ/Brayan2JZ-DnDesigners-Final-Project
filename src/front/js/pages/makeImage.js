@@ -200,8 +200,12 @@ export const CharacterImageCreator = () => {
   const [imageUrl, setImageUrl] = useState("");
 
   useEffect(()=>{
+    const getTags=()=>{
+      setTagList([...tagList,store.formInput.class.slice(7,),store.formInput.race.slice(6),store.formInput,store.formInput.alignment[0]+' '+store.formInput.alignment[1]])
+    }
     if(imageUri != ""){
       console.log(imageUri)
+      getTags()
       setImageUrl(actions.insertImage(fileName,imageUri,tagList));
     }
   },[imageUri])

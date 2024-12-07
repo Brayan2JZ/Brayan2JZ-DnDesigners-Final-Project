@@ -216,8 +216,12 @@ export const SpellImageCreator = () => {
   const rand=Math.floor(Math.random() * 1000)
 
   useEffect(()=>{
+    const getTags=()=>{
+      setTagList([...tagList,store.formInputSpell.class.slice(9,),store.formInputSpell.rarity])
+    }
     if(imageUri != ""){
       console.log(imageUri)
+      getTags()
       setImageUrl(actions.insertImage('fileName'+rand,imageUri,[tagList[rand%8]]));
     }
   },[imageUri])
