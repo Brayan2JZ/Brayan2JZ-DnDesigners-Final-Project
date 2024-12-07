@@ -6,48 +6,10 @@ export const Gallery = () => {
     const [imageCaption, setImageCaption] = useState('');
     const [imageFile, setImageFile] = useState(null);
     const [uploadedImages, setUploadedImages] = useState([]);
-
     const [selectedImage, setSelectedImage] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [comment, setComment] = useState('');
     const [commentsByImage, setCommentsByImage] = useState({});
-
-    const sendComment=()=>{
-        const date=new Date()
-        fetch(localStorage.getItem('backendUrl')+'api/comment',{
-            method:'POST',
-            body:JSON.stringify({
-                'userId':localStorage.getItem('id'),
-                'imageId':'imageIDPlaceholder',                 //replace with real imageId
-                'artId':'artIDPlaceholder',                     //replace with real artId
-                'comment':'The Comment to send',                //Replace with the comment you want to add
-                'uploadDate':date
-            }),
-            headers:{
-                'Content-Type':'application/json',
-                'Authorization':'Bearer '+localStorage.getItem('token')
-            }
-        }).then((response)=>{
-            respJson=response.json()
-            console.log(respJson)
-        }).catch((e)=>{
-            console.log(e)
-        })
-    };
-
-    const getComments=()=>{
-        fetch(localStorage.getItem('token')+'api/comments',{
-            method:'GET',
-            headers:{
-                'Content-Type':'application/json',
-                'Authorixation':'Bearer '+localStorage.getItem('token')
-            }
-        }).then((response)=>{
-            return response.json();
-        }).then((respJson)=>{
-            const commentsList=respJson;        //the returned list of comment for the passes in card/art ID. Need to place somewhere.
-        })
-    }
 
     useEffect(() => {
         async function getImageURLs() {
