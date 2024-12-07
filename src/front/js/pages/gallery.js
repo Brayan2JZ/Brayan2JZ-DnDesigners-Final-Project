@@ -7,7 +7,6 @@ export const Gallery = () => {
     const [imageCaption, setImageCaption] = useState('');
     const [imageFile, setImageFile] = useState(null);
     const [uploadedImages, setUploadedImages] = useState([]);
-
     const [selectedImage, setSelectedImage] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [commentsByImage, setCommentsByImage] = useState({});
