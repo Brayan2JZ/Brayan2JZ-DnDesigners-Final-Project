@@ -303,14 +303,14 @@ def createComment():
     db.session.commit()
     return {'msg':"Success"}
 
-@api.route('/comments/image/<int:userId>/<int:id>',methods=['GET'])        #get all comments based on the id
+@api.route('/comments/image/<int:id>',methods=['GET'])        #get all comments based on the id
 @jwt_required()
-def getCommentsImage(userId,id):
-    print("finding comments")
-    comments=CommentsBank.query.filter_by(userId=userId,imageId=id)
-    print(comments)
+def getCommentsImage(id):
+    print("Looking for comments")
+    # comments=CommentsBank.query.filter_by(userId=userId,imageId=id)
+    # comments=list(map(lambda x: x.serialize(),comments))
+    comments=CardBank.query.get(id).comments
     comments=list(map(lambda x: x.serialize(),comments))
-    print(comments)
     return jsonify(comments)
 
 @api.route('/comments/art/<int:userId>/<int:id>',methods=['GET'])        #get all comments based on the id

@@ -32,6 +32,7 @@ class CardBank(db.Model):
     tags=db.Column(db.Text,nullable=True) #Change to false once we have a tagging system
     uploadedDate=db.Column(Date)
     favorites=db.relationship('Favorites', backref='card_bank')
+    comments=db.relationship('CommentsBank',backref='card_bank')
 
     def __ref__(self):
         return f'<CardBank {self.filename}>'
@@ -51,7 +52,6 @@ class ThreeDBank(db.Model):
     userId=db.Column(db.Integer,nullable=True)
     filename=db.Column(db.String(40),unique=True,nullable=False)
     url=db.Column(db.Text,unique=True,nullable=False)
-    tags=db.Column(db.Text,nullable=True) #Change to false once we have a tagging system
     uploadedDate=db.Column(Date)
 
     def __ref__(self):
@@ -63,7 +63,6 @@ class ThreeDBank(db.Model):
             'userId':self.userId,
             'filename':self.filename,
             'url':self.url,
-            'tags':self.tags,
             'uploadedDate':self.uploadedDate
         }
 
@@ -137,7 +136,7 @@ class ArtBank(db.Model):
 class CommentsBank(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     userId=db.Column(db.Integer,db.ForeignKey('user.id'),nullable=False)
-    imageId=db.Column(db.Integer,nullable=True)
+    imageId=db.Column(db.Integer,db.ForeignKey('card_bank.id'),nullable=False)
     artId=db.Column(db.Integer,nullable=True)
     comment=db.Column(db.Text,nullable=False)
     uploadDate=db.Column(Date)

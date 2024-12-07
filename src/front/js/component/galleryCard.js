@@ -5,15 +5,19 @@ export const GalleryCard=(props)=>{
     const [tempComments, setTempComments] = useState([]);
     const [comment, setComment] = useState('');
 
+    const userId=localStorage.getItem('userId')
+    const imageId=props.selectedImage.id
+    const getCommentsUrl=localStorage.getItem('backendUrl')+`api/comments/image/${imageId}`
+
     const sendComment=()=>{
         const date=new Date()
         fetch(localStorage.getItem('backendUrl')+'api/comment',{
             method:'POST',
             body:JSON.stringify({
-                'userId':localStorage.getItem('userId'),
-                'imageId':1,                 //replace with real imageId
+                'userId':userId,
+                'imageId':imageId,                 //replace with real imageId
                 'artId':-1,                     //replace with real artId
-                'comment':'The Comment to send',                //Replace with the comment you want to add
+                'comment':comment,                //Replace with the comment you want to add
                 'uploadDate':date
             }),
             headers:{
@@ -24,13 +28,11 @@ export const GalleryCard=(props)=>{
     };
 
     const getComments=()=>{
-        const userId=localStorage.getItem('userId')
-        const imageId=props.selectedImage.id
-        fetch(localStorage.getItem('token')+`api/comments/image/${userId}/${imageId}`,{
+        fetch(getCommentsUrl,{
             method:'GET',
             headers:{
                 'Content-Type':'application/json',
-                'Authorixation':'Bearer '+localStorage.getItem('token')
+                'Authorization':'Bearer '+localStorage.getItem('token')
             }
         }).then((response)=>{
             return response.json();
@@ -63,6 +65,8 @@ export const GalleryCard=(props)=>{
 
         // setComment('');
         sendComment()
+        setComment('')
+        getComments()
     };
     
     const handleCloseModal = () => {
@@ -105,7 +109,9 @@ export const GalleryCard=(props)=>{
                             <h6>Comments:</h6>
                             <div>
                                 {tempComments.map((comment)=>(
-                                    <p>{comment.comment}</p>
+                                    <div key={comment.id}>
+                                        <p>{comment.comment}</p>
+                                    </div>
                                 ))}
                             </div>
                             {/* {commentsByImage[selectedImage.id]?.length > 0 ? (
@@ -132,6 +138,7 @@ export const GalleryCard=(props)=>{
 {/* Comment Input */}
                         <div className="mb-3" style={{ marginTop: '20px' }}>
                             <textarea
+                                onKeyUp={(e)=>{e.key=='Enter'?handleAddComment():null}}
                                 className="form-control"
                                 value={comment}
                                 onChange={handleCommentChange}
