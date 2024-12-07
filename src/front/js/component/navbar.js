@@ -17,7 +17,7 @@ export const Navbar = () => {
   }, [actions, store.isLoggedIn]);
 
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary bg-light">
+    <nav className="navbar navbar-expand-lg bg-body-tertiary bg-transparent">
       <SignIn />
       <Register />
       <div className="container-fluid">
