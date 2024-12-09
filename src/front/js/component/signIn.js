@@ -32,7 +32,7 @@ export const SignIn = () => {
     fetch(localStorage.getItem('backendUrl') + 'api/token', {
       method: 'POST',
       body: JSON.stringify({
-        username: email,
+        username: email.toLowerCase(),
         password: password
       }),
       headers: { 'Content-Type': 'application/json' }

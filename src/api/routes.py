@@ -6,6 +6,7 @@ from api.models import db, User,CardBank,TagList,Favorites,ArtBank,Settings,Comm
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
+from werkzeug.security import generate_password_hash, check_password_hash
 from imagekitio import ImageKit
 import base64
 
@@ -168,13 +169,28 @@ def login():
     username=request.json['username']
     password=request.json['password']
     
-    user=User.query.filter_by(username=username,password=password).first()
+    user=User.query.filter_by(username=username).first()
     print(user)
-    if(user is not None):
+
+    if user and check_password_hash(user.password, password):
         token=create_access_token(identity=user.id)
         return jsonify({'token':token,'id':user.id})
     else:
-        return "Wrong username or password"
+        return "Wrong username or password", 401
+    
+
+# @api.route('/token',methods=['POST'])
+# def login():
+#     username=request.json['username']
+#     password=request.json['password']
+    
+#     user=User.query.filter_by(username=username,password=password).first()
+#     print(user)
+#     if(user is not None):
+#         token=create_access_token(identity=user.id)
+#         return jsonify({'token':token,'id':user.id})
+#     else:
+#         return "Wrong username or password"
     
 @api.route('/register',methods=['POST'])
 def register():
@@ -184,7 +200,7 @@ def register():
     isUser=User.query.filter_by(username=inputuser)
 
     if isUser:        
-        newUser=User(username=inputuser,password=inputpass)
+        newUser=User(username=inputuser,password=generate_password_hash(inputpass))
         db.session.add(newUser)
         db.session.commit()
         print("Success")

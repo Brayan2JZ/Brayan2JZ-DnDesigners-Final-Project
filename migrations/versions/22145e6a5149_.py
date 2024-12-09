@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 1c0ac8ad9d29
+Revision ID: 22145e6a5149
 Revises: 
-Create Date: 2024-12-07 00:13:13.933854
+Create Date: 2024-12-09 21:52:31.074069
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '1c0ac8ad9d29'
+revision = '22145e6a5149'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -45,7 +45,6 @@ def upgrade():
     sa.Column('userId', sa.Integer(), nullable=True),
     sa.Column('filename', sa.String(length=40), nullable=False),
     sa.Column('url', sa.Text(), nullable=False),
-    sa.Column('tags', sa.Text(), nullable=True),
     sa.Column('uploadedDate', sa.Date(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('filename'),
@@ -54,7 +53,7 @@ def upgrade():
     op.create_table('user',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('username', sa.String(length=120), nullable=False),
-    sa.Column('password', sa.String(length=80), nullable=False),
+    sa.Column('password', sa.String(length=256), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('username')
     )
@@ -73,10 +72,11 @@ def upgrade():
     op.create_table('comments_bank',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('userId', sa.Integer(), nullable=False),
-    sa.Column('imageId', sa.Integer(), nullable=True),
+    sa.Column('imageId', sa.Integer(), nullable=False),
     sa.Column('artId', sa.Integer(), nullable=True),
     sa.Column('comment', sa.Text(), nullable=False),
     sa.Column('uploadDate', sa.Date(), nullable=True),
+    sa.ForeignKeyConstraint(['imageId'], ['card_bank.id'], ),
     sa.ForeignKeyConstraint(['userId'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

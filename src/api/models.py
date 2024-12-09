@@ -9,7 +9,7 @@ db = SQLAlchemy()
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(80), unique=False, nullable=False)
+    password = db.Column(db.String(256), unique=False, nullable=False)
     cards=db.relationship('CardBank', backref='user')
     favorites=db.relationship('Favorites', backref='user')
     comments=db.relationship('CommentsBank',backref='user')

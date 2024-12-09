@@ -31,13 +31,15 @@ export const Register = () => {
       return;
     }
 
+    createUser();
+
   };
 
   const createUser = () => {
     fetch(localStorage.getItem('backendUrl') + 'api/register', {
       method: 'POST',
       body: JSON.stringify({
-        username: email,
+        username: email.toLowerCase(),
         password: password
       }),
       headers: { 'Content-Type': 'application/json' }
@@ -116,7 +118,8 @@ export const Register = () => {
 
       <div className="row mb-3">
         <div className="col-sm-10 offset-sm-2">
-          <button type="submit" className="btn btn-primary" data-bs-target="#registerModal" onClick={createUser}>
+          {/* <button type="submit" className="btn btn-primary" data-bs-target="#registerModal" onClick={createUser}> */}
+          <button type="submit" className="btn btn-primary" data-bs-target="#registerModal">
             Register
           </button>
           
