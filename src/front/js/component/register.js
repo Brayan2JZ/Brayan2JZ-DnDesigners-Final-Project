@@ -67,10 +67,10 @@ export const Register = () => {
       {success && <p className="text-success">{success}</p>}
 
       <div className="row mb-3">
-        <label htmlFor="inputEmail" className="col-sm-2 col-form-label">
+        <label htmlFor="inputEmail" className="col-sm-3 col-form-label">
           Email
         </label>
-        <div className="col-sm-10">
+        <div className="col-sm-9">
           <input
             type="email"
             className="form-control"
@@ -83,10 +83,10 @@ export const Register = () => {
       </div>
 
       <div className="row mb-3">
-        <label htmlFor="inputPassword" className="col-sm-2 col-form-label">
+        <label htmlFor="inputPassword" className="col-sm-3 col-form-label">
           Password
         </label>
-        <div className="col-sm-10">
+        <div className="col-sm-9">
           <input
             type="password"
             className="form-control"
@@ -99,10 +99,10 @@ export const Register = () => {
       </div>
 
       <div className="row mb-3">
-        <label htmlFor="inputConfirmPassword" className="col-sm-2 col-form-label">
+        <label htmlFor="inputConfirmPassword" className="col-sm-3 col-form-label">
           Confirm Password
         </label>
-        <div className="col-sm-10">
+        <div className="col-sm-9">
           <input
             type="password"
             className="form-control"
