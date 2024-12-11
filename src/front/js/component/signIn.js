@@ -132,6 +132,7 @@ export const SignIn = () => {
                     Register
                   </button>
                 </div>
+                <a className=''>Forgot Password</a>
               </div>
             </form>
           </div>
