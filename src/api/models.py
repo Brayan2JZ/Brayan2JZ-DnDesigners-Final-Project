@@ -102,7 +102,8 @@ class Favorites(db.Model):
     
 class Settings(db.Model):
     id=db.Column(db.Integer,primary_key=True)
-    userId=db.Column(db.Integer,nullable=False,unique=True)
+    userId=db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False,unique=True)
+    userName=db.Column(db.String(25),unique=True,nullable=True)
     following=db.Column(db.Text,nullable=True)
 
     def __ref__(self):
