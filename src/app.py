@@ -87,6 +87,39 @@ def get_models():
     ]
     return jsonify(result)
 
+# Endpoint to fetch a single model by ID
+@app.route('/api/models/<int:model_id>', methods=['GET'])
+def get_model_by_id(model_id):
+    try:
+        model = Model.query.get(model_id)
+        if not model:
+            return jsonify({"error": "Model not found"}), 404
+        return jsonify({
+            "id": model.id,
+            "title": model.title,
+            "description": model.description,
+            "picture_url": model.picture_url,
+            "model_url": model.model_url,
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# Endpoint to delete a model by ID
+@app.route('/api/models/<int:model_id>', methods=['DELETE'])
+def delete_model_by_id(model_id):
+    try:
+        model = Model.query.get(model_id)
+        if not model:
+            return jsonify({"error": "Model not found"}), 404
+
+        # Delete the model from the database
+        db.session.delete(model)
+        db.session.commit()
+
+        return jsonify({"message": "Model deleted successfully!"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 # Generate sitemap with all your endpoints
 @app.route('/')
 def sitemap():

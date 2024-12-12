@@ -1,29 +1,48 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 export const ModelDetail = () => {
     const { id } = useParams(); // Get the model ID from the URL
-    const location = useLocation();
-    const [model, setModel] = useState(location.state || null); // Use passed state if available
+    const navigate = useNavigate(); // To redirect after deletion
+    const [model, setModel] = useState(null); // State to store model data
     const [error, setError] = useState(null); // Handle API fetch errors
+    const [loading, setLoading] = useState(false); // Handle loading state
 
+    // Fetch model details
     useEffect(() => {
-        if (!model) {
-            const fetchModel = async () => {
-                try {
-                    const response = await fetch(`/api/models/${id}`);
-                    if (!response.ok) throw new Error("Failed to fetch model details");
-                    const data = await response.json();
-                    setModel(data); // Update state with fetched model data
-                } catch (error) {
-                    setError("Unable to load model details. Please try again later.");
-                    console.error("Error fetching model details:", error);
-                }
-            };
+        const fetchModel = async () => {
+            try {
+                const response = await fetch(`${process.env.BACKEND_URL}/api/models/${id}`);
+                if (!response.ok) throw new Error("Failed to fetch model details");
+                const data = await response.json();
+                setModel(data); // Update state with fetched model data
+            } catch (error) {
+                setError("Unable to load model details. Please try again later.");
+                console.error("Error fetching model details:", error);
+            }
+        };
 
-            fetchModel();
+        fetchModel();
+    }, [id]); // Runs when the component mounts or the ID changes
+
+    // Delete the model
+    const handleDelete = async () => {
+        setLoading(true);
+        try {
+            const response = await fetch(`${process.env.BACKEND_URL}/api/models/${id}`, {
+                method: "DELETE",
+            });
+            if (!response.ok) throw new Error("Failed to delete the model");
+            const data = await response.json();
+            alert(data.message); // Show a success message
+            navigate("/models"); // Redirect to models page
+        } catch (error) {
+            alert("An error occurred while deleting the model. Please try again.");
+            console.error("Error deleting model:", error);
+        } finally {
+            setLoading(false);
         }
-    }, [id, model]);
+    };
 
     if (error) {
         return (
@@ -61,10 +80,17 @@ export const ModelDetail = () => {
                     <a
                         href={model_url}
                         download
-                        className="btn btn-primary btn-lg"
+                        className="btn btn-primary btn-lg me-2"
                     >
                         Download Model
                     </a>
+                    <button
+                        className="btn btn-danger btn-lg"
+                        onClick={handleDelete}
+                        disabled={loading}
+                    >
+                        {loading ? "Deleting..." : "Delete Model"}
+                    </button>
                 </div>
             </div>
         </div>

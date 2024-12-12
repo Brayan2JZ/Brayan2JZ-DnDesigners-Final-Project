@@ -15,11 +15,10 @@ export const Models = () => {
             const data = await response.json();
             setModels(data); // Update models state
         } catch (error) {
-            console.error("Error fetching models:", error);
             setError("Unable to load models. Please try again later.");
+            console.error("Error fetching models:", error);
         }
     };
-    
 
     // Fetch models on component mount
     useEffect(() => {
@@ -28,19 +27,8 @@ export const Models = () => {
 
     return (
         <div className="container my-5">
-            {/* Upload Model Button */}
-            <div className="text-center mb-4">
-                <button
-                    className="btn btn-primary"
-                    onClick={() => setShowUploadForm(true)}
-                >
-                    Upload Model
-                </button>
-            </div>
-
             <h1 className="text-center mb-4">3D Models</h1>
-            {/* Display error message if fetching fails */}
-            {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
+
             <div className="row">
                 {models.map((model) => (
                     <div key={model.id} className="col-md-4 mb-4">
@@ -55,8 +43,21 @@ export const Models = () => {
                     </div>
                 ))}
             </div>
+
+            {/* Big Upload Model Button */}
             <div className="text-center mt-5">
-                <h2>More will be added soon!</h2>
+                <button
+                    className="btn btn-primary"
+                    style={{
+                        fontSize: "24px",
+                        padding: "20px 40px",
+                        borderRadius: "10px",
+                        fontWeight: "bold",
+                    }}
+                    onClick={() => setShowUploadForm(true)}
+                >
+                    Upload a Model
+                </button>
             </div>
 
             {/* Modal for Upload Model Form */}
@@ -69,7 +70,6 @@ export const Models = () => {
                         >
                             &times;
                         </button>
-                        {/* Pass fetchModels to refresh the list after upload */}
                         <UploadModelForm
                             onUploadSuccess={() => {
                                 fetchModels(); // Refresh models after a successful upload

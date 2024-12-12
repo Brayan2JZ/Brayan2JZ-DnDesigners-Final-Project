@@ -78,52 +78,78 @@ const UploadModelForm = ({ onUploadSuccess }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h1>Upload a New 3D Model</h1>
+        <form onSubmit={handleSubmit} style={{ maxWidth: "500px", margin: "0 auto" }}>
+            <h1 style={{ textAlign: "center", marginBottom: "20px" }}>Upload a New 3D Model</h1>
 
-            <label>
-                Title:
+            <div style={{ marginBottom: "15px" }}>
+                <label style={{ display: "block", fontWeight: "bold", marginBottom: "5px" }}>
+                    Title:
+                </label>
                 <input
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     required
+                    style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
                 />
-            </label>
+            </div>
 
-            <label>
-                Description:
+            <div style={{ marginBottom: "15px" }}>
+                <label style={{ display: "block", fontWeight: "bold", marginBottom: "5px" }}>
+                    Description:
+                </label>
                 <textarea
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     required
+                    style={{ width: "100%", padding: "8px", boxSizing: "border-box", minHeight: "100px" }}
                 />
-            </label>
+            </div>
 
-            <label>
-                Picture:
+            <div style={{ marginBottom: "15px" }}>
+                <label style={{ display: "block", fontWeight: "bold", marginBottom: "5px" }}>
+                    Picture:
+                </label>
                 <input
                     type="file"
                     accept="image/*"
                     onChange={(e) => setPicture(e.target.files[0])}
                     required
+                    style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
                 />
-            </label>
+            </div>
 
-            <label>
-                3D File:
+            <div style={{ marginBottom: "15px" }}>
+                <label style={{ display: "block", fontWeight: "bold", marginBottom: "5px" }}>
+                    3D File:
+                </label>
                 <input
                     type="file"
                     accept=".stl,.obj,.glb,.gltf"
                     onChange={(e) => setModelFile(e.target.files[0])}
                     required
+                    style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
                 />
-            </label>
+            </div>
 
-            {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-            {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
+            {errorMessage && <p style={{ color: "red", textAlign: "center" }}>{errorMessage}</p>}
+            {successMessage && <p style={{ color: "green", textAlign: "center" }}>{successMessage}</p>}
 
-            <button type="submit" disabled={loading}>
+            <button
+                type="submit"
+                disabled={loading}
+                style={{
+                    display: "block",
+                    width: "100%",
+                    padding: "10px",
+                    backgroundColor: "#007bff",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "5px",
+                    fontSize: "16px",
+                    cursor: loading ? "not-allowed" : "pointer",
+                }}
+            >
                 {loading ? "Uploading..." : "Submit"}
             </button>
         </form>
