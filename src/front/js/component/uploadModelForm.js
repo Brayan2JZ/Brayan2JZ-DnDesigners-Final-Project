@@ -1,21 +1,24 @@
 import React, { useState } from "react";
 
-const UploadModelForm = () => {
+const UploadModelForm = ({ onUploadSuccess }) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [picture, setPicture] = useState(null);
     const [modelFile, setModelFile] = useState(null);
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    const [successMessage, setSuccessMessage] = useState("");
+    const [successMessage, setSuccessMessage] = useState(""); // Success message state
 
     const handleFileUpload = async (file, resourceType) => {
+        if (!file) throw new Error("No file selected for upload");
+
         const formData = new FormData();
         formData.append("file", file);
         formData.append("upload_preset", process.env.CLOUDINARY_UPLOAD_PRESET);
 
+        const cloudName = process.env.CLOUDINARY_URL.split('@')[1]; // Extract cloud name from CLOUDINARY_URL
         const response = await fetch(
-            `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_URL.split('@')[1]}/${resourceType}/upload`,
+            `https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`,
             {
                 method: "POST",
                 body: formData,
@@ -24,7 +27,12 @@ const UploadModelForm = () => {
 
         const data = await response.json();
 
-        if (!response.ok) throw new Error("Failed to upload file");
+        // Log the response for debugging
+        if (!response.ok) {
+            console.error("Cloudinary Upload Error Response:", data);
+            throw new Error(data.error.message || "Failed to upload file");
+        }
+
         return data.secure_url;
     };
 
@@ -35,11 +43,9 @@ const UploadModelForm = () => {
         setSuccessMessage("");
 
         try {
-            // Upload the files to Cloudinary
             const pictureURL = await handleFileUpload(picture, "image");
             const modelURL = await handleFileUpload(modelFile, "raw");
 
-            // Prepare the data payload
             const modelData = {
                 title,
                 description,
@@ -47,8 +53,8 @@ const UploadModelForm = () => {
                 modelURL,
             };
 
-            // Send the data to the backend
-            const response = await fetch(`${process.env.BACKEND_URL}/api/models`, {
+            const backendUrl = process.env.BACKEND_URL; // Use BACKEND_URL from .env
+            const response = await fetch(`${backendUrl}/api/models`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -56,10 +62,12 @@ const UploadModelForm = () => {
                 body: JSON.stringify(modelData),
             });
 
-            if (!response.ok) {
-                throw new Error("Failed to save model data");
-            }
+            if (!response.ok) throw new Error("Failed to save model data");
 
+            // Notify parent component of success
+            onUploadSuccess();
+
+            // Show success message
             setSuccessMessage("Model uploaded successfully!");
         } catch (error) {
             setErrorMessage("An error occurred during upload. Please try again.");

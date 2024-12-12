@@ -1,29 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { ModelView } from "../component/modelView"; // Import the ModelView component
-import UploadModelForm from "../component/uploadModelForm"; // Import the UploadModelForm component
-import { Link } from "react-router-dom"; // Import Link for navigation
+import { ModelView } from "../component/modelView";
+import UploadModelForm from "../component/uploadModelForm";
 
 export const Models = () => {
     const [showUploadForm, setShowUploadForm] = useState(false); // Modal visibility state
-    const [models, setModels] = useState([]); // State to store fetched models
-    const [error, setError] = useState(null); // State to handle errors
+    const [models, setModels] = useState([]); // State to store models
+    const [error, setError] = useState(null); // State for errors
 
-    // Fetch models from the backend when the component mounts
+    // Function to fetch models from the backend
+    const fetchModels = async () => {
+        try {
+            const response = await fetch(`${process.env.BACKEND_URL}/api/models`);
+            if (!response.ok) throw new Error("Failed to fetch models");
+            const data = await response.json();
+            setModels(data); // Update models state
+        } catch (error) {
+            console.error("Error fetching models:", error);
+            setError("Unable to load models. Please try again later.");
+        }
+    };
+    
+
+    // Fetch models on component mount
     useEffect(() => {
-        const fetchModels = async () => {
-            try {
-                const response = await fetch("/api/models");
-                if (!response.ok) throw new Error("Failed to fetch models");
-                const data = await response.json();
-                setModels(data); // Update state with fetched models
-            } catch (error) {
-                setError("Unable to load models. Please try again later.");
-                console.error("Error fetching models:", error);
-            }
-        };
-
         fetchModels();
-    }, []); // Runs once when the component is mounted
+    }, []);
 
     return (
         <div className="container my-5">
@@ -43,27 +44,14 @@ export const Models = () => {
             <div className="row">
                 {models.map((model) => (
                     <div key={model.id} className="col-md-4 mb-4">
-                        {/* Wrap ModelView with Link */}
-                        <Link
-                            to={{
-                                pathname: `/models/${model.id}`,
-                                state: {
-                                    title: model.title,
-                                    image: model.picture_url,
-                                    description: model.description,
-                                },
+                        <ModelView
+                            model={{
+                                id: model.id,
+                                title: model.title,
+                                image: model.pictureURL,
+                                description: model.description,
                             }}
-                            style={{ textDecoration: "none", color: "inherit" }} // Optional styling for links
-                        >
-                            <ModelView
-                                model={{
-                                    id: model.id,
-                                    title: model.title,
-                                    image: model.picture_url,
-                                    description: model.description,
-                                }}
-                            />
-                        </Link>
+                        />
                     </div>
                 ))}
             </div>
@@ -81,7 +69,13 @@ export const Models = () => {
                         >
                             &times;
                         </button>
-                        <UploadModelForm />
+                        {/* Pass fetchModels to refresh the list after upload */}
+                        <UploadModelForm
+                            onUploadSuccess={() => {
+                                fetchModels(); // Refresh models after a successful upload
+                                setShowUploadForm(false); // Close the modal
+                            }}
+                        />
                     </div>
                 </div>
             )}
