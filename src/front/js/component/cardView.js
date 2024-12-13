@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Context } from "../store/appContext";
 
 
 export const CardView=(props)=>{
     const card=props.card;
     const [favorite,setFavorite]=useState(false);
+    const { store, actions } = useContext(Context);
 
     useEffect(()=>{
         const isFavorite=()=>{
@@ -29,7 +31,7 @@ export const CardView=(props)=>{
             return
         }
         isFavorite();
-    },[])
+    },[store.favUpdate])
 
     const toggleFavorite=()=>{
         let method='';
@@ -55,6 +57,7 @@ export const CardView=(props)=>{
             }).then((respJson)=>{
                 console.log(respJson.id)
             })
+            actions.setFavUpdate()
         }
 
     return(

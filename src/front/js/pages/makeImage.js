@@ -214,7 +214,7 @@ export const CharacterImageCreator = () => {
   },[imageUrl])
 
   const getTags=async()=>{
-    setTagList([...tagList,store.formInput.class.slice(7,),store.formInput.race.slice(6),store.formInput,store.formInput.alignment[0]+' '+store.formInput.alignment[1]])
+    setTagList([...tagList,store.formInput.class.slice(7,),store.formInput.race.slice(6),store.formInput.alignment[0]+' '+store.formInput.alignment[1]])
   }
   const handleExport=async()=>{
     await getTags()
