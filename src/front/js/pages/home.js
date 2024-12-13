@@ -7,6 +7,7 @@ import '../../styles/home.css'
 
 export const Home = () => {
     const [cardList, setCardList] = useState([]);
+    const [carouselCards,setCarouselCards]=useState([]);
 
     useEffect(() => {
         // Check if running in a Codespace
@@ -30,8 +31,14 @@ export const Home = () => {
                 setCardList(jsonRes);
             });
         }
-        getImageURLs();
+        const cardList=getImageURLs();
     }, []);
+
+    useEffect(()=>{
+        if(cardList.length>0){
+            setCarouselCards([cardList[Math.floor(Math.random()*cardList.length)],cardList[Math.floor(Math.random()*cardList.length)],cardList[Math.floor(Math.random()*cardList.length)]])
+        }
+    },[cardList])
 
 
     return (
@@ -63,7 +70,7 @@ export const Home = () => {
 
 
 		<div id="carouselCards" className="card-group card-group-scroll">
-			 {cardList && cardList.map((cardObj) => (
+			 {carouselCards && carouselCards.map((cardObj) => (
                                         <div className="col-4 m-0 p-1 " key={cardObj.id} onClick={() => handleImageClick(cardObj, true)}>
                                             {/* <h3 className="text-center">{cardObj.filename}</h3> */}
                                             <img className="mw-100 top3" src={cardObj.url} alt={cardObj.filename} />

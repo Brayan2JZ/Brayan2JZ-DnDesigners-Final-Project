@@ -15,6 +15,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					initial: "white"
 				}
 			],
+			favUpdate: false,
 
 			isLoggedIn: false,
 
@@ -30,6 +31,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 		},
 		actions: {
+			setFavUpdate: ()=>{
+				setStore({favUpdate: !getStore().favUpdate})
+			},
+			
 			isTokenExpired: (token) => {
                 if (!token) return true;
                 const decodedToken = JSON.parse(atob(token.split('.')[1]));
