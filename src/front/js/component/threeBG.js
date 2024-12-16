@@ -15,7 +15,7 @@ const SignInBG = () => {
       camera = new THREE.PerspectiveCamera(75, window.innerWidth / document.body.scrollHeight, 0.1, 1000);
       renderer = new THREE.WebGLRenderer({ antialias: true });
       renderer.setSize(window.innerWidth, document.body.scrollHeight);
-      renderer.setClearColor(0xbbbbff); // Light blue background
+      renderer.setClearColor(0xbbbbff); // Light pink background
       containerRef.current.appendChild(renderer.domElement);
 
       // Create Nebula

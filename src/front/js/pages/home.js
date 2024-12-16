@@ -37,7 +37,7 @@ export const Home = () => {
     useEffect(()=>{
         let count=0;
         var temp=[];
-        if(cardList&&cardList.length>0){
+        if(cardList&&cardList.length>2){
             while(count<3){
                 let rand=Math.floor(Math.random()*cardList.length)
                 if(temp.length==0){
@@ -63,7 +63,7 @@ export const Home = () => {
 
     return (
         <div className="container mh-100">
-            <SignInBG />
+            {/* <SignInBG /> */}
             <h1 className="text-center title">Featured</h1>
             <div id="carouselExampleIndicators" className="carousel slide">
                 {/* <div className="carousel-indicators">

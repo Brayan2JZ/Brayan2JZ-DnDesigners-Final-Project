@@ -109,8 +109,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					  backgroundColor: 'transparent',
 				  });
 				  const uri = canvas.toDataURL("image/jpeg");
-				  // console.log(canvas.width)
-				  // console.log(canvas.height)
+				  console.log(canvas.width)
+				  console.log(canvas.height)
 				  console.log(uri);
 				  return(uri);
 				} catch (error) {

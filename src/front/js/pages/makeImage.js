@@ -90,11 +90,10 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
 
   return(
 	<div ref={ref} className='position-relative' style={{
-        width:500,
+        width:497,
         height: 700,
         overflow: 'hidden',
         boxSizing: 'border-box',
-        clipPath: 'inset(0 0 0 0)'
       }}>
     <img className='cardFrameBackground'src={cardBG}></img>
     <img className='cardImage'  src={store.cardImageFile}></img>

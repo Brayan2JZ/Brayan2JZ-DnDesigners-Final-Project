@@ -122,7 +122,7 @@ export const Gallery = () => {
                             type="button"
                             role="tab"
                             aria-controls="pills-cards"
-                            aria-selected="false"
+                            aria-selected="true"
                         >
                             Cards
                         </button>
