@@ -35,8 +35,28 @@ export const Home = () => {
     }, []);
 
     useEffect(()=>{
-        if(cardList.length>0){
-            setCarouselCards([cardList[Math.floor(Math.random()*cardList.length)],cardList[Math.floor(Math.random()*cardList.length)],cardList[Math.floor(Math.random()*cardList.length)]])
+        let count=0;
+        var temp=[];
+        if(cardList&&cardList.length>0){
+            while(count<3){
+                let rand=Math.floor(Math.random()*cardList.length)
+                if(temp.length==0){
+                    temp=[...temp,rand];
+                    count++;
+                }
+                let flag=true;
+                for(let i of temp){
+                    if(i==rand){
+                        flag=false;
+                        break;
+                    }
+                }
+                if(flag){
+                    temp=[...temp,rand];
+                    count++;
+                }
+            }
+            setCarouselCards([cardList[temp[0]],cardList[temp[1]],cardList[temp[2]]])
         }
     },[cardList])
 

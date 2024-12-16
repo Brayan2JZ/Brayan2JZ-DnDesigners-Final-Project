@@ -9,25 +9,7 @@ export const GalleryCard=(props)=>{
     const imageId=props.selectedImage.id
     const getCommentsUrl=localStorage.getItem('backendUrl')+`api/comments/image/${imageId}`
 
-    const sendComment=()=>{
-        const date=new Date()
-        fetch(localStorage.getItem('backendUrl')+'api/comment',{
-            method:'POST',
-            body:JSON.stringify({
-                'userId':userId,
-                'imageId':imageId,                 //replace with real imageId
-                'artId':-1,                     //replace with real artId
-                'comment':comment,                //Replace with the comment you want to add
-                'uploadDate':date
-            }),
-            headers:{
-                'Content-Type':'application/json',
-                'Authorization':'Bearer '+localStorage.getItem('token')
-            }
-        })
-    };
-
-    const getComments=()=>{
+    const getComments=async ()=>{
         fetch(getCommentsUrl,{
             method:'GET',
             headers:{
@@ -43,13 +25,33 @@ export const GalleryCard=(props)=>{
         }).catch((e)=>{
             console.log(e)
         })
+        return
     }
 
     const handleCommentChange = (e) => {
         setComment(e.target.value);
     };
 
-    const handleAddComment = () => {
+    const handleAddComment = async () => {
+        async function sendComment() {
+            const date=new Date()
+            const response= await fetch(localStorage.getItem('backendUrl')+'api/comment',{
+                method:'POST',
+                body:JSON.stringify({
+                    'userId':userId,
+                    'imageId':imageId,                 //replace with real imageId
+                    'artId':null,                     //replace with real artId
+                    'threeId':null,
+                    'comment':comment,                //Replace with the comment you want to add
+                    'uploadDate':date
+                }),
+                headers:{
+                    'Content-Type':'application/json',
+                    'Authorization':'Bearer '+localStorage.getItem('token')
+                }
+            });
+            return response;
+        };
         // if (comment.trim() === '') {
         //     alert('Please enter a comment!');
         //     return;
@@ -64,9 +66,10 @@ export const GalleryCard=(props)=>{
         // });
 
         // setComment('');
-        sendComment()
+        await sendComment()
         setComment('')
-        getComments()
+        await getComments()
+        return
     };
     
     const handleCloseModal = () => {

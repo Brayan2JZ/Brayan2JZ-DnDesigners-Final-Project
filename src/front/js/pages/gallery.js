@@ -35,17 +35,18 @@ export const Gallery = () => {
         getImageURLs();
     }, []);
 
+    async function getArt() {
+        fetch(localStorage.getItem('backendUrl') + 'api/arts', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+        }).then((response) => {
+            return response.json();
+        }).then((respJson) => {
+            setUploadedImages(respJson);
+        });
+    }
+
     useEffect(() => {
-        async function getArt() {
-            fetch(localStorage.getItem('backendUrl') + 'api/arts', {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' },
-            }).then((response) => {
-                return response.json();
-            }).then((respJson) => {
-                setUploadedImages(respJson);
-            });
-        }
         getArt();
     }, []);
 
@@ -60,7 +61,7 @@ export const Gallery = () => {
         }
     };
 
-    const handleUpload = () => {
+    const handleUpload = async () => {
         if (!imageTitle || !imageCaption || !imageFile) {
             alert('Please provide a title, caption, and select an image file.');
             return;
@@ -71,7 +72,7 @@ export const Gallery = () => {
         formData.append('title', imageTitle);
         formData.append('caption', imageCaption);
 
-        fetch(localStorage.getItem('backendUrl') + 'api/upload-art', {
+        await fetch(localStorage.getItem('backendUrl') + 'api/upload-art', {
             method: 'POST',
             body: formData,
             headers: {
@@ -81,10 +82,11 @@ export const Gallery = () => {
             .then((response) => response.json())
             .then((data) => {
                 if (data.success) {
-                    setUploadedImages((prev) => [...prev, {data, caption: imageCaption},]);
-                    alert('Art uploaded successfully!');
-                } else {
                     alert('Upload failed: ' + data.message);
+                } else {
+                    setUploadedImages((prev) => [...prev, {data, caption: imageCaption},]);
+                    getArt();
+                    alert('Art uploaded successfully!');
                 }
             })
             .catch((error) => {

@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User,CardBank,TagList,Favorites,ArtBank,Settings,CommentsBank
+from api.models import db, User,CardBank,TagList,Favorites,ArtBank,Settings,CommentsBank,Model
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
@@ -49,11 +49,13 @@ def favorite():      #Need image ID and user ID
     print('in post')
     imageId=request.json['imageId']
     userId=request.json['userId']
+    artId=request.json['artId']
+    threeId=request.json['threeId']
 
-    newFavorite=Favorites(imageID=imageId,userId=userId)
+    newFavorite=Favorites(imageID=imageId,userId=userId,artId=artId,threeId=threeId)
     db.session.add(newFavorite)
     db.session.commit()
-    favId=Favorites.query.filter_by(imageID=imageId,userId=userId).first().serialize()
+    favId=Favorites.query.filter_by(imageID=imageId,userId=userId,artId=artId,threeId=threeId).first().serialize()
     return jsonify({'id':favId['id']})
 
 
@@ -314,7 +316,7 @@ def change_username():
 @api.route('/comment',methods=['POST'])
 @jwt_required()
 def createComment():
-    newComment=CommentsBank(userId=request.json['userId'],imageId=request.json['imageId'],artId=request.json['artId'],comment=request.json['comment'],uploadDate=request.json['uploadDate'])
+    newComment=CommentsBank(userId=request.json['userId'],imageId=request.json['imageId'],artId=request.json['artId'],threeId=request.json['threeId'],comment=request.json['comment'],uploadDate=request.json['uploadDate'])
     db.session.add(newComment)
     db.session.commit()
     return {'msg':"Success"}
@@ -329,10 +331,16 @@ def getCommentsImage(id):
     comments=list(map(lambda x: x.serialize(),comments))
     return jsonify(comments)
 
-@api.route('/comments/art/<int:userId>/<int:id>',methods=['GET'])        #get all comments based on the id
+@api.route('/comments/art/<int:id>',methods=['GET'])        #get all comments based on the id
 @jwt_required()
-def getCommentsArt(userId,id):
-    comments=CommentsBank.query.filter_by(userId=userId,artId=id)
-    
+def getCommentsArt(id):
+    comments=ArtBank.query.get(id).comments
+    comments=list(map(lambda x: x.serialize(),comments))
+    return jsonify(comments)
+
+@api.route('/comments/3d/<int:id>',methods=['GET'])        #get all comments based on the id
+@jwt_required()
+def getCommentsThree(id):
+    comments=Model.query.get(id).comments
     comments=list(map(lambda x: x.serialize(),comments))
     return jsonify(comments)

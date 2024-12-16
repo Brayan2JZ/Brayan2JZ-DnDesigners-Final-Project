@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: b1acbbf5cc1b
+Revision ID: daa3680b52a7
 Revises: 
-Create Date: 2024-12-12 00:44:03.787712
+Create Date: 2024-12-16 21:30:12.148725
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'b1acbbf5cc1b'
+revision = 'daa3680b52a7'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -26,6 +26,15 @@ def upgrade():
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('fileName')
     )
+    op.create_table('model',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('title', sa.String(length=100), nullable=False),
+    sa.Column('description', sa.Text(), nullable=False),
+    sa.Column('picture_url', sa.Text(), nullable=False),
+    sa.Column('model_url', sa.Text(), nullable=False),
+    sa.Column('uploaded_date', sa.Date(), nullable=True),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('settings',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('userName', sa.String(length=100), nullable=True),
@@ -39,16 +48,6 @@ def upgrade():
     sa.Column('tagCount', sa.Integer(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('tagDescription')
-    )
-    op.create_table('three_d_bank',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('userId', sa.Integer(), nullable=True),
-    sa.Column('filename', sa.String(length=40), nullable=False),
-    sa.Column('url', sa.Text(), nullable=False),
-    sa.Column('uploadedDate', sa.Date(), nullable=True),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('filename'),
-    sa.UniqueConstraint('url')
     )
     op.create_table('user',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -72,19 +71,26 @@ def upgrade():
     op.create_table('comments_bank',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('userId', sa.Integer(), nullable=False),
-    sa.Column('imageId', sa.Integer(), nullable=False),
+    sa.Column('imageId', sa.Integer(), nullable=True),
     sa.Column('artId', sa.Integer(), nullable=True),
+    sa.Column('threeId', sa.Integer(), nullable=True),
     sa.Column('comment', sa.Text(), nullable=False),
-    sa.Column('uploadDate', sa.Date(), nullable=True),
+    sa.Column('uploadDate', sa.Date(), nullable=False),
+    sa.ForeignKeyConstraint(['artId'], ['art_bank.id'], ),
     sa.ForeignKeyConstraint(['imageId'], ['card_bank.id'], ),
+    sa.ForeignKeyConstraint(['threeId'], ['model.id'], ),
     sa.ForeignKeyConstraint(['userId'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('favorites',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('imageID', sa.Integer(), nullable=False),
     sa.Column('userId', sa.Integer(), nullable=False),
+    sa.Column('imageID', sa.Integer(), nullable=True),
+    sa.Column('artId', sa.Integer(), nullable=True),
+    sa.Column('threeId', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['artId'], ['art_bank.id'], ),
     sa.ForeignKeyConstraint(['imageID'], ['card_bank.id'], ),
+    sa.ForeignKeyConstraint(['threeId'], ['model.id'], ),
     sa.ForeignKeyConstraint(['userId'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -97,8 +103,8 @@ def downgrade():
     op.drop_table('comments_bank')
     op.drop_table('card_bank')
     op.drop_table('user')
-    op.drop_table('three_d_bank')
     op.drop_table('tag_list')
     op.drop_table('settings')
+    op.drop_table('model')
     op.drop_table('art_bank')
     # ### end Alembic commands ###
