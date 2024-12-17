@@ -1,99 +1,44 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { GalleryCard } from '../component/galleryCard';
 
 export const Gallery = () => {
     const [cardList, setCardList] = useState([]);
-    const [imageTitle, setImageTitle] = useState('');
-    const [imageCaption, setImageCaption] = useState('');
-    const [imageFile, setImageFile] = useState(null);
     const [uploadedImages, setUploadedImages] = useState([]);
+    const [models, setModels] = useState([]); // State for 3D models
     const [selectedImage, setSelectedImage] = useState(null);
     const [showModal, setShowModal] = useState(false);
-    const [commentsByImage, setCommentsByImage] = useState({});
+    const navigate = useNavigate();
 
-    const [tempComments, setTempComments] = useState([]);
-
-    useEffect(()=>{
-        console.log(tempComments)
-    },[tempComments])
-    
-
+    // Fetch cards
     useEffect(() => {
-        async function getImageURLs() {
-            fetch(localStorage.getItem('backendUrl') + 'api/cards', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                },
-            }).then((response) => {
-                return response.json();
-            }).then((jsonRes) => {
-                setCardList(jsonRes);
-            });
+        async function getCards() {
+            const response = await fetch(localStorage.getItem('backendUrl') + 'api/cards');
+            const jsonRes = await response.json();
+            setCardList(jsonRes);
         }
-        getImageURLs();
+        getCards();
     }, []);
 
-    async function getArt() {
-        fetch(localStorage.getItem('backendUrl') + 'api/arts', {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
-        }).then((response) => {
-            return response.json();
-        }).then((respJson) => {
-            setUploadedImages(respJson);
-        });
-    }
-
+    // Fetch uploaded art
     useEffect(() => {
+        async function getArt() {
+            const response = await fetch(localStorage.getItem('backendUrl') + 'api/arts');
+            const respJson = await response.json();
+            setUploadedImages(respJson);
+        }
         getArt();
     }, []);
 
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            if (file.type === 'image/jpeg' || file.type === 'image/png') {
-                setImageFile(file);
-            } else {
-                alert('Only JPEG and PNG images are allowed.');
-            }
+    // Fetch 3D models
+    useEffect(() => {
+        async function getModels() {
+            const response = await fetch(localStorage.getItem('backendUrl') + 'api/models');
+            const modelData = await response.json();
+            setModels(modelData);
         }
-    };
-
-    const handleUpload = async () => {
-        if (!imageTitle || !imageCaption || !imageFile) {
-            alert('Please provide a title, caption, and select an image file.');
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('file', imageFile);
-        formData.append('title', imageTitle);
-        formData.append('caption', imageCaption);
-
-        await fetch(localStorage.getItem('backendUrl') + 'api/upload-art', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token'),
-            },
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.success) {
-                    alert('Upload failed: ' + data.message);
-                } else {
-                    setUploadedImages((prev) => [...prev, {data, caption: imageCaption},]);
-                    getArt();
-                    alert('Art uploaded successfully!');
-                }
-            })
-            .catch((error) => {
-                console.error('Error uploading art:', error);
-                alert('Error uploading art.');
-            });
-    };
+        getModels();
+    }, []);
 
     const handleImageClick = (image, isCard) => {
         const selectedImage = {
@@ -101,23 +46,21 @@ export const Gallery = () => {
             filename: image.fileName || image.filename,
             caption: isCard ? null : image.caption,
             id: image.id || image.filename,
-            type: image.type || image.filename
         };
         setSelectedImage(selectedImage);
         setShowModal(true);
     };
 
-
     return (
         <div>
-            <h1 className="text-center">Gallery</h1>
+            <h1 className="text-center mb-4">Gallery</h1>
             <div className="container">
-{/* Pills Tab */}
-                <ul className="nav nav-pills mb-3 d-flex justify-content-center align-items-center" id="pills-tab" role="tablist">
+                {/* Pills Tab */}
+                <ul className="nav nav-pills mb-3 justify-content-center" id="pills-tab" role="tablist">
                     <li className="nav-item" role="presentation">
                         <button
-                            className="nav-link"
-                            id="pills-home-tab"
+                            className="nav-link active"
+                            id="pills-cards-tab"
                             data-bs-toggle="pill"
                             data-bs-target="#pills-cards"
                             type="button"
@@ -136,7 +79,7 @@ export const Gallery = () => {
                             data-bs-target="#pills-art"
                             type="button"
                             role="tab"
-                            aria-controls="pills-profile"
+                            aria-controls="pills-art"
                             aria-selected="false"
                         >
                             Art
@@ -158,127 +101,85 @@ export const Gallery = () => {
                     </li>
                 </ul>
 
-{/* Tab Content */}
+                {/* Tab Content */}
                 <div className="tab-content" id="pills-tabContent">
-{/* Cards Tab */}
-                    <div className="tab-pane fade" id="pills-cards" role="tabpanel" aria-labelledby="pills-home-tab" tabIndex="0">
-                        <div className="container mb-0 pb-0">
-                            <div className="row">
-                                {cardList &&
-                                    cardList.map((cardObj) => (
-                                        <div className='col' key={cardObj.filename} onClick={() => handleImageClick({...cardObj,type:'card'}, true)}>
-                                            <img id={cardObj.id} alt={cardObj.filename} src={cardObj.url}/>
-                                        </div>
-                                    ))}
-                            </div>
-                        </div>
-                    </div>
-
-{/* Art Tab */}
-                    <div className="tab-pane fade" id="pills-art" role="tabpanel" aria-labelledby="pills-art-tab" tabIndex="0">
-                        <div className="container d-flex flex-column align-items-center">
-{/* Upload Button and Modal */}
-                            <button
-                                type="button"
-                                className="btn btn-success me-2"
-                                data-bs-toggle="modal"
-                                data-bs-target="#exampleModal"
-                            >
-                                Upload Art Here
-                            </button>
-
-{/* Upload Art Modal */}
-                            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div className="modal-dialog">
-                                    <div className="modal-content" style={{ maxHeight: '800px', overflowY: 'auto' }}>
-                                        <div className="modal-header">
-                                            <h5 className="modal-title" id="exampleModalLabel">
-                                                <strong>Upload New Art</strong>
-                                            </h5>
-                                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div className="modal-body">
-                                            <div className="mb-3">
-                                                <label htmlFor="Title" className="form-label">
-                                                    <strong>Title:</strong>
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    value={imageTitle}
-                                                    onChange={(e) => setImageTitle(e.target.value)}
-                                                    placeholder="Add a title for your artwork"
-                                                />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label htmlFor="Description" className="form-label">
-                                                    <strong>Caption:</strong>
-                                                </label>
-                                                <textarea
-                                                    className="form-control"
-                                                    value={imageCaption}
-                                                    onChange={(e) => setImageCaption(e.target.value)}
-                                                    placeholder="Add a caption for your artwork"
-                                                    rows="3"
-                                                />
-                                            </div>
-                                            <input
-                                                type="file"
-                                                className="form-control"
-                                                id="inputArtGroupFile"
-                                                accept=".png, .jpeg, .jpg"
-                                                onChange={handleFileChange}
-                                            />
-                                        </div>
-                                        <div className="modal-footer">
-                                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
-                                                Close
-                                            </button>
-                                            <button type="button" className="btn btn-primary" onClick={handleUpload}>
-                                                Upload
-                                            </button>
-                                        </div>
-                                    </div>
+                    {/* Cards Tab */}
+                    <div className="tab-pane fade show active" id="pills-cards" role="tabpanel" aria-labelledby="pills-cards-tab">
+                        <div className="row row-cols-3">
+                            {cardList.map((cardObj) => (
+                                <div key={cardObj.id} className="col mb-4" onClick={() => handleImageClick(cardObj, true)}>
+                                    <img src={cardObj.url} alt={cardObj.filename} className="img-fluid rounded" />
                                 </div>
-                            </div>
-                        </div>
-
-{/* Art Gallery */}
-                        <div className="container mb-0 pb-0">
-                            <div className="row row-cols-3">
-                                {uploadedImages &&
-                                    uploadedImages.map((art, index) => (
-                                        <div
-                                            className="col m-0 p-1"
-                                            key={index}
-                                            onClick={() => handleImageClick({...art,type:'art'}, false)}
-                                        >
-                                            <img width={200}  src={art.imageUrl} alt={art.title} />
-                                        </div>
-                                    ))}
-                            </div>
+                            ))}
                         </div>
                     </div>
 
-{/* 3D Models Tab - Placeholder */}
-                    <div className="tab-pane fade" id="pills-models" role="tabpanel" aria-labelledby="pills-3d-models-tab" tabIndex="0">
-                        <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: '200px' }}>
-                            <p>No 3D models available yet.</p>
+                    {/* Art Tab */}
+                    <div className="tab-pane fade" id="pills-art" role="tabpanel" aria-labelledby="pills-art-tab">
+                        <div className="container mb-4 text-center">
+                            <button className="btn btn-success" data-bs-toggle="modal" data-bs-target="#uploadArtModal">
+                                Upload Your Art
+                            </button>
+                        </div>
+                        <div className="row row-cols-3">
+                            {uploadedImages.map((art, index) => (
+                                <div key={index} className="col mb-4" onClick={() => handleImageClick(art, false)}>
+                                    <img src={art.imageUrl} alt={art.title} className="img-fluid rounded" />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* 3D Models Tab */}
+                    <div className="tab-pane fade" id="pills-models" role="tabpanel" aria-labelledby="pills-3d-models-tab">
+                        <div className="text-center mb-4">
+                            <button
+                                className="btn btn-primary"
+                                onClick={() => navigate("/models")}
+                            >
+                                See All 3D Models
+                            </button>
+                        </div>
+                        <div className="row row-cols-3">
+                            {models.map((model) => (
+                                <div
+                                    key={model.id}
+                                    className="col mb-4 text-center"
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => navigate(`/model/${model.id}`)}
+                                >
+                                    <img
+                                        src={model.picture_url}
+                                        alt={model.title}
+                                        className="img-fluid rounded shadow"
+                                        style={{
+                                            width: "100%",
+                                            height: "200px",
+                                            objectFit: "cover",
+                                        }}
+                                    />
+                                    <h5 className="mt-2">{model.title}</h5>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
             </div>
 
-{/* Modal to show image and comments */}
-{selectedImage && showModal && (
-    <div className="modal fade show" style={{ display: 'block' }} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div className="modal-dialog modal-lg">
-            <GalleryCard selectedImage={selectedImage} imageId={selectedImage.id} setShowModal={setShowModal} setSelectedImage={setSelectedImage}/>
+            {/* Modal to show image and comments */}
+            {selectedImage && showModal && (
+                <div className="modal fade show" style={{ display: "block" }} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div className="modal-dialog modal-lg">
+                        <GalleryCard
+                            selectedImage={selectedImage}
+                            imageId={selectedImage.id}
+                            setShowModal={setShowModal}
+                            setSelectedImage={setSelectedImage}
+                        />
+                    </div>
+                </div>
+            )}
         </div>
-    </div>
-)}
-        </div>
-        
     );
 };
 
