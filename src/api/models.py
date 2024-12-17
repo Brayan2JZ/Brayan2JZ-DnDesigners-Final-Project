@@ -100,6 +100,7 @@ class ArtBank(db.Model):
     fileName = db.Column(db.String(40), nullable=False, unique=True)
     imageUrl = db.Column(db.Text, nullable=False)
     caption = db.Column(db.Text, nullable=False)
+    comments=db.relationship('CommentsBank',backref='art_bank')
 
     def __ref__(self):
         return f'<ArtBank {self.id}>'

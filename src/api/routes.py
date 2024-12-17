@@ -8,6 +8,7 @@ from flask_cors import CORS
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
 from werkzeug.security import generate_password_hash, check_password_hash
 from imagekitio import ImageKit
+from sqlalchemy.orm import joinedload
 import base64
 
 
@@ -321,26 +322,68 @@ def createComment():
     db.session.commit()
     return {'msg':"Success"}
 
-@api.route('/comments/image/<int:id>',methods=['GET'])        #get all comments based on the id
+@api.route('/comments/card/<int:id>',methods=['GET'])        #get all comments based on the id
 @jwt_required()
 def getCommentsImage(id):
     print("Looking for comments")
-    # comments=CommentsBank.query.filter_by(userId=userId,imageId=id)
-    # comments=list(map(lambda x: x.serialize(),comments))
-    comments=CardBank.query.get(id).comments
-    comments=list(map(lambda x: x.serialize(),comments))
-    return jsonify(comments)
+    results = db.session.query(CardBank, CommentsBank, User). \
+        select_from(CardBank). \
+        join(CommentsBank, CommentsBank.imageId == CardBank.id). \
+        join(User, User.id == CommentsBank.userId). \
+        filter(CardBank.id == id).all()
+    # print(results)
+
+    # card=list(map(lambda x: x.serialize(),results[0]))
+    # comment=list(map(lambda x: x.serialize(),results[1]))
+    # user=list(map(lambda x: x.serialize(),results[2]))
+    
+    if results:
+        comments_data = []
+        card = results[0][0]  # All results will belong to the same card
+        for card_bank, comment, user in results:
+            comments_data.append({
+                'id':comment.id,
+                'comment': comment.comment,
+                'uploadDate':comment.uploadDate,
+                'username': user.username  # Access the associated user
+            })
+        print(comments_data)
+        return {
+            'card_filename': card.filename,
+            'card_url': card.url,
+            'comments': comments_data
+        }
+    else:
+        return {'message': 'Card not found or no comments available'}, 404
 
 @api.route('/comments/art/<int:id>',methods=['GET'])        #get all comments based on the id
 @jwt_required()
 def getCommentsArt(id):
-    comments=ArtBank.query.get(id).comments
-    comments=list(map(lambda x: x.serialize(),comments))
-    return jsonify(comments)
+    print("Looking for comments")
+    results = db.session.query(ArtBank, CommentsBank, User). \
+        select_from(ArtBank). \
+        join(CommentsBank, CommentsBank.artId == ArtBank.id). \
+        join(User, User.id == CommentsBank.userId). \
+        filter(ArtBank.id == id).all()
+    # print(results)
 
-@api.route('/comments/3d/<int:id>',methods=['GET'])        #get all comments based on the id
-@jwt_required()
-def getCommentsThree(id):
-    comments=Model.query.get(id).comments
-    comments=list(map(lambda x: x.serialize(),comments))
-    return jsonify(comments)
+    # card=list(map(lambda x: x.serialize(),results[0]))
+    # comment=list(map(lambda x: x.serialize(),results[1]))
+    # user=list(map(lambda x: x.serialize(),results[2]))
+    
+    if results:
+        comments_data = []
+        card = results[0][0]  # All results will belong to the same card
+        for card_bank, comment, user in results:
+            comments_data.append({
+                'id':comment.id,
+                'comment': comment.comment,
+                'uploadDate':comment.uploadDate,
+                'username': user.username  # Access the associated user
+            })
+        print(comments_data)
+        return {
+            'comments': comments_data
+        }
+    else:
+        return {'message': 'Card not found or no comments available'}, 404

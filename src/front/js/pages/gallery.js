@@ -101,6 +101,7 @@ export const Gallery = () => {
             filename: image.fileName || image.filename,
             caption: isCard ? null : image.caption,
             id: image.id || image.filename,
+            type: image.type || image.filename
         };
         setSelectedImage(selectedImage);
         setShowModal(true);
@@ -165,7 +166,7 @@ export const Gallery = () => {
                             <div className="row">
                                 {cardList &&
                                     cardList.map((cardObj) => (
-                                        <div className='col' key={cardObj.filename} onClick={() => handleImageClick(cardObj, true)}>
+                                        <div className='col' key={cardObj.filename} onClick={() => handleImageClick({...cardObj,type:'card'}, true)}>
                                             <img id={cardObj.id} alt={cardObj.filename} src={cardObj.url}/>
                                         </div>
                                     ))}
@@ -250,7 +251,7 @@ export const Gallery = () => {
                                         <div
                                             className="col m-0 p-1"
                                             key={index}
-                                            onClick={() => handleImageClick(art, false)}
+                                            onClick={() => handleImageClick({...art,type:'art'}, false)}
                                         >
                                             <img width={200}  src={art.imageUrl} alt={art.title} />
                                         </div>
