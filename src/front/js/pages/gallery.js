@@ -162,10 +162,10 @@ export const Gallery = () => {
 {/* Cards Tab */}
                     <div className="tab-pane fade" id="pills-cards" role="tabpanel" aria-labelledby="pills-home-tab" tabIndex="0">
                         <div className="container mb-0 pb-0">
-                            <div className="row row-cols-3">
+                            <div className="row">
                                 {cardList &&
                                     cardList.map((cardObj) => (
-                                        <div key={cardObj.filename} onClick={() => handleImageClick(cardObj, true)}>
+                                        <div className='col' key={cardObj.filename} onClick={() => handleImageClick(cardObj, true)}>
                                             <img id={cardObj.id} alt={cardObj.filename} src={cardObj.url}/>
                                         </div>
                                     ))}
