@@ -1,8 +1,8 @@
-"""empty message
+"""Initial migration after cleanup
 
-Revision ID: b1acbbf5cc1b
+Revision ID: e3945611da63
 Revises: 
-Create Date: 2024-12-12 00:44:03.787712
+Create Date: 2024-12-17 20:37:31.980983
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'b1acbbf5cc1b'
+revision = 'e3945611da63'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -25,6 +25,15 @@ def upgrade():
     sa.Column('caption', sa.Text(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('fileName')
+    )
+    op.create_table('model',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('title', sa.String(length=100), nullable=False),
+    sa.Column('description', sa.Text(), nullable=False),
+    sa.Column('picture_url', sa.Text(), nullable=False),
+    sa.Column('model_url', sa.Text(), nullable=False),
+    sa.Column('uploaded_date', sa.Date(), nullable=True),
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('settings',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -100,5 +109,6 @@ def downgrade():
     op.drop_table('three_d_bank')
     op.drop_table('tag_list')
     op.drop_table('settings')
+    op.drop_table('model')
     op.drop_table('art_bank')
     # ### end Alembic commands ###

@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Context } from "../store/appContext"; // Context to access login state
+import { SignIn } from "../component/signIn"; // SignIn modal component
 
 export const ModelDetail = () => {
     const { id } = useParams(); // Get the model ID from the URL
@@ -7,6 +9,7 @@ export const ModelDetail = () => {
     const [model, setModel] = useState(null); // State to store model data
     const [error, setError] = useState(null); // Handle API fetch errors
     const [loading, setLoading] = useState(false); // Handle loading state
+    const { store } = useContext(Context); // Access login state
 
     // Fetch model details
     useEffect(() => {
@@ -44,6 +47,13 @@ export const ModelDetail = () => {
         }
     };
 
+    // Function to open the SignIn modal
+    const openSignInModal = () => {
+        const modalElement = document.getElementById("signInModal");
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+    };
+
     if (error) {
         return (
             <div className="container my-5 text-center">
@@ -77,22 +87,38 @@ export const ModelDetail = () => {
                 <div className="col-md-6">
                     <h1 className="mb-3">{title}</h1>
                     <p className="lead mb-4">{description}</p>
-                    <a
-                        href={model_url}
-                        download
-                        className="btn btn-primary btn-lg me-2"
-                    >
-                        Download Model
-                    </a>
-                    <button
-                        className="btn btn-danger btn-lg"
-                        onClick={handleDelete}
-                        disabled={loading}
-                    >
-                        {loading ? "Deleting..." : "Delete Model"}
-                    </button>
+
+                    {/* Conditional Rendering for Buttons */}
+                    {store.isLoggedIn ? (
+                        <>
+                            <a
+                                href={model_url}
+                                download
+                                className="btn btn-primary btn-lg me-2"
+                            >
+                                Download Model
+                            </a>
+                            <button
+                                className="btn btn-danger btn-lg"
+                                onClick={handleDelete}
+                                disabled={loading}
+                            >
+                                {loading ? "Deleting..." : "Delete Model"}
+                            </button>
+                        </>
+                    ) : (
+                        <button
+                            className="btn btn-warning btn-lg"
+                            onClick={openSignInModal}
+                        >
+                            Sign in to Download/Delete Model
+                        </button>
+                    )}
                 </div>
             </div>
+
+            {/* Include SignIn Modal */}
+            <SignIn />
         </div>
     );
 };
