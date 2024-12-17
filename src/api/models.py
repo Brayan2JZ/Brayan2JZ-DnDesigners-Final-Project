@@ -44,24 +44,6 @@ class CardBank(db.Model):
             'uploadedDate': self.uploadedDate
         }
 
-class ThreeDBank(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    userId = db.Column(db.Integer, nullable=True)
-    filename = db.Column(db.String(40), unique=True, nullable=False)
-    url = db.Column(db.Text, unique=True, nullable=False)
-    uploadedDate = db.Column(Date)
-
-    def __ref__(self):
-        return f'<ThreeDBank {self.filename}>'
-    
-    def serialize(self):
-        return {
-            'id': self.id,
-            'userId': self.userId,
-            'filename': self.filename,
-            'url': self.url,
-            'uploadedDate': self.uploadedDate
-        }
 
 class TagList(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -80,8 +62,10 @@ class TagList(db.Model):
     
 class Favorites(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    imageID = db.Column(db.Integer, db.ForeignKey('card_bank.id'), nullable=False)
     userId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    imageID = db.Column(db.Integer, db.ForeignKey('card_bank.id'), nullable=True)
+    artId= db.Column(db.Integer, db.ForeignKey('art_bank.id'), nullable=True)
+    threeId=db.Column(db.Integer,db.ForeignKey('model.id'),nullable=True)
 
     def __ref__(self):
         return f'<Favorites {self.id}>'
@@ -90,7 +74,9 @@ class Favorites(db.Model):
         return {
             'id': self.id,
             'imageId': self.imageID,
-            'userId': self.userId
+            'userId': self.userId,
+            'artId':self.artId,
+            'threeId':self.threeId
         }
     
 class Settings(db.Model):
@@ -114,6 +100,7 @@ class ArtBank(db.Model):
     fileName = db.Column(db.String(40), nullable=False, unique=True)
     imageUrl = db.Column(db.Text, nullable=False)
     caption = db.Column(db.Text, nullable=False)
+    comments=db.relationship('CommentsBank',backref='art_bank')
 
     def __ref__(self):
         return f'<ArtBank {self.id}>'
@@ -129,10 +116,11 @@ class ArtBank(db.Model):
 class CommentsBank(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     userId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    imageId = db.Column(db.Integer, db.ForeignKey('card_bank.id'), nullable=False)
-    artId = db.Column(db.Integer, nullable=True)
+    imageId = db.Column(db.Integer, db.ForeignKey('card_bank.id'), nullable=True)
+    artId = db.Column(db.Integer, db.ForeignKey('art_bank.id'), nullable=True)
+    threeId=db.Column(db.Integer, db.ForeignKey('model.id'), nullable=True)
     comment = db.Column(db.Text, nullable=False)
-    uploadDate = db.Column(Date)
+    uploadDate = db.Column(Date, nullable=False)
     
     def __ref__(self):
         return f'<CommentsBank {self.id}>'
@@ -140,8 +128,10 @@ class CommentsBank(db.Model):
     def serialize(self):
         return {
             'id': self.id,
+            'userId':self.userId,
             'imageId': self.imageId,
             'artId': self.artId,
+            'threeId':self.threeId,
             'comment': self.comment,
             'uploadDate': self.uploadDate
         }

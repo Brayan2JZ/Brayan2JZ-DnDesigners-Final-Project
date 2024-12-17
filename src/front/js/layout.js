@@ -39,22 +39,24 @@ const Layout = () => {
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
                     <Navbar />
-                    <Routes>
-                        <Route element={<Home />} path="/" />
-                        <Route element={<UserHome />} path="/user"/>
-                        <Route element={<Demo />} path="/demo" />
-                        <Route element={<Single />} path="/single/:theid" />
-                        <Route element={<Gallery />} path="/gallery" />
-                        <Route element={<CharacterImageCreator />} path="/charimageCreator" />
-                        <Route element={<ItemImageCreator />} path="/itemimageCreator" />
-                        <Route element={<SpellImageCreator />} path="/spellimageCreator" />
-                        <Route element={<Tags />} path="/tags" />
-                        <Route element={<Models />} path="/models" /> {/* New Models page route */}
-                        <Route element={<ModelDetail />} path="/model/:id" /> {/* New ModelDetail page route */}
-                        <Route element={<Profile />} path="/profile/:id" />
-                        <Route element={<FavoritesPage />} path="/favorites"/>
-                        <Route element={<h1>Not found!</h1>} />
-                    </Routes>
+                    <div style={{backgroundColor: 'lightgrey'}}>
+                        <Routes>
+                            <Route element={<Home />} path="/" />
+                            <Route element={<UserHome />} path="/user"/>
+                            <Route element={<Demo />} path="/demo" />
+                            <Route element={<Single />} path="/single/:theid" />
+                            <Route element={<Gallery />} path="/gallery" />
+                            <Route element={<CharacterImageCreator />} path="/charimageCreator" />
+                            <Route element={<ItemImageCreator />} path="/itemimageCreator" />
+                            <Route element={<SpellImageCreator />} path="/spellimageCreator" />
+                            <Route element={<Tags />} path="/tags" />
+                            <Route element={<Models />} path="/models" /> {/* New Models page route */}
+                            <Route element={<ModelDetail />} path="/model/:id" /> {/* New ModelDetail page route */}
+                            <Route element={<Profile />} path="/profile/:id" />
+                            <Route element={<FavoritesPage />} path="/favorites"/>
+                            <Route element={<h1>Not found!</h1>} />
+                        </Routes>
+                    </div>
                     <Footer />
                 </ScrollToTop>
             </BrowserRouter>

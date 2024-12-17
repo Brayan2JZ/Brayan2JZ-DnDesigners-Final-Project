@@ -47,7 +47,9 @@ export const CardView=(props)=>{
             method:method,
             body:JSON.stringify({
                 'userId':localStorage.getItem('userId'),
-                'imageId':card.id
+                'imageId':card.id,
+                'artId':null,
+                'threeId':null
             }),
             headers:{
                 'Content-Type':'application/json',

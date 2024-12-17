@@ -1,14 +1,14 @@
-"""Initial migration after cleanup
+"""empty message
 
-<<<<<<<< HEAD:migrations/versions/e3945611da63_initial_migration_after_cleanup.py
-Revision ID: e3945611da63
+<<<<<<<< HEAD:migrations/versions/daa3680b52a7_.py
+Revision ID: daa3680b52a7
 Revises: 
-Create Date: 2024-12-17 20:37:31.980983
+Create Date: 2024-12-16 21:30:12.148725
 ========
-Revision ID: dd82ac7545c6
+Revision ID: deca371cdd30
 Revises: 
-Create Date: 2024-12-16 23:38:11.018884
->>>>>>>> 9224ce6324b85ce667d0d49b9cb16220500c892d:migrations/versions/dd82ac7545c6_.py
+Create Date: 2024-12-13 23:53:50.586709
+>>>>>>>> 8743aba (stuff):migrations/versions/deca371cdd30_.py
 
 """
 from alembic import op
@@ -16,11 +16,11 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-<<<<<<<< HEAD:migrations/versions/e3945611da63_initial_migration_after_cleanup.py
-revision = 'e3945611da63'
+<<<<<<<< HEAD:migrations/versions/daa3680b52a7_.py
+revision = 'daa3680b52a7'
 ========
-revision = 'dd82ac7545c6'
->>>>>>>> 9224ce6324b85ce667d0d49b9cb16220500c892d:migrations/versions/dd82ac7545c6_.py
+revision = 'deca371cdd30'
+>>>>>>>> 8743aba (stuff):migrations/versions/deca371cdd30_.py
 down_revision = None
 branch_labels = None
 depends_on = None

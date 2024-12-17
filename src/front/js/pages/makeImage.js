@@ -90,7 +90,7 @@ const ComponentToPrint = React.forwardRef((props, ref) => {
 
   return(
 	<div ref={ref} className='position-relative' style={{
-        width:500,
+        width:497,
         height: 700,
         overflow: 'hidden',
         boxSizing: 'border-box',

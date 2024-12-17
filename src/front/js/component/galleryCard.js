@@ -7,27 +7,10 @@ export const GalleryCard=(props)=>{
 
     const userId=localStorage.getItem('userId')
     const imageId=props.selectedImage.id
-    const getCommentsUrl=localStorage.getItem('backendUrl')+`api/comments/image/${imageId}`
+    const type=props.selectedImage.type
+    const getCommentsUrl=localStorage.getItem('backendUrl')+`api/comments/${type}/${imageId}`
 
-    const sendComment=()=>{
-        const date=new Date()
-        fetch(localStorage.getItem('backendUrl')+'api/comment',{
-            method:'POST',
-            body:JSON.stringify({
-                'userId':userId,
-                'imageId':imageId,                 //replace with real imageId
-                'artId':-1,                     //replace with real artId
-                'comment':comment,                //Replace with the comment you want to add
-                'uploadDate':date
-            }),
-            headers:{
-                'Content-Type':'application/json',
-                'Authorization':'Bearer '+localStorage.getItem('token')
-            }
-        })
-    };
-
-    const getComments=()=>{
+    const getComments=async ()=>{
         fetch(getCommentsUrl,{
             method:'GET',
             headers:{
@@ -37,19 +20,40 @@ export const GalleryCard=(props)=>{
         }).then((response)=>{
             return response.json();
         }).then((respJson)=>{
-            const commentsList=respJson;        //the returned list of comment for the passes in card/art ID. Need to place somewhere.
+            const commentsList=respJson.comments;        //the returned list of comment for the passes in card/art ID. Need to place somewhere.
+            console.log(commentsList)
             console.log("comments list: ",commentsList)
             setTempComments(commentsList)
         }).catch((e)=>{
             console.log(e)
         })
+        return
     }
 
     const handleCommentChange = (e) => {
         setComment(e.target.value);
     };
 
-    const handleAddComment = () => {
+    const handleAddComment = async () => {
+        async function sendComment() {
+            const date=new Date()
+            const response= await fetch(localStorage.getItem('backendUrl')+'api/comment',{
+                method:'POST',
+                body:JSON.stringify({
+                    'userId':userId,
+                    'imageId':type=='card'?imageId:null,                 //replace with real imageId
+                    'artId':type=='art'?imageId:null,                     //replace with real artId
+                    'threeId':type=='3d'?imageId:null,
+                    'comment':comment,                //Replace with the comment you want to add
+                    'uploadDate':date
+                }),
+                headers:{
+                    'Content-Type':'application/json',
+                    'Authorization':'Bearer '+localStorage.getItem('token')
+                }
+            });
+            return response;
+        };
         // if (comment.trim() === '') {
         //     alert('Please enter a comment!');
         //     return;
@@ -64,9 +68,10 @@ export const GalleryCard=(props)=>{
         // });
 
         // setComment('');
-        sendComment()
+        await sendComment()
         setComment('')
-        getComments()
+        await getComments()
+        return
     };
     
     const handleCloseModal = () => {
@@ -108,9 +113,12 @@ export const GalleryCard=(props)=>{
                         >
                             <h6>Comments:</h6>
                             <div>
-                                {tempComments.map((comment)=>(
+                                {tempComments && tempComments.map((comment)=>(
                                     <div key={comment.id}>
-                                        <p>{comment.comment}</p>
+                                        <div className="row bg-light my-1 px-1">
+                                            <p className="m-0" style={{fontSize:'12px'}}>{comment.username}:</p>
+                                            <p className="m-0">{comment.comment}</p>
+                                        </div>
                                     </div>
                                 ))}
                             </div>
