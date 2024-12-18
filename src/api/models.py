@@ -10,6 +10,7 @@ class User(db.Model):
     cards = db.relationship('CardBank', backref='user')
     favorites = db.relationship('Favorites', backref='user')
     comments = db.relationship('CommentsBank', backref='user')
+    settings = db.relationship('Settings',backref='user')
 
     def __repr__(self):
         return f'<User {self.username}>'
@@ -81,9 +82,10 @@ class Favorites(db.Model):
     
 class Settings(db.Model):
     id=db.Column(db.Integer,primary_key=True)
-    #userId=db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False,unique=True)
+    userId=db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False,unique=True)
     userName=db.Column(db.String(100),unique=True,nullable=True)
     following=db.Column(db.Text,nullable=True)
+    profileUrl=db.Column(db.Text,nullable=True)
 
     def __ref__(self):
         return f'<Settings {self.id}>'

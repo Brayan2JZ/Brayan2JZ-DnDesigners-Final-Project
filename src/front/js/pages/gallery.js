@@ -40,12 +40,13 @@ export const Gallery = () => {
         getModels();
     }, []);
 
-    const handleImageClick = (image, isCard) => {
+    const handleImageClick = (image, isCard, type) => {
         const selectedImage = {
             url: image.imageUrl || image.url,
             filename: image.fileName || image.filename,
             caption: isCard ? null : image.caption,
             id: image.id || image.filename,
+            type: type
         };
         setSelectedImage(selectedImage);
         setShowModal(true);
@@ -107,7 +108,7 @@ export const Gallery = () => {
                     <div className="tab-pane fade show active" id="pills-cards" role="tabpanel" aria-labelledby="pills-cards-tab">
                         <div className="row row-cols-3">
                             {cardList.map((cardObj) => (
-                                <div key={cardObj.id} className="col mb-4" onClick={() => handleImageClick(cardObj, true)}>
+                                <div key={cardObj.id} className="col mb-4" onClick={() => handleImageClick(cardObj, true, 'card')}>
                                     <img src={cardObj.url} alt={cardObj.filename} className="img-fluid rounded" />
                                 </div>
                             ))}
@@ -123,7 +124,7 @@ export const Gallery = () => {
                         </div>
                         <div className="row row-cols-3">
                             {uploadedImages.map((art, index) => (
-                                <div key={index} className="col mb-4" onClick={() => handleImageClick(art, false)}>
+                                <div key={index} className="col mb-4" onClick={() => handleImageClick(art, false, 'art')}>
                                     <img src={art.imageUrl} alt={art.title} className="img-fluid rounded" />
                                 </div>
                             ))}
@@ -172,7 +173,6 @@ export const Gallery = () => {
                     <div className="modal-dialog modal-lg">
                         <GalleryCard
                             selectedImage={selectedImage}
-                            imageId={selectedImage.id}
                             setShowModal={setShowModal}
                             setSelectedImage={setSelectedImage}
                         />

@@ -249,7 +249,29 @@ def getName():
         return {'userName':''},200
     else:
         return {'userName':userMatch.userName},200
+    
+@api.route('/picture/add',methods=['POST,PUT'])
+@jwt_required()
+def photo():
+    imageUrl=request.json['imageUrl']
+    userSettings=User.query.get(imageUrl).settings.serialize()
 
+    if(userSettings is None):
+        userSettings=Settings(userId=request.json['userId'],imageUrl=imageUrl)
+        db.session.add(userSettings)
+        db.session.commit()
+        return jsonify(userSettings)
+    else:
+        userSettings.imageUrl=imageUrl
+        db.session.commit()
+        return jsonify(userSettings)
+    
+@api.route('/picture/get',methods=['GET'])
+@jwt_required()
+def getPic():
+    userSettings=User.query.get(request.json['userId']).settings.serialize()
+    if(userSettings and userSettings.imageUrl):
+        return jsonify({'imageUrl':userSettings.imageUrl})
 
 ### ART STUFF
 @api.route('/upload-art',methods=['POST'])
