@@ -20,9 +20,11 @@ export const FavoritesPage=()=>{
     },[])
 
     return(
-        <div>
+        <div className="row">
             {favorites && favorites.map((fav)=>(
-                <img key={fav.id} src={fav.url}></img>
+                <div className="col">
+                    <img key={fav.id} src={fav.url}></img>
+                </div>
             ))}
         </div>
     )

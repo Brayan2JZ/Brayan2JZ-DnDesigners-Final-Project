@@ -28,7 +28,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			bubbleRange: 2, 
 			statBubbleVis: ['visible', 'visible','hidden','hidden','hidden','hidden','hidden','hidden','hidden','hidden','hidden'],
 			cardImageFile:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg/220px-Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg",
-
 		},
 		actions: {
 			setFavUpdate: ()=>{

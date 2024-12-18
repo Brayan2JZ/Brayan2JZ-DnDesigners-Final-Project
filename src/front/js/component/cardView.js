@@ -33,7 +33,7 @@ export const CardView=(props)=>{
         isFavorite();
     },[store.favUpdate])
 
-    const toggleFavorite=()=>{
+    const toggleFavorite=async ()=>{
         let method='';
         if(favorite){
             method='DELETE';
@@ -43,7 +43,7 @@ export const CardView=(props)=>{
             method='POST';
             setFavorite(true);
         }
-        fetch(localStorage.getItem('backendUrl')+'api/favorite',{
+        await fetch(localStorage.getItem('backendUrl')+'api/favorite',{
             method:method,
             body:JSON.stringify({
                 'userId':localStorage.getItem('userId'),
@@ -58,8 +58,8 @@ export const CardView=(props)=>{
                 return response.json();
             }).then((respJson)=>{
                 console.log(respJson.id)
+                actions.setFavUpdate()
             })
-            actions.setFavUpdate()
         }
 
     return(
@@ -67,7 +67,7 @@ export const CardView=(props)=>{
             <a href='/#'>
                 <img width={200} height={282} src={card.url}></img>
             </a>
-            <button onClick={toggleFavorite} style={{color:favorite?'red':'black'}} className="row ms-1">heart</button>
+            <button onClick={toggleFavorite} style={{color:favorite?'red':'grey'}} className="row ms-1"><i class="fa-solid fa-heart"></i></button>
         </div>
     )
 }

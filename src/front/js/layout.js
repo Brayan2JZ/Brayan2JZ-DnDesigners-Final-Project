@@ -11,6 +11,7 @@ import { ItemImageCreator } from "./pages/makeImage_item";
 import { SpellImageCreator } from "./pages/makeImage_spell";
 import { UserHome } from "./pages/userHome";
 import { FavoritesPage } from "./pages/favoritesPage";
+import { TagViewer } from "./pages/tagViewer";
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
@@ -35,11 +36,11 @@ const Layout = () => {
     const { store, actions } = useContext(Context);
 
     return (
-        <div>
+        <div style={{backgroundColor: 'lightgrey'}}>
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
                     <Navbar />
-                    <div style={{backgroundColor: 'lightgrey'}}>
+                    <div style={{backgroundColor: 'white', height:'100%'}}>
                         <Routes>
                             <Route element={<Home />} path="/" />
                             <Route element={<UserHome />} path="/user"/>
@@ -54,6 +55,7 @@ const Layout = () => {
                             <Route element={<ModelDetail />} path="/model/:id" /> {/* New ModelDetail page route */}
                             <Route element={<Profile />} path="/profile/:id" />
                             <Route element={<FavoritesPage />} path="/favorites"/>
+                            <Route element={<TagViewer />} path="/displaytags/:tag"/>
                             <Route element={<h1>Not found!</h1>} />
                         </Routes>
                     </div>
