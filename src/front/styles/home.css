@@ -64,6 +64,7 @@
 }
 .container{
     font-family:"Cinzel", system-ui; 
+    color: aliceblue;
 }
 .title{
     font-family: "New Rocker", system-ui; 
@@ -72,4 +73,12 @@
       font-style: normal;
       max-height: 120px;  
       overflow: hidden;
-    }
+}
+em{
+      font-weight: 700;
+}
+.pageBackground{
+  position: absolute;
+  z-index: -5;
+  background-size: cover;
+}

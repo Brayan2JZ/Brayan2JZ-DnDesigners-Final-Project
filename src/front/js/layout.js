@@ -22,6 +22,9 @@ import { ModelDetail } from "./pages/modelDetail"; // Import the ModelDetail pag
 import { Footer } from "./component/footer";
 import { Context } from "./store/appContext";
 import { Profile } from "./pages/profile";
+import BG from "../img/backgrounds/bcgd.jpg";
+import { cover } from "three/src/extras/TextureUtils.js";
+
 
 //create your first component
 const Layout = () => {
@@ -36,14 +39,15 @@ const Layout = () => {
     const { store, actions } = useContext(Context);
 
     return (
-        <div style={{backgroundColor: 'lightgrey'}}>
+        <div>
+            <img className="" src={BG} style={{ position: "absolute", zIndex: -5, backgroundRepeat: "repeat-y", height: 2340 }}></img>
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
                     <Navbar />
-                    <div style={{backgroundColor: 'white', height:'100%'}}>
+                    <div style={{}}>
                         <Routes>
                             <Route element={<Home />} path="/" />
-                            <Route element={<UserHome />} path="/user"/>
+                            <Route element={<UserHome />} path="/user" />
                             <Route element={<Demo />} path="/demo" />
                             <Route element={<Single />} path="/single/:theid" />
                             <Route element={<Gallery />} path="/gallery" />
@@ -54,8 +58,8 @@ const Layout = () => {
                             <Route element={<Models />} path="/models" /> {/* New Models page route */}
                             <Route element={<ModelDetail />} path="/model/:id" /> {/* New ModelDetail page route */}
                             <Route element={<Profile />} path="/profile/:id" />
-                            <Route element={<FavoritesPage />} path="/favorites"/>
-                            <Route element={<TagViewer />} path="/displaytags/:tag"/>
+                            <Route element={<FavoritesPage />} path="/favorites" />
+                            <Route element={<TagViewer />} path="/displaytags/:tag" />
                             <Route element={<h1>Not found!</h1>} />
                         </Routes>
                     </div>

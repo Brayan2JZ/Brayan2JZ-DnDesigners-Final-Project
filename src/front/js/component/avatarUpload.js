@@ -44,7 +44,7 @@ class UploadImage extends React.Component {
     }
     render() {
             return (
-            <div className="d-flex">
+            <div className="d-flex  text-light">
                 <div className="mx-2">
                     <ReactAvatarEditor
                     ref={this.setEditorRef}
