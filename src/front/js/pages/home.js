@@ -62,7 +62,7 @@ export const Home = () => {
     }, [cardList])
 
 
-    return (
+    return(
         <div className="container mh-100">
 
             {/* <SignInBG /> */}

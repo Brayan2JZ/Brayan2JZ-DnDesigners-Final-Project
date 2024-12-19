@@ -31,12 +31,12 @@
   }
   
   /* Hover effect for all tabs */
-  .pill-tab:hover {
+  .pill-tab:hover{
     background-color: #ffcc00; /* Change background color on hover */
     transform: translateY(-10px); /* Moves the tab up */
     opacity: 1; /* Full opacity */
   }
-  
+   
   /* Hover effect for the image */
   .pill-tab:hover .tab-img {
     transform: scale(1.1); /* Slight zoom effect for the image */
