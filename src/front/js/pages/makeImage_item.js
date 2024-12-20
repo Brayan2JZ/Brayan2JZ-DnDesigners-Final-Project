@@ -220,7 +220,7 @@ export const ItemImageCreator = () => {
   const componentRef = useRef();
   const [imageUri, setImageUri] = useState("");
   const [fileName, setFileName] = useState('')
-  const [tagList, setTagList] = useState(['Space Monkey', 'Cowboy Monkey', 'Zebronkey', 'Monkey Kong', 'Simian', 'Party Monkey'])
+  const [tagList, setTagList] = useState([])
   const { store, actions } = useContext(Context);
   const [imageUrl, setImageUrl] = useState("");
   const rand = Math.floor(Math.random() * 1000)
@@ -257,8 +257,7 @@ export const ItemImageCreator = () => {
           const uri = await actions.handleExportAsURI(element)
           console.log(uri)
           setImageUri(uri)
-        }}>Export as URI</button>
-        <button onClick={actions.getImageURLs}>Get all Cards</button>
+        }}>Upload and Download</button>
       </div>
     </div>
   );

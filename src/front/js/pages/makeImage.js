@@ -197,7 +197,7 @@ export const CharacterImageCreator = () => {
   const componentRef = useRef();
   const [imageUri, setImageUri] = useState("");
   const [fileName, setFileName] = useState('')
-  const [tagList, setTagList] = useState(['Paul'])
+  const [tagList, setTagList] = useState([''])
   const { store, actions } = useContext(Context);
   const [imageUrl, setImageUrl] = useState("");
 
@@ -243,8 +243,7 @@ export const CharacterImageCreator = () => {
       </div>
       <label>filename</label>
       <input value={fileName} onChange={(e) => { setFileName(e.target.value) }}></input>
-      <button onClick={handleExport}>Export as URI</button>
-      <button onClick={actions.getImageURLs}>Get all Cards</button>
+      <button onClick={handleExport}>Upload and Download</button>
     </div>
   );
 };

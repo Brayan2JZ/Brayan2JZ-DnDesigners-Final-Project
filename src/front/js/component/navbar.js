@@ -106,7 +106,7 @@ export const Navbar = () => {
                     href="/profile/:id">
                     Profile
                   </a>
-                  </li>
+                  </li> */}
                   <li>
                     <a
                       className="dropdown-item text-light"
@@ -115,7 +115,7 @@ export const Navbar = () => {
                     </a>
                   </li>
 
-                  <li><a
+                  {/* <li><a
                     className="dropdown-item text-light"
                     href="#">
                     Settings

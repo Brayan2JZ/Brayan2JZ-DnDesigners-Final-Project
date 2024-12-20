@@ -212,7 +212,7 @@ export const SpellImageCreator = () => {
   const componentRef = useRef();
   const [imageUri, setImageUri] = useState("");
   const [fileName, setFileName] = useState('')
-  const [tagList, setTagList] = useState(["Hi", "Im", "Paul"])
+  const [tagList, setTagList] = useState([])
   const { store, actions } = useContext(Context);
   const [imageUrl, setImageUrl] = useState("");
   const rand = Math.floor(Math.random() * 1000)
@@ -256,8 +256,7 @@ export const SpellImageCreator = () => {
         </div>
       </div>
       <div className='export d-flex justify-content-center my-3'>
-        <button onClick={handleExport}>Export as URI</button>
-        <button onClick={actions.getImageURLs}>Get all Cards</button>
+        <button onClick={handleExport}>Upload and Download</button>
       </div>
     </div>
   );
