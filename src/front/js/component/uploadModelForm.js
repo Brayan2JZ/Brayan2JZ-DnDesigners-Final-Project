@@ -78,7 +78,7 @@ const UploadModelForm = ({ onUploadSuccess }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} style={{ maxWidth: "500px", margin: "0 auto" }}>
+        <form onSubmit={handleSubmit} style={{ maxWidth: "500px", margin: "0 auto", backgroundColor: "#3c1b1b" }}>
             <h1 style={{ textAlign: "center", marginBottom: "20px" }}>Upload a New 3D Model</h1>
 
             <div style={{ marginBottom: "15px" }}>
@@ -86,6 +86,7 @@ const UploadModelForm = ({ onUploadSuccess }) => {
                     Title:
                 </label>
                 <input
+                    className="bg-transparent"
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
@@ -99,6 +100,7 @@ const UploadModelForm = ({ onUploadSuccess }) => {
                     Description:
                 </label>
                 <textarea
+                    className="bg-transparent"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     required
@@ -111,6 +113,7 @@ const UploadModelForm = ({ onUploadSuccess }) => {
                     Picture:
                 </label>
                 <input
+                    className="bg-transparent"
                     type="file"
                     accept="image/*"
                     onChange={(e) => setPicture(e.target.files[0])}
@@ -124,6 +127,7 @@ const UploadModelForm = ({ onUploadSuccess }) => {
                     3D File:
                 </label>
                 <input
+                    className="bg-transparent"
                     type="file"
                     accept=".stl,.obj,.glb,.gltf"
                     onChange={(e) => setModelFile(e.target.files[0])}

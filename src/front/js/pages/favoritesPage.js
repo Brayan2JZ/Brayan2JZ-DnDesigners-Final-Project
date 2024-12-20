@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from "react";
 
 
-export const FavoritesPage=()=>{
-    const [favorites,setFavorites]=useState()
+export const FavoritesPage = () => {
+    const [favorites, setFavorites] = useState()
 
-    useEffect(()=>{
-        fetch(localStorage.getItem('backendUrl')+`api/favorites/${localStorage.getItem('userId')}`,{
-            method:'GET',
-            headers:{
+    useEffect(() => {
+        fetch(localStorage.getItem('backendUrl') + `api/favorites/${localStorage.getItem('userId')}`, {
+            method: 'GET',
+            headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer '+localStorage.getItem('token')
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
-        }).then((resp)=>{
+        }).then((resp) => {
             return resp.json();
-        }).then((respJson)=>{
+        }).then((respJson) => {
             console.log(respJson)
             setFavorites(respJson)
         })
-    },[])
+    }, [])
 
-    return(
-        <div className="row">
-            {favorites && favorites.map((fav)=>(
+    return (
+        <div className="row mx-5">
+            {favorites && favorites.map((fav) => (
                 <div className="col">
                     <img key={fav.id} src={fav.url}></img>
                 </div>

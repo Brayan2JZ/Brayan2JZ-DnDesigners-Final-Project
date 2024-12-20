@@ -94,9 +94,10 @@ export const Models = () => {
             {/* Upload Model Modal */}
             {showUploadForm && (
                 <div className="modal-overlay">
-                    <div className="modal-content">
+                    <div className="modal-content bg-transparent">
                         <button
-                            className="close-button"
+                            className="close-button btn-dark border border-light"
+                            style={{ width: 50, margin:"auto" }}
                             onClick={() => setShowUploadForm(false)}
                         >
                             &times;

@@ -83,8 +83,8 @@ export const Navbar = () => {
                 >
                   <i className="fa-regular fa-circle-user fa-2x text-light"></i>
                 </a>
-                <ul className="dropdown-menu dropdown-menu-end">
-                  <li><a className="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#signInModal">Sign In</a></li>
+                <ul className="dropdown-menu dropdown-menu-end bg-dark">
+                  <li><a className="dropdown-item text-light" href="#" data-bs-toggle="modal" data-bs-target="#signInModal">Sign In</a></li>
                 </ul>
               </li>
             )}
@@ -101,7 +101,7 @@ export const Navbar = () => {
                   <i className="fa-regular fa-circle-user fa-2x text-light"></i>
                 </a>
                 <ul className="dropdown-menu dropdown-menu-end text-light  bg-dark">
-                  <li><a
+                  {/* <li><a
                     className="dropdown-item  text-light"
                     href="/profile/:id">
                     Profile
@@ -120,7 +120,7 @@ export const Navbar = () => {
                     href="#">
                     Settings
                   </a>
-                  </li>
+                  </li> */}
                   <li><a
                     className="dropdown-item text-light"
                     href="/"

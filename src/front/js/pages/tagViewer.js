@@ -42,8 +42,8 @@ export const TagViewer = () => {
 
     return (
         <div>
-            <h3>{tagDescription}</h3>
-            <div className='row justify-content-start'>
+            <h3 className="text-light mx-5">{tagDescription}</h3>
+            <div className='row justify-content-start mx-5'>
                 {cardList.length > 0 && cardList.map((card) => {
                     return (
                         <CardView card={card} />

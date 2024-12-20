@@ -37,30 +37,30 @@ export const SignIn = () => {
       }),
       headers: { 'Content-Type': 'application/json' }
     })
-    .then((response) => response.json())
-    .then((jsonRes) => {
-      if (jsonRes.token) {
-        localStorage.setItem('token', jsonRes.token);
-        localStorage.setItem('userId', jsonRes.id);
-        localStorage.setItem('userLoggedIn', 'true');
-  
-        console.log("Token retrieved for user ID:", jsonRes.id);
-  
-        actions.setIsLoggedIn(true);
+      .then((response) => response.json())
+      .then((jsonRes) => {
+        if (jsonRes.token) {
+          localStorage.setItem('token', jsonRes.token);
+          localStorage.setItem('userId', jsonRes.id);
+          localStorage.setItem('userLoggedIn', 'true');
 
-        const modalElement = document.getElementById('signInModal');
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        modal.hide();
-      } else {
-        setError("Invalid credentials.");
+          console.log("Token retrieved for user ID:", jsonRes.id);
+
+          actions.setIsLoggedIn(true);
+
+          const modalElement = document.getElementById('signInModal');
+          const modal = bootstrap.Modal.getInstance(modalElement);
+          modal.hide();
+        } else {
+          setError("Invalid credentials.");
+          setLoginSuccess(false);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        setError("E-mail/Password is Incorrect");
         setLoginSuccess(false);
-      }
-    })
-    .catch((e) => {
-      console.log(e);
-      setError("E-mail/Password is Incorrect");
-      setLoginSuccess(false);
-    });
+      });
   };
 
   const handleRegisterClick = (e) => {
@@ -73,9 +73,9 @@ export const SignIn = () => {
   return (
     <div className="modal fade" id="signInModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div className="modal-dialog d-flex justify-content-center">
-        <div className="modal-content">
+        <div className="modal-content  " style={{ backgroundColor: "#3c1b1b" }}>
           <div className="modal-header">
-            <h2 className="modal-title" id="exampleModalLabel1">Sign In</h2>
+            <h2 className="modal-title text-light" id="exampleModalLabel1">Sign In</h2>
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div className="modal-body">
@@ -127,7 +127,7 @@ export const SignIn = () => {
                   </button>
                   <button
                     className="btn btn-success"
-                    onClick={handleRegisterClick} 
+                    onClick={handleRegisterClick}
                   >
                     Register
                   </button>

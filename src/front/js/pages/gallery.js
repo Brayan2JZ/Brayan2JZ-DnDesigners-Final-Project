@@ -117,13 +117,13 @@ export const Gallery = () => {
 
     return (
         <div>
-            <h1 className="text-center mb-4">Gallery</h1>
+            <h1 className="text-center mb-4 text-light">Gallery</h1>
             <div className="container">
                 {/* Pills Tab */}
                 <ul className="nav nav-pills mb-3 justify-content-center" id="pills-tab" role="tablist">
                     <li className="nav-item" role="presentation">
                         <button
-                            className="nav-link active"
+                            className="nav-link active "
                             id="pills-cards-tab"
                             data-bs-toggle="pill"
                             data-bs-target="#pills-cards"
@@ -137,7 +137,7 @@ export const Gallery = () => {
                     </li>
                     <li className="nav-item" role="presentation">
                         <button
-                            className="nav-link"
+                            className="nav-link "
                             id="pills-art-tab"
                             data-bs-toggle="pill"
                             data-bs-target="#pills-art"
@@ -151,7 +151,7 @@ export const Gallery = () => {
                     </li>
                     <li className="nav-item" role="presentation">
                         <button
-                            className="nav-link"
+                            className="nav-link "
                             id="pills-3d-models-tab"
                             data-bs-toggle="pill"
                             data-bs-target="#pills-models"
@@ -185,7 +185,7 @@ export const Gallery = () => {
                             {/* Upload Button and Modal */}
                             <button
                                 type="button"
-                                className="btn btn-success me-2"
+                                className="btn btn-warning me-2"
                                 data-bs-toggle="modal"
                                 data-bs-target="#exampleModal"
                             >
@@ -195,7 +195,7 @@ export const Gallery = () => {
                             {/* Upload Art Modal */}
                             <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div className="modal-dialog">
-                                    <div className="modal-content" style={{ maxHeight: '800px', overflowY: 'auto' }}>
+                                    <div className="modal-content" style={{ maxHeight: '800px', overflowY: 'auto', backgroundColor: "#3c1b1b" }}>
                                         <div className="modal-header">
                                             <h5 className="modal-title" id="exampleModalLabel">
                                                 <strong>Upload New Art</strong>
@@ -209,7 +209,7 @@ export const Gallery = () => {
                                                 </label>
                                                 <input
                                                     type="text"
-                                                    className="form-control"
+                                                    className="form-control bg-transparent"
                                                     value={imageTitle}
                                                     onChange={(e) => setImageTitle(e.target.value)}
                                                     placeholder="Add a title for your artwork"
@@ -220,7 +220,7 @@ export const Gallery = () => {
                                                     <strong>Caption:</strong>
                                                 </label>
                                                 <textarea
-                                                    className="form-control"
+                                                    className="form-control bg-transparent"
                                                     value={imageCaption}
                                                     onChange={(e) => setImageCaption(e.target.value)}
                                                     placeholder="Add a caption for your artwork"
@@ -229,7 +229,7 @@ export const Gallery = () => {
                                             </div>
                                             <input
                                                 type="file"
-                                                className="form-control"
+                                                className="form-control bg-transparent"
                                                 id="inputArtGroupFile"
                                                 accept=".png, .jpeg, .jpg"
                                                 onChange={handleFileChange}
